@@ -1,20 +1,27 @@
-import { Component, inject } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, PLATFORM_ID, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { isPlatformBrowser } from '@angular/common';
 import { PisoService } from '../../services/piso';
+
+declare const L: any;
 
 @Component({
   selector: 'app-piso-create',
   imports: [ReactiveFormsModule, RouterModule],
   templateUrl: './piso-create.html',
 })
-export class PisoCreate {
+export class PisoCreate implements AfterViewInit, OnDestroy {
   fb = inject(FormBuilder);
   pisoService = inject(PisoService);
   router = inject(Router);
+  platformId = inject(PLATFORM_ID);
   error = '';
   fotoPreviews: string[] = [];
   fotosSeleccionadas: File[] = [];
+  private map: any;
+  private marker: any;
+  private readonly defaultCenter: [number, number] = [39.4699, -0.3763];
 
   form = this.fb.group({
     titulo: ['', Validators.required],
@@ -26,7 +33,40 @@ export class PisoCreate {
     banos: [1],
     metros: [0],
     amueblado: [false],
+    lat: [this.defaultCenter[0], Validators.required],
+    lng: [this.defaultCenter[1], Validators.required],
   });
+
+  ngAfterViewInit() {
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    this.map = L.map('piso-create-map').setView(this.defaultCenter, 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(this.map);
+
+    this.marker = L.marker(this.defaultCenter).addTo(this.map);
+
+    this.map.on('click', (e: any) => {
+      const { lat, lng } = e.latlng;
+
+      if (this.marker) {
+        this.map.removeLayer(this.marker);
+      }
+
+      this.marker = L.marker([lat, lng]).addTo(this.map);
+      this.form.patchValue({ lat, lng });
+    });
+
+    setTimeout(() => this.map.invalidateSize(), 0);
+  }
+
+  ngOnDestroy() {
+    if (this.map) {
+      this.map.remove();
+    }
+  }
 
   onFotosSelected(event: any) {
     const files: FileList = event.target.files;
@@ -50,6 +90,8 @@ export class PisoCreate {
     fd.append('banos', String(this.form.value.banos ?? 1));
     fd.append('metros', String(this.form.value.metros ?? 0));
     fd.append('amueblado', this.form.value.amueblado ? '1' : '0');
+    fd.append('lat', String(this.form.value.lat ?? ''));
+    fd.append('lng', String(this.form.value.lng ?? ''));
 
     this.fotosSeleccionadas.forEach(foto => {
       fd.append('fotos[]', foto, foto.name);

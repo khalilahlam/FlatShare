@@ -13,6 +13,8 @@ export interface IPiso {
   descripcion: string;
   precio: number;
   ubicacion: string;
+  lat?: number | null;
+  lng?: number | null;
   num_companeros: number;
   habitaciones: number;
   banos: number;

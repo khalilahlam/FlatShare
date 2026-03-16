@@ -8,6 +8,10 @@ class Piso extends Model
 {
     protected $table = 'pisos';
     protected $guarded = [];
+    protected $casts = [
+        'lat' => 'float',
+        'lng' => 'float',
+    ];
 
     public function usuario()
     {

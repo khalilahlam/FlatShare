@@ -26,6 +26,8 @@ class PisoController extends Controller
             'descripcion'    => 'nullable|string',
             'precio'         => 'required|numeric',
             'ubicacion'      => 'required|string',
+            'lat'            => 'nullable|numeric|between:-90,90',
+            'lng'            => 'nullable|numeric|between:-180,180',
             'num_companeros' => 'nullable|integer',
             'habitaciones'   => 'nullable|integer',
             'banos'          => 'nullable|integer',
