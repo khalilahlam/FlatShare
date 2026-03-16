@@ -1,0 +1,241 @@
+<div>
+  <!-- Hero con video -->
+  <section class="relative overflow-hidden min-h-screen flex items-center">
+    <video autoplay muted loop playsinline
+      class="absolute inset-0 w-full h-full object-cover z-0">
+      <source src="assets/7578547-uhd_3840_2160_30fps.mp4" type="video/mp4">
+    </video>
+    <div class="absolute inset-0 bg-blue-900/60 z-10"></div>
+    <div class="max-w-5xl mx-auto px-6 py-32 relative z-20 w-full">
+      <div class="max-w-2xl">
+        <div class="inline-block bg-white/20 backdrop-blur text-white text-sm font-semibold px-4 py-1.5 rounded-full mb-6">
+          Más de 500 pisos disponibles
+        </div>
+        <h1 class="text-5xl md:text-6xl font-black text-white leading-tight mb-6">
+          Encuentra tu <span class="text-blue-300">compañero de piso</span> ideal
+        </h1>
+        <p class="text-white/80 text-lg leading-relaxed mb-8">
+          La plataforma donde jóvenes encuentran pisos compartidos y conocen a sus futuros compañeros.
+        </p>
+        <div class="bg-white rounded-2xl p-3 flex gap-2 flex-wrap mb-6 shadow-2xl">
+          <input type="text" placeholder="¿Dónde quieres vivir?"
+            class="flex-1 min-w-40 px-4 py-2 text-gray-700 text-sm focus:outline-none rounded-xl" />
+          <input type="number" placeholder="Precio máx."
+            class="w-36 px-4 py-2 text-gray-700 text-sm focus:outline-none rounded-xl border border-gray-100" />
+          <a routerLink="/pisos"
+            class="bg-blue-600 text-white px-6 py-2 rounded-xl font-semibold text-sm hover:bg-blue-700 transition-all">
+            Buscar
+          </a>
+        </div>
+        <div class="flex gap-3 flex-wrap">
+          <span class="bg-white/20 text-white text-xs px-3 py-1 rounded-full">Madrid</span>
+          <span class="bg-white/20 text-white text-xs px-3 py-1 rounded-full">Barcelona</span>
+          <span class="bg-white/20 text-white text-xs px-3 py-1 rounded-full">Valencia</span>
+          <span class="bg-white/20 text-white text-xs px-3 py-1 rounded-full">Sevilla</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="py-12 px-6 bg-blue-600">
+    <div class="max-w-4xl mx-auto grid grid-cols-3 gap-8 text-center">
+      <div>
+        <div class="text-4xl font-black text-white">500+</div>
+        <div class="text-blue-200 mt-1 text-sm">Pisos publicados</div>
+      </div>
+      <div>
+        <div class="text-4xl font-black text-white">2.000+</div>
+        <div class="text-blue-200 mt-1 text-sm">Usuarios registrados</div>
+      </div>
+      <div>
+        <div class="text-4xl font-black text-white">4.8★</div>
+        <div class="text-blue-200 mt-1 text-sm">Valoración media</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ciudades populares -->
+  <section class="py-16 px-6 bg-white">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-3xl font-black text-gray-900 mb-2">Ciudades populares</h2>
+      <p class="text-gray-500 mb-8">Encuentra piso en las ciudades más demandadas</p>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <a routerLink="/pisos" class="relative rounded-2xl overflow-hidden h-48 group cursor-pointer block">
+          <img src="assets/madrid.jpg" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10"></div>
+          <div class="absolute bottom-4 left-4 z-20">
+            <div class="text-white font-black text-lg">Madrid</div>
+            <div class="text-white/70 text-xs">120+ pisos</div>
+          </div>
+        </a>
+        <a routerLink="/pisos" class="relative rounded-2xl overflow-hidden h-48 group cursor-pointer block">
+          <img src="assets/barcelona.jpg" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10"></div>
+          <div class="absolute bottom-4 left-4 z-20">
+            <div class="text-white font-black text-lg">Barcelona</div>
+            <div class="text-white/70 text-xs">95+ pisos</div>
+          </div>
+        </a>
+        <a routerLink="/pisos" class="relative rounded-2xl overflow-hidden h-48 group cursor-pointer block">
+          <img src="assets/valencia.jpg" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10"></div>
+          <div class="absolute bottom-4 left-4 z-20">
+            <div class="text-white font-black text-lg">Valencia</div>
+            <div class="text-white/70 text-xs">80+ pisos</div>
+          </div>
+        </a>
+        <a routerLink="/pisos" class="relative rounded-2xl overflow-hidden h-48 group cursor-pointer block">
+          <img src="assets/sevilla.jpg" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10"></div>
+          <div class="absolute bottom-4 left-4 z-20">
+            <div class="text-white font-black text-lg">Sevilla</div>
+            <div class="text-white/70 text-xs">60+ pisos</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pisos destacados -->
+  <section class="py-20 px-6 bg-gray-50">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex justify-between items-end mb-10">
+        <div>
+          <h2 class="text-3xl font-black text-gray-900">Pisos destacados</h2>
+          <p class="text-gray-500 mt-1">Los mejores pisos disponibles ahora mismo</p>
+        </div>
+        <a routerLink="/pisos" class="text-blue-600 font-semibold hover:underline text-sm">Ver todos →</a>
+      </div>
+
+      @if(pisos().length === 0) {
+        <div class="text-center py-10 text-gray-400">
+          <p>Aún no hay pisos publicados</p>
+        </div>
+      }
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        @for(piso of pisos(); track piso.id) {
+          <div class="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all overflow-hidden group">
+            <div class="h-52 bg-blue-50 overflow-hidden relative">
+              @if(piso.fotos && piso.fotos.length > 0) {
+                <img [src]="'http://localhost:8000/storage/' + piso.fotos[0].url"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              } @else {
+                <div class="w-full h-full flex items-center justify-center text-5xl">🏠</div>
+              }
+              <div class="absolute top-3 left-3 bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded-lg">
+                Destacado
+              </div>
+              <div class="absolute top-3 right-3 bg-white/90 text-blue-600 font-black text-sm px-3 py-1 rounded-full">
+                {{ piso.precio }}€/mes
+              </div>
+            </div>
+            <div class="p-5">
+              <h3 class="font-bold text-gray-900 text-lg mb-1">{{ piso.titulo }}</h3>
+              <p class="text-gray-500 text-sm mb-3">📍 {{ piso.ubicacion }}</p>
+              <div class="flex gap-2 mb-4">
+                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-lg">🛏 {{ piso.habitaciones }} hab</span>
+                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-lg">👥 {{ piso.num_companeros }} comp</span>
+                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-lg">📐 {{ piso.metros }}m²</span>
+              </div>
+              <a [routerLink]="['/pisos', piso.id]"
+                class="block text-center bg-blue-600 text-white py-2.5 rounded-xl text-sm font-semibold hover:bg-blue-700 transition-all">
+                Ver piso
+              </a>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Cómo funciona -->
+  <section class="py-20 px-6 bg-white">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-14">
+        <h2 class="text-3xl font-black text-gray-900">¿Cómo funciona FlatShare?</h2>
+        <p class="text-gray-500 mt-2">Tres pasos para encontrar tu hogar ideal</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div class="text-center group">
+          <div class="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-5 group-hover:bg-blue-600 transition-all">
+            <svg class="w-8 h-8 text-blue-600 group-hover:text-white transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+            </svg>
+          </div>
+          <h3 class="font-bold text-gray-900 text-lg mb-2">Regístrate gratis</h3>
+          <p class="text-gray-500 text-sm leading-relaxed">Crea tu perfil en menos de un minuto y dinos si buscas piso o tienes uno para compartir.</p>
+        </div>
+        <div class="text-center group">
+          <div class="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-5 group-hover:bg-blue-600 transition-all">
+            <svg class="w-8 h-8 text-blue-600 group-hover:text-white transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+          </div>
+          <h3 class="font-bold text-gray-900 text-lg mb-2">Busca y filtra</h3>
+          <p class="text-gray-500 text-sm leading-relaxed">Encuentra el piso ideal filtrando por zona, precio, número de habitaciones y más.</p>
+        </div>
+        <div class="text-center group">
+          <div class="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-5 group-hover:bg-blue-600 transition-all">
+            <svg class="w-8 h-8 text-blue-600 group-hover:text-white transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+            </svg>
+          </div>
+          <h3 class="font-bold text-gray-900 text-lg mb-2">Conecta y reserva</h3>
+          <p class="text-gray-500 text-sm leading-relaxed">Contacta con el propietario directamente y encuentra tu nuevo hogar con total seguridad.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA doble -->
+  <!-- CTA doble -->
+<section class="py-20 px-6 bg-white">
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-black text-gray-900">¿Qué quieres hacer?</h2>
+      <p class="text-gray-500 mt-2">Elige tu camino y empieza ahora</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="bg-blue-50 border border-blue-100 rounded-2xl p-10 text-center hover:shadow-xl transition-all group">
+        <div class="w-24 h-24 bg-blue-600 rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+          <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+        </div>
+        <h3 class="text-2xl font-black text-gray-900 mb-3">Busco piso</h3>
+        <p class="text-gray-500 mb-6 text-sm leading-relaxed">Explora cientos de pisos verificados. Filtra por precio, zona y número de habitaciones.</p>
+        <div class="flex gap-2 justify-center flex-wrap mb-6">
+          <span class="bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full font-medium">Filtros avanzados</span>
+          <span class="bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full font-medium">Fotos reales</span>
+          <span class="bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full font-medium">Chat directo</span>
+        </div>
+        <a routerLink="/pisos"
+          class="block bg-blue-600 text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-blue-700 transition-all">
+          Explorar pisos
+        </a>
+      </div>
+
+      <div class="bg-gray-50 border border-gray-100 rounded-2xl p-10 text-center hover:shadow-xl transition-all group">
+        <div class="w-24 h-24 bg-gray-900 rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+          <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+          </svg>
+        </div>
+        <h3 class="text-2xl font-black text-gray-900 mb-3">Tengo piso</h3>
+        <p class="text-gray-500 mb-6 text-sm leading-relaxed">Publica tu anuncio gratis en minutos y elige al compañero perfecto.</p>
+        <div class="flex gap-2 justify-center flex-wrap mb-6">
+          <span class="bg-gray-200 text-gray-700 text-xs px-3 py-1 rounded-full font-medium">Gratis</span>
+          <span class="bg-gray-200 text-gray-700 text-xs px-3 py-1 rounded-full font-medium">Gestión fácil</span>
+          <span class="bg-gray-200 text-gray-700 text-xs px-3 py-1 rounded-full font-medium">Candidatos</span>
+        </div>
+        <a routerLink="/register"
+          class="block bg-gray-900 text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-gray-800 transition-all">
+          Publicar anuncio
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+</div>

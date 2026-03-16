@@ -1,0 +1,44 @@
+<nav class="bg-white border-b border-gray-100 px-6 py-4 sticky top-0 z-50 shadow-sm">
+  <div class="max-w-6xl mx-auto flex justify-between items-center">
+    
+    <a routerLink="/" class="flex items-center gap-2">
+      <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+        <span class="text-white font-black text-sm">F</span>
+      </div>
+      <span class="text-xl font-black text-gray-900">FlatShare</span>
+    </a>
+
+    <div class="flex items-center gap-2">
+      <a routerLink="/pisos"
+        class="text-gray-600 hover:text-blue-600 font-medium px-4 py-2 rounded-lg hover:bg-blue-50 transition-all text-sm">
+        Explorar pisos
+      </a>
+
+      @if(auth.isLoggedIn()) {
+        <a routerLink="/pisos/create"
+          class="text-gray-600 hover:text-blue-600 font-medium px-4 py-2 rounded-lg hover:bg-blue-50 transition-all text-sm">
+          Publicar piso
+        </a>
+        <div class="flex items-center gap-3 ml-2 pl-4 border-l border-gray-200">
+          <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+            <span class="text-blue-600 font-bold text-sm">{{ auth.user()?.nombre?.charAt(0) }}</span>
+          </div>
+          <span class="text-gray-700 font-medium text-sm">{{ auth.user()?.nombre }}</span>
+          <button (click)="auth.logout()"
+            class="text-sm text-gray-500 hover:text-red-500 font-medium transition-colors">
+            Salir
+          </button>
+        </div>
+      } @else {
+        <a routerLink="/login"
+          class="text-gray-600 hover:text-blue-600 font-medium px-4 py-2 rounded-lg hover:bg-blue-50 transition-all text-sm">
+          Iniciar sesión
+        </a>
+        <a routerLink="/register"
+          class="bg-blue-600 text-white px-5 py-2 rounded-xl font-semibold hover:bg-blue-700 transition-all text-sm shadow-sm shadow-blue-200">
+          Registrarse
+        </a>
+      }
+    </div>
+  </div>
+</nav>
