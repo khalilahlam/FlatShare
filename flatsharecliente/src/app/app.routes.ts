@@ -5,6 +5,7 @@ import { Register } from './components/register/register';
 import { PisoList } from './components/piso-list/piso-list';
 import { PisoCreate } from './components/piso-create/piso-create';
 import { PisoDetail } from './components/piso-detail/piso-detail';
+import { Profile } from './components/profile/profile';
 import { authGuard } from './auth/auth-guard';
 
 export const routes: Routes = [
@@ -14,5 +15,6 @@ export const routes: Routes = [
     { path: 'pisos', component: PisoList },
     { path: 'pisos/create', component: PisoCreate, canActivate: [authGuard] },
     { path: 'pisos/:id', component: PisoDetail },
+    { path: 'perfil', component: Profile, canActivate: [authGuard] },
     { path: '**', redirectTo: '' },
 ];
