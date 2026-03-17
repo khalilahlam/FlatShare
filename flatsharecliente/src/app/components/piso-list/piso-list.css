@@ -1,0 +1,10 @@
+.piso-card.active {
+  border: 2px solid #2563eb;
+  background: rgb(222, 235, 252);
+  transform: scale(1.02);
+  transition: 0.2s;
+}
+
+.material-symbols-outlined {
+  font-size: 20px; /* tamaño */
+}

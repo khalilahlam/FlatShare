@@ -38,10 +38,16 @@
 
         <!-- Badges -->
         <div class="flex flex-wrap gap-2 mt-4">
-          <span class="bg-blue-50 text-blue-700 text-sm px-3 py-1 rounded-lg font-medium">🛏 {{ piso()!.habitaciones }} hab</span>
-          <span class="bg-blue-50 text-blue-700 text-sm px-3 py-1 rounded-lg font-medium">🚿 {{ piso()!.banos }} baños</span>
-          <span class="bg-blue-50 text-blue-700 text-sm px-3 py-1 rounded-lg font-medium">📐 {{ piso()!.metros }}m²</span>
-          <span class="bg-blue-50 text-blue-700 text-sm px-3 py-1 rounded-lg font-medium">👥 {{ piso()!.num_companeros }} compañeros</span>
+          <span class="bg-blue-50 text-blue-700 text-sm px-3 py-1 rounded-lg font-medium"><span class="material-symbols-outlined text-sm">bed</span> {{ piso()!.habitaciones }} hab</span>
+          <span class="bg-blue-50 text-blue-700 text-sm px-3 py-1 rounded-lg font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-badge-wc" viewBox="0 0 16 16">
+  <path d="M10.348 7.643c0-1.112.488-1.754 1.318-1.754.682 0 1.139.47 1.187 1.108H14v-.11c-.053-1.187-1.024-2-2.342-2-1.604 0-2.518 1.05-2.518 2.751v.747c0 1.7.905 2.73 2.518 2.73 1.314 0 2.285-.792 2.342-1.939v-.114h-1.147c-.048.615-.497 1.05-1.187 1.05-.839 0-1.318-.62-1.318-1.727zM4.457 11l1.02-4.184h.045L6.542 11h1.006L9 5.001H7.818l-.82 4.355h-.056L5.97 5.001h-.94l-.972 4.355h-.053l-.827-4.355H2L3.452 11z"/>
+  <path d="M14 3a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zM2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/>
+</svg> {{ piso()!.banos }} baños</span>
+          <span class="bg-blue-50 text-blue-700 text-sm px-3 py-1 rounded-lg font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-rulers" viewBox="0 0 16 16">
+  <path d="M1 0a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h5v-1H2v-1h4v-1H4v-1h2v-1H2v-1h4V9H4V8h2V7H2V6h4V2h1v4h1V4h1v2h1V2h1v4h1V4h1v2h1V2h1v4h1V1a1 1 0 0 0-1-1z"/>
+</svg> {{ piso()!.metros }}m²</span>
+          <span class="bg-blue-50 text-blue-700 text-sm px-3 py-1 rounded-lg font-medium"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
+  <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/></svg> {{ piso()!.num_companeros }} compañeros</span>
           @if(piso()!.amueblado) {
             <span class="bg-green-50 text-green-700 text-sm px-3 py-1 rounded-lg font-medium">✅ Amueblado</span>
           }
@@ -52,6 +58,14 @@
           <h2 class="text-lg font-bold text-gray-900 mb-3">Descripción</h2>
           <p class="text-gray-600 leading-relaxed">{{ piso()!.descripcion }}</p>
         </div>
+
+        <!-- Mapa -->
+        @if(piso()!.lat != null && piso()!.lng != null) {
+          <div class="mt-6 border-t border-gray-100 pt-6">
+            <h2 class="text-lg font-bold text-gray-900 mb-3">Ubicación</h2>
+            <div id="piso-detail-map" class="h-80 w-full rounded-2xl border border-gray-200 shadow-sm"></div>
+          </div>
+        }
       </div>
 
       <!-- Derecha -->
@@ -86,7 +100,8 @@
               <h3 class="text-sm font-bold text-gray-900 mb-3">Propietario</h3>
               <div class="flex items-center gap-3 bg-gray-50 rounded-xl p-3">
                 <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-sm">
-                  {{ piso()!.usuario.nombre?.charAt(0) }}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                  <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/></svg>
                 </div>
                 <div>
                   <div class="text-sm font-semibold text-gray-900">{{ piso()!.usuario.nombre }} {{ piso()!.usuario.apellidos }}</div>

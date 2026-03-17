@@ -11,6 +11,7 @@ declare const L: any;
   selector: 'app-piso-list',
   imports: [CommonModule, RouterModule],
   templateUrl: './piso-list.html',
+  styleUrl: './piso-list.css',
 })
 export class PisoList implements OnInit, AfterViewInit, OnDestroy {
   private pisoService = inject(PisoService);
@@ -18,8 +19,10 @@ export class PisoList implements OnInit, AfterViewInit, OnDestroy {
   auth = inject(AuthService);
 
   pisos = signal<IPiso[]>([]);
+  activeId = signal<number | null>(null);
   private map: any;
   private markersLayer: any;
+  private markers: { id: number; marker: any }[] = [];
   private readonly defaultCenter: [number, number] = [39.4699, -0.3763];
 
   ngAfterViewInit() {
@@ -60,10 +63,19 @@ export class PisoList implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  flyToPiso(piso: IPiso) {
+    if (!this.map || !piso.lat || !piso.lng) return;
+    this.activeId.set(piso.id);
+    this.map.setView([piso.lat, piso.lng], 16);
+    const m = this.markers.find(m => m.id === piso.id);
+    if (m) m.marker.openPopup();
+  }
+
   private renderMapMarkers(pisos: IPiso[]) {
     if (!this.map || !this.markersLayer) return;
 
     this.markersLayer.clearLayers();
+    this.markers = [];
 
     const validPisos = pisos.filter(
       piso => typeof piso.lat === 'number' && typeof piso.lng === 'number'
@@ -79,10 +91,40 @@ export class PisoList implements OnInit, AfterViewInit, OnDestroy {
     validPisos.forEach(piso => {
       const titulo = this.escapeHtml(piso.titulo ?? 'Piso');
       const ubicacion = this.escapeHtml(piso.ubicacion ?? '');
+      const imagen = piso.fotos?.length
+        ? `http://localhost:8000/storage/${piso.fotos[0].url}`
+        : '';
+
+      const popup = `
+        <div style="width:220px">
+          ${imagen ? `<img src="${imagen}" style="width:100%;height:120px;object-fit:cover;border-radius:8px;">` : ''}
+          <h4 style="font-weight:bold;margin:6px 0">${titulo}</h4>
+          <p style="color:gray;font-size:13px">📍 ${ubicacion}</p>
+          <a href="/pisos/${piso.id}" style="
+            display:block;
+            margin-top:8px;
+            text-align:center;
+            background:#2563eb;
+            color:white;
+            padding:6px;
+            border-radius:6px;
+            text-decoration:none;
+          ">Ver detalle</a>
+        </div>
+      `;
+
       const marker = L.marker([piso.lat as number, piso.lng as number])
-        .bindPopup(`<b>${titulo}</b><br>${ubicacion}`);
+        .bindPopup(popup);
 
       marker.addTo(this.markersLayer);
+
+      marker.on('click', () => {
+        this.activeId.set(piso.id);
+        const card = document.querySelector(`[data-id="${piso.id}"]`);
+        if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+
+      this.markers.push({ id: piso.id, marker });
       bounds.extend([piso.lat as number, piso.lng as number]);
     });
 

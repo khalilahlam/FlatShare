@@ -1,4 +1,5 @@
-<div class="max-w-6xl mx-auto px-6 py-10">
+<div class="px-20 py-6">
+  <!-- Header -->
   <div class="flex justify-between items-center mb-8">
     <div>
       <h1 class="text-3xl font-black text-gray-900">Pisos disponibles</h1>
@@ -12,55 +13,70 @@
     }
   </div>
 
-  <div class="mb-8">
-    <h2 class="text-lg font-bold text-gray-900 mb-3">Mapa de pisos</h2>
-    <div id="pisos-map" class="h-[500px] w-full rounded-2xl border border-gray-200 shadow-sm"></div>
-  </div>
+  <!-- Main split layout -->
+  <div class="flex gap-6 items-start">
 
-  @if(pisos().length === 0) {
-    <div class="text-center py-20 text-gray-400">
-      <p class="text-5xl mb-4">🏠</p>
-      <p class="text-xl font-semibold">No hay pisos disponibles</p>
-      <p class="text-sm mt-2">Sé el primero en publicar uno</p>
-    </div>
-  }
+    <!-- LEFT: cards list -->
+    <div class="w-full lg:w-2/5 flex flex-col gap-4">
 
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    @for(piso of pisos(); track piso.id) {
-      <div class="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all overflow-hidden">
-      <div class="bg-blue-50 h-40 overflow-hidden">
-  @if(piso.fotos && piso.fotos.length > 0) {
-    <img [src]="'http://localhost:8000/storage/' + piso.fotos[0].url"
-      class="w-full h-full object-cover" />
-  } @else {
-    <div class="w-full h-full flex items-center justify-center">
-      <span class="text-5xl">🏠</span>
-    </div>
-  }
-</div>
-        <div class="p-5">
-          <div class="flex justify-between items-start mb-2">
-            <h3 class="font-bold text-gray-900 text-lg leading-tight">{{ piso.titulo }}</h3>
-            <span class="text-blue-600 font-black text-lg">{{ piso.precio }}€</span>
-          </div>
-          <p class="text-gray-500 text-sm mb-1">📍 {{ piso.ubicacion }}</p>
-          <p class="text-gray-500 text-sm mb-4">👥 {{ piso.num_companeros }} compañeros</p>
-          <p class="text-gray-600 text-sm line-clamp-2 mb-4">{{ piso.descripcion }}</p>
+      @if(pisos().length === 0) {
+        <div class="text-center py-20 text-gray-400">
+          <p class="text-5xl mb-4">🏠</p>
+          <p class="text-xl font-semibold">No hay pisos disponibles</p>
+          <p class="text-sm mt-2">Sé el primero en publicar uno</p>
+        </div>
+      }
 
-          <div class="flex gap-2 pt-4 border-t border-gray-100">
-            <a [routerLink]="['/pisos', piso.id]"
-              class="flex-1 text-center bg-blue-50 text-blue-600 py-2 rounded-lg text-sm font-semibold hover:bg-blue-100 transition-all">
-              Ver detalle
-            </a>
-            @if(auth.user()?.id === piso.usuario_id) {
-              <button (click)="eliminar(piso.id)"
-                class="px-3 py-2 bg-red-50 text-red-500 rounded-lg text-sm font-semibold hover:bg-red-100 transition-all">
-                Eliminar
-              </button>
-            }
+      @for(piso of pisos(); track piso.id) {
+        <div class="piso-card bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all overflow-hidden cursor-pointer"
+             [attr.data-id]="piso.id"
+             [class.active]="activeId() === piso.id"
+             (click)="flyToPiso(piso)">
+          <div class="flex">
+            <!-- Foto -->
+            <div class="bg-blue-50 w-36 shrink-0 overflow-hidden">
+              @if(piso.fotos && piso.fotos.length > 0) {
+                <img [src]="'http://localhost:8000/storage/' + piso.fotos[0].url"
+                  class="w-full h-full object-cover" />
+              } @else {
+                <div class="w-full h-full flex items-center justify-center min-h-[120px]">
+                  <span class="text-4xl">🏠</span>
+                </div>
+              }
+            </div>
+            <!-- Info -->
+            <div class="p-4 flex flex-col justify-between flex-1">
+              <div>
+                <div class="flex justify-between items-start mb-1">
+                  <h3 class="font-bold text-gray-900 text-base leading-tight">{{ piso.titulo }}</h3>
+                  <span class="text-blue-600 font-black text-base ml-2 shrink-0">{{ piso.precio }}€</span>
+                </div>
+                <p class="text-gray-500 text-xs mb-1">📍 {{ piso.ubicacion }}</p>
+                <p class="text-gray-500 text-xs mb-2">👥 {{ piso.num_companeros }} compañeros</p>
+                <p class="text-gray-600 text-xs line-clamp-2">{{ piso.descripcion }}</p>
+              </div>
+              <div class="flex gap-2 pt-3 mt-2 border-t border-gray-100">
+                <a [routerLink]="['/pisos', piso.id]"
+                  class="flex-1 text-center bg-blue-50 text-blue-600 py-1.5 rounded-lg text-xs font-semibold hover:bg-blue-100 transition-all">
+                  Ver detalle
+                </a>
+                @if(auth.user()?.id === piso.usuario_id) {
+                  <button (click)="eliminar(piso.id)"
+                    class="px-3 py-1.5 bg-red-50 text-red-500 rounded-lg text-xs font-semibold hover:bg-red-100 transition-all">
+                    Eliminar
+                  </button>
+                }
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    }
+      }
+    </div>
+
+    <!-- RIGHT: map sticky -->
+    <div class="hidden lg:block lg:w-2/3 sticky top-6">
+      <div id="pisos-map" class="h-[700px] w-full rounded-2xl border border-gray-200 shadow-sm"></div>
+    </div>
+
   </div>
 </div>
