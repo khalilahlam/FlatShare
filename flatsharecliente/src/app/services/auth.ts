@@ -9,6 +9,7 @@ export interface IUsuario {
   apellidos: string;
   email: string;
   rol: string;
+  propietario: boolean;
 }
 
 @Injectable({
@@ -22,6 +23,7 @@ export class AuthService {
   user = signal<IUsuario | null>(null);
   token = signal<string | null>(null);
   isLoggedIn = computed(() => !!this.token());
+isPropietario = computed(() => !!this.user()?.propietario);
 
   constructor() {
     const t = localStorage.getItem('auth_token');
