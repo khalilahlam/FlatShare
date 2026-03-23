@@ -34,6 +34,9 @@
         <div class="mt-6">
           <h1 class="text-2xl font-black text-gray-900">{{ piso()!.titulo }}</h1>
           <p class="text-gray-500 mt-1">📍 {{ piso()!.ubicacion }}</p>
+          @if(piso()!.ciudad) {
+            <p class="text-gray-500 mt-1">🏙 {{ piso()!.ciudad }}</p>
+          }
         </div>
 
         <!-- Badges -->
@@ -91,6 +94,10 @@
             <div class="bg-gray-50 rounded-xl p-3 text-center">
               <div class="text-xl font-bold text-gray-900">{{ piso()!.num_companeros }}</div>
               <div class="text-xs text-gray-500">Compañeros</div>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-3 text-center col-span-2">
+              <div class="text-xl font-bold text-gray-900">{{ piso()!.ciudad || 'Sin ciudad' }}</div>
+              <div class="text-xs text-gray-500">Ciudad</div>
             </div>
           </div>
 

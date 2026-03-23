@@ -4,7 +4,22 @@
   <div class="flex justify-between items-center mb-6 shrink-0">
     <div>
       <h1 class="text-3xl font-black text-gray-900">Pisos disponibles</h1>
-      <p class="text-gray-500 mt-1">{{ pisos().length }} pisos encontrados</p>
+      <p class="text-gray-500 mt-1">{{ filteredPisos().length }} pisos encontrados</p>
+      @if (filtroCiudad() || filtroPrecioMax()) {
+        <div class="mt-2 flex items-center gap-2">
+          @if (filtroCiudad()) {
+            <span class="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
+              Ciudad: {{ filtroCiudad() }}
+            </span>
+          }
+          @if (filtroPrecioMax()) {
+            <span class="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
+              Max: {{ filtroPrecioMax() }}€
+            </span>
+          }
+          <a routerLink="/pisos" class="text-xs font-semibold text-blue-600 hover:underline">Quitar filtro</a>
+        </div>
+      }
     </div>
     @if(auth.isPropietario()) {
       <a routerLink="/pisos/create"
@@ -20,7 +35,7 @@
     <!-- LEFT: cards con scroll -->
     <div class="w-full lg:w-2/5 overflow-y-auto pr-2 flex flex-col gap-4">
 
-      @if(pisos().length === 0) {
+      @if(filteredPisos().length === 0) {
         <div class="text-center py-20 text-gray-400">
           <p class="text-5xl mb-4">🏠</p>
           <p class="text-xl font-semibold">No hay pisos disponibles</p>
@@ -28,7 +43,7 @@
         </div>
       }
 
-      @for(piso of pisos(); track piso.id) {
+      @for(piso of filteredPisos(); track piso.id) {
         <div class="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all overflow-hidden cursor-pointer shrink-0"
           (click)="flyToPiso(piso)">
           <div class="flex" style="height: 180px;">

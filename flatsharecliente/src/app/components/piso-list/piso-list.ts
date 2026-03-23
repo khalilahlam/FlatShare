@@ -1,8 +1,10 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, PLATFORM_ID, inject, signal } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { AfterViewInit, Component, OnDestroy, OnInit, PLATFORM_ID, computed, effect, inject, signal } from '@angular/core';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import{ PisoService } from '../../services/piso';
 import { IPiso } from '../../services/piso';
+import { CityFilterPipe } from '../../pipes/city-filter.pipe';
+import { MaxPriceFilterPipe } from '../../pipes/max-price-filter.pipe';
 
 import { AuthService } from '../../services/auth';
 
@@ -15,15 +17,30 @@ declare const L: any;
 })
 export class PisoList implements OnInit, AfterViewInit, OnDestroy {
   private pisoService = inject(PisoService);
+  private route = inject(ActivatedRoute);
   private platformId = inject(PLATFORM_ID);
+  private cityFilterPipe = new CityFilterPipe();
+  private maxPriceFilterPipe = new MaxPriceFilterPipe();
   auth = inject(AuthService);
 
   pisos = signal<IPiso[]>([]);
   activeId = signal<number | null>(null);
+  filtroCiudad = signal<string | null>(null);
+  filtroPrecioMax = signal<number | null>(null);
+  filteredPisos = computed(() => {
+    const porCiudad = this.cityFilterPipe.transform(this.pisos(), this.filtroCiudad());
+    return this.maxPriceFilterPipe.transform(porCiudad, this.filtroPrecioMax());
+  });
   private map: any;
   private markersLayer: any;
   private markers: { id: number; marker: any }[] = [];
   private readonly defaultCenter: [number, number] = [39.4699, -0.3763];
+
+  constructor() {
+    effect(() => {
+      this.renderMapMarkers(this.filteredPisos());
+    });
+  }
 
   ngAfterViewInit() {
     if (!isPlatformBrowser(this.platformId)) return;
@@ -35,16 +52,29 @@ export class PisoList implements OnInit, AfterViewInit, OnDestroy {
     }).addTo(this.map);
 
     this.markersLayer = L.layerGroup().addTo(this.map);
-    this.renderMapMarkers(this.pisos());
+    this.renderMapMarkers(this.filteredPisos());
 
     setTimeout(() => this.map.invalidateSize(), 0);
   }
 
   ngOnInit() {
+    this.route.queryParamMap.subscribe({
+      next: (params) => {
+        const ciudad = params.get('ciudad')?.trim() || null;
+        const precioMaxParam = Number(params.get('precioMax'));
+
+        this.filtroCiudad.set(ciudad);
+        this.filtroPrecioMax.set(Number.isNaN(precioMaxParam) || precioMaxParam <= 0 ? null : precioMaxParam);
+      }
+    });
+
+    this.cargarPisos();
+  }
+
+  private cargarPisos() {
     this.pisoService.getPisos().subscribe({
       next: (data) => {
         this.pisos.set(data);
-        this.renderMapMarkers(data);
       },
       error: (err) => console.error(err)
     });
@@ -59,7 +89,7 @@ export class PisoList implements OnInit, AfterViewInit, OnDestroy {
   eliminar(id: number) {
     if (!confirm('¿Eliminar este piso?')) return;
     this.pisoService.deletePiso(id).subscribe({
-      next: () => this.ngOnInit()
+      next: () => this.cargarPisos()
     });
   }
 

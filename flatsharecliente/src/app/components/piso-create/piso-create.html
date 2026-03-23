@@ -27,6 +27,17 @@
     </div>
 
     <div>
+      <label class="block text-sm font-semibold text-gray-700 mb-2">Ciudad</label>
+      <select formControlName="ciudad"
+        class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+        <option value="" disabled>Selecciona una ciudad</option>
+        @for (ciudad of ciudadesDisponibles; track ciudad) {
+          <option [value]="ciudad">{{ ciudad }}</option>
+        }
+      </select>
+    </div>
+
+    <div>
       <label class="block text-sm font-semibold text-gray-700 mb-2">Ubicacion exacta en mapa</label>
       <p class="text-xs text-gray-500 mb-3">Haz click para colocar la chincheta y guardar latitud/longitud.</p>
       <div id="piso-create-map" class="h-80 w-full rounded-xl border border-gray-200"></div>

@@ -1,5 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 
 export interface IFoto {
   id: number;
@@ -13,6 +14,7 @@ export interface IPiso {
   descripcion: string;
   precio: number;
   ubicacion: string;
+  ciudad?: string;
   lat?: number | null;
   lng?: number | null;
   num_companeros: number;
@@ -32,8 +34,14 @@ export class PisoService {
   private http = inject(HttpClient);
   private apiUrl = 'http://localhost:8000/api';
 
-  getPisos() {
-    return this.http.get<IPiso[]>(`${this.apiUrl}/pisos`);
+  getPisos(ciudad?: string) {
+    let params = new HttpParams();
+
+    if (ciudad?.trim()) {
+      params = params.set('ciudad', ciudad.trim());
+    }
+
+    return this.http.get<IPiso[]>(`${this.apiUrl}/pisos`, { params });
   }
 
   getPiso(id: number) {

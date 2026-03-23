@@ -18,11 +18,17 @@
           La plataforma donde jóvenes encuentran pisos compartidos y conocen a sus futuros compañeros.
         </p>
         <div class="bg-white rounded-2xl p-3 flex gap-2 flex-wrap mb-6 shadow-2xl">
-          <input type="text" placeholder="¿Dónde quieres vivir?"
-            class="flex-1 min-w-40 px-4 py-2 text-gray-700 text-sm focus:outline-none rounded-xl" />
-          <input type="number" placeholder="Precio máx."
+          <select [(ngModel)]="ciudadBusqueda" [ngModelOptions]="{ standalone: true }"
+            class="flex-1 min-w-40 px-4 py-2 text-gray-700 text-sm focus:outline-none rounded-xl border border-gray-100 bg-white">
+            <option value="">Todas las ciudades</option>
+            @for (ciudad of ciudadesDisponibles; track ciudad) {
+              <option [value]="ciudad">{{ ciudad }}</option>
+            }
+          </select>
+          <input type="number" min="1" [(ngModel)]="precioMaxBusqueda" [ngModelOptions]="{ standalone: true }"
+            placeholder="Precio máx."
             class="w-36 px-4 py-2 text-gray-700 text-sm focus:outline-none rounded-xl border border-gray-100" />
-          <a routerLink="/pisos"
+          <a routerLink="/pisos" [queryParams]="getBusquedaQueryParams()"
             class="bg-blue-600 text-white px-6 py-2 rounded-xl font-semibold text-sm hover:bg-blue-700 transition-all">
             Buscar
           </a>
@@ -60,8 +66,8 @@
     <div class="max-w-6xl mx-auto">
       <h2 class="text-3xl font-black text-gray-900 mb-2">Ciudades populares</h2>
       <p class="text-gray-500 mb-8">Encuentra piso en las ciudades más demandadas</p>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <a routerLink="/pisos" class="relative rounded-2xl overflow-hidden h-48 group cursor-pointer block">
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <a routerLink="/pisos" [queryParams]="{ ciudad: 'Madrid' }" class="relative rounded-2xl overflow-hidden h-48 group cursor-pointer block">
           <img src="assets/madrid.jpg" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
           <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10"></div>
           <div class="absolute bottom-4 left-4 z-20">
@@ -69,7 +75,7 @@
             <div class="text-white/70 text-xs">120+ pisos</div>
           </div>
         </a>
-        <a routerLink="/pisos" class="relative rounded-2xl overflow-hidden h-48 group cursor-pointer block">
+        <a routerLink="/pisos" [queryParams]="{ ciudad: 'Barcelona' }" class="relative rounded-2xl overflow-hidden h-48 group cursor-pointer block">
           <img src="assets/barcelona.jpg" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
           <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10"></div>
           <div class="absolute bottom-4 left-4 z-20">
@@ -77,7 +83,7 @@
             <div class="text-white/70 text-xs">95+ pisos</div>
           </div>
         </a>
-        <a routerLink="/pisos" class="relative rounded-2xl overflow-hidden h-48 group cursor-pointer block">
+        <a routerLink="/pisos" [queryParams]="{ ciudad: 'Valencia' }" class="relative rounded-2xl overflow-hidden h-48 group cursor-pointer block">
           <img src="assets/valencia.jpg" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
           <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10"></div>
           <div class="absolute bottom-4 left-4 z-20">
@@ -85,12 +91,26 @@
             <div class="text-white/70 text-xs">80+ pisos</div>
           </div>
         </a>
-        <a routerLink="/pisos" class="relative rounded-2xl overflow-hidden h-48 group cursor-pointer block">
+        <a routerLink="/pisos" [queryParams]="{ ciudad: 'Sevilla' }" class="relative rounded-2xl overflow-hidden h-48 group cursor-pointer block">
           <img src="assets/sevilla.jpg" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
           <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10"></div>
           <div class="absolute bottom-4 left-4 z-20">
             <div class="text-white font-black text-lg">Sevilla</div>
             <div class="text-white/70 text-xs">60+ pisos</div>
+          </div>
+        </a>
+        <a routerLink="/pisos" [queryParams]="{ ciudad: 'Malaga' }" class="relative rounded-2xl overflow-hidden h-48 group cursor-pointer block bg-gradient-to-br from-amber-400 via-orange-400 to-rose-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/45 to-transparent z-10"></div>
+          <div class="absolute bottom-4 left-4 z-20">
+            <div class="text-white font-black text-lg">Malaga</div>
+            <div class="text-white/80 text-xs">50+ pisos</div>
+          </div>
+        </a>
+        <a routerLink="/pisos" [queryParams]="{ ciudad: 'Bilbao' }" class="relative rounded-2xl overflow-hidden h-48 group cursor-pointer block bg-gradient-to-br from-cyan-400 via-sky-500 to-indigo-600">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/45 to-transparent z-10"></div>
+          <div class="absolute bottom-4 left-4 z-20">
+            <div class="text-white font-black text-lg">Bilbao</div>
+            <div class="text-white/80 text-xs">45+ pisos</div>
           </div>
         </a>
       </div>

@@ -3,6 +3,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 import { PisoService } from '../../services/piso';
+import { CIUDADES_ESPANA } from '../../constants/ciudades';
 
 declare const L: any;
 
@@ -19,6 +20,7 @@ export class PisoCreate implements AfterViewInit, OnDestroy {
   error = '';
   fotoPreviews: string[] = [];
   fotosSeleccionadas: File[] = [];
+  readonly ciudadesDisponibles = [...CIUDADES_ESPANA];
   private map: any;
   private marker: any;
   private readonly defaultCenter: [number, number] = [39.4699, -0.3763];
@@ -28,6 +30,7 @@ export class PisoCreate implements AfterViewInit, OnDestroy {
     descripcion: [''],
     precio: [null, Validators.required],
     ubicacion: ['', Validators.required],
+    ciudad: ['', Validators.required],
     num_companeros: [1],
     habitaciones: [1],
     banos: [1],
@@ -85,6 +88,7 @@ export class PisoCreate implements AfterViewInit, OnDestroy {
     fd.append('descripcion', this.form.value.descripcion ?? '');
     fd.append('precio', this.form.value.precio ?? '');
     fd.append('ubicacion', this.form.value.ubicacion ?? '');
+    fd.append('ciudad', this.form.value.ciudad ?? '');
     fd.append('num_companeros', String(this.form.value.num_companeros ?? 1));
     fd.append('habitaciones', String(this.form.value.habitaciones ?? 1));
     fd.append('banos', String(this.form.value.banos ?? 1));
