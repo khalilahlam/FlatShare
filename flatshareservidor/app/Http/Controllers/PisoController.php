@@ -7,9 +7,15 @@ use Illuminate\Http\Request;
 
 class PisoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return Piso::with(['usuario', 'fotos'])->get();
+        $query = Piso::with(['usuario', 'fotos']);
+
+        if ($request->filled('ciudad')) {
+            $query->whereRaw('LOWER(ciudad) = ?', [mb_strtolower($request->query('ciudad'))]);
+        }
+
+        return $query->get();
     }
 
     public function show($id)
@@ -26,6 +32,7 @@ class PisoController extends Controller
             'descripcion'    => 'nullable|string',
             'precio'         => 'required|numeric',
             'ubicacion'      => 'required|string',
+            'ciudad'         => 'required|string|max:100',
             'lat'            => 'nullable|numeric|between:-90,90',
             'lng'            => 'nullable|numeric|between:-180,180',
             'num_companeros' => 'nullable|integer',
@@ -56,7 +63,22 @@ class PisoController extends Controller
             return response()->json(['message' => 'No autorizado'], 403);
         }
 
-        $piso->update($request->except('fotos'));
+        $data = $request->validate([
+            'titulo'         => 'sometimes|required|string',
+            'descripcion'    => 'sometimes|nullable|string',
+            'precio'         => 'sometimes|required|numeric',
+            'ubicacion'      => 'sometimes|required|string',
+            'ciudad'         => 'sometimes|required|string|max:100',
+            'lat'            => 'sometimes|nullable|numeric|between:-90,90',
+            'lng'            => 'sometimes|nullable|numeric|between:-180,180',
+            'num_companeros' => 'sometimes|nullable|integer',
+            'habitaciones'   => 'sometimes|nullable|integer',
+            'banos'          => 'sometimes|nullable|integer',
+            'metros'         => 'sometimes|nullable|integer',
+            'amueblado'      => 'sometimes|nullable|boolean',
+        ]);
+
+        $piso->update($data);
 
         if ($request->hasFile('fotos')) {
             foreach ($request->file('fotos') as $foto) {
