@@ -15,33 +15,47 @@
       </a>
 
       @if(auth.isLoggedIn()) {
-        <a routerLink="/pisos/create"
-          class="text-gray-600 hover:text-blue-600 font-medium px-4 py-2 rounded-lg hover:bg-blue-50 transition-all text-sm">
-          Publicar piso
-        </a>
-        <div class="flex items-center gap-3 ml-2 pl-4 border-l border-gray-200">
-          <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-            <span class="text-blue-600 font-bold text-sm"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
-  <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
-</svg></span>
-          </div>
-         <a routerLink="/perfil" class="text-gray-700 font-medium text-sm hover:text-blue-600 transition-colors cursor-pointer">
-  {{ auth.user()?.nombre }}
-</a>
-          <button (click)="auth.logout()"
-            class="text-sm text-gray-500 hover:text-red-500 font-medium transition-colors">
-            Salir
-          </button>
-        </div>
-      } @else {
-        <a routerLink="/login"
-          class="text-gray-600 hover:text-blue-600 font-medium px-4 py-2 rounded-lg hover:bg-blue-50 transition-all text-sm">
-          Iniciar sesión
-        </a>
-        <a routerLink="/register"
-          class="bg-blue-600 text-white px-5 py-2 rounded-xl font-semibold hover:bg-blue-700 transition-all text-sm shadow-sm shadow-blue-200">
-          Registrarse
-        </a>
+
+         <!-- Opciones según rol -->
+  @if(auth.isPropietario()) {
+    <a routerLink="/pisos/create"
+      class="text-gray-600 hover:text-blue-600 font-medium px-4 py-2 rounded-lg hover:bg-blue-50 transition-all text-sm">
+      Publicar piso
+    </a>
+  } @else {
+    <a routerLink="/personas"
+      class="text-gray-600 hover:text-blue-600 font-medium px-4 py-2 rounded-lg hover:bg-blue-50 transition-all text-sm">
+      Encontrar personas
+    </a>
+  }
+
+  <!-- Avatar y nombre (igual para todos) -->
+  <div class="flex items-center gap-3 ml-2 pl-4 border-l border-gray-200">
+    <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+      <span class="text-blue-600 font-bold text-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+          <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+        </svg>
+      </span>
+    </div>
+    <a routerLink="/perfil" class="text-gray-700 font-medium text-sm hover:text-blue-600 transition-colors cursor-pointer">
+      {{ auth.user()?.nombre }}
+    </a>
+    <button (click)="auth.logout()"
+      class="text-sm text-gray-500 hover:text-red-500 font-medium transition-colors">
+      Salir
+    </button>
+  </div>
+
+} @else {
+  <a routerLink="/login"
+    class="text-gray-600 hover:text-blue-600 font-medium px-4 py-2 rounded-lg hover:bg-blue-50 transition-all text-sm">
+    Iniciar sesión
+  </a>
+  <a routerLink="/register"
+    class="bg-blue-600 text-white px-5 py-2 rounded-xl font-semibold hover:bg-blue-700 transition-all text-sm shadow-sm shadow-blue-200">
+    Registrarse
+  </a>
       }
     </div>
   </div>
