@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth';
+
 @Component({
   selector: 'app-register',
   imports: [ReactiveFormsModule, RouterModule],
@@ -21,7 +22,12 @@ export class Register {
     password: ['', [Validators.required, Validators.minLength(6)]],
     password_confirmation: ['', Validators.required],
     propietario: [false, Validators.required],
-});
+    fecha_nacimiento: [''],
+    telefono: [''],
+    ciudad: [''],
+    descripcion: [''],
+    intereses: [''],
+  });
 
   onSubmit() {
     if (this.form.invalid) return;

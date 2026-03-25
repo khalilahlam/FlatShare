@@ -1,12 +1,12 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { AuthService } from '../../services/auth';
 import { PisoService, IPiso } from '../../services/piso';
 
 @Component({
   selector: 'app-profile',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, DatePipe],
   templateUrl: './profile.html',
 })
 export class Profile implements OnInit {

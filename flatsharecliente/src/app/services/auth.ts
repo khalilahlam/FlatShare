@@ -10,6 +10,12 @@ export interface IUsuario {
   email: string;
   rol: string;
   propietario: boolean;
+  fecha_nacimiento?: string;
+  telefono?: string;
+  ciudad?: string;
+  descripcion?: string;
+  intereses?: string;
+  foto_perfil?: string;
 }
 
 @Injectable({

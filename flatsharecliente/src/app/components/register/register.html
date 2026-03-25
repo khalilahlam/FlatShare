@@ -34,6 +34,8 @@
       <p class="text-gray-500 mb-8">Es gratis y solo tarda un minuto</p>
 
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+        <!-- Nombre y apellidos -->
         <div class="grid grid-cols-2 gap-4 mb-5">
           <div>
             <label class="block text-sm font-semibold text-gray-700 mb-2">Nombre</label>
@@ -46,11 +48,15 @@
               class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white transition-all" />
           </div>
         </div>
+
+        <!-- Email -->
         <div class="mb-5">
           <label class="block text-sm font-semibold text-gray-700 mb-2">Email</label>
           <input type="email" formControlName="email" placeholder="tu@email.com"
             class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white transition-all" />
         </div>
+
+        <!-- Contraseñas -->
         <div class="mb-5">
           <label class="block text-sm font-semibold text-gray-700 mb-2">Contraseña</label>
           <input type="password" formControlName="password" placeholder="Mínimo 6 caracteres"
@@ -62,6 +68,42 @@
             class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white transition-all" />
         </div>
 
+        <!-- Fecha de nacimiento y teléfono -->
+        <div class="grid grid-cols-2 gap-4 mb-5">
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Fecha de nacimiento</label>
+            <input type="date" formControlName="fecha_nacimiento"
+              class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white transition-all" />
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Teléfono</label>
+            <input type="tel" formControlName="telefono" placeholder="600 000 000"
+              class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white transition-all" />
+          </div>
+        </div>
+
+        <!-- Ciudad -->
+        <div class="mb-5">
+          <label class="block text-sm font-semibold text-gray-700 mb-2">Ciudad</label>
+          <input formControlName="ciudad" placeholder="¿En qué ciudad vives?"
+            class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white transition-all" />
+        </div>
+
+        <!-- Descripción -->
+        <div class="mb-5">
+          <label class="block text-sm font-semibold text-gray-700 mb-2">Sobre ti <span class="text-gray-400 font-normal">(opcional)</span></label>
+          <textarea formControlName="descripcion" placeholder="Cuéntanos algo sobre ti: horarios, hábitos, estilo de vida..." rows="3"
+            class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white transition-all resize-none"></textarea>
+        </div>
+
+        <!-- Intereses -->
+        <div class="mb-6">
+          <label class="block text-sm font-semibold text-gray-700 mb-2">Intereses <span class="text-gray-400 font-normal">(opcional)</span></label>
+          <input formControlName="intereses" placeholder="Ej: música, deporte, cocina, series..."
+            class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white transition-all" />
+        </div>
+
+        <!-- Selector rol -->
         <div class="mb-6">
           <label class="block text-sm font-semibold text-gray-700 mb-3">¿Qué quieres hacer?</label>
           <div class="grid grid-cols-2 gap-3">
@@ -70,14 +112,14 @@
               [class]="form.get('propietario')?.value === false ?
                 'border-2 border-blue-600 bg-blue-50 text-blue-600 rounded-xl p-4 text-sm font-semibold transition-all' :
                 'border-2 border-gray-200 rounded-xl p-4 text-sm font-medium text-gray-500 hover:border-gray-300 transition-all'">
-               Busco piso
+              🔍 Busco piso
             </button>
             <button type="button"
               (click)="form.get('propietario')?.setValue(true)"
               [class]="form.get('propietario')?.value === true ?
                 'border-2 border-blue-600 bg-blue-50 text-blue-600 rounded-xl p-4 text-sm font-semibold transition-all' :
                 'border-2 border-gray-200 rounded-xl p-4 text-sm font-medium text-gray-500 hover:border-gray-300 transition-all'">
-               Tengo piso
+              🏠 Tengo piso
             </button>
           </div>
         </div>

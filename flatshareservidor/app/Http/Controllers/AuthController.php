@@ -8,28 +8,38 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-   public function register(Request $request)
-{
-    $data = $request->validate([
-        'nombre'      => 'required|string',
-        'apellidos'   => 'required|string',
-        'email'       => 'required|email|unique:usuarios,email',
-        'password'    => 'required|min:6|confirmed',
-        'propietario' => 'required|boolean',
-    ]);
+    public function register(Request $request)
+    {
+        $data = $request->validate([
+            'nombre'           => 'required|string',
+            'apellidos'        => 'required|string',
+            'email'            => 'required|email|unique:usuarios,email',
+            'password'         => 'required|min:6|confirmed',
+            'propietario'      => 'required|boolean',
+            'fecha_nacimiento' => 'nullable|date',
+            'telefono'         => 'nullable|string|max:20',
+            'ciudad'           => 'nullable|string|max:100',
+            'descripcion'      => 'nullable|string',
+            'intereses'        => 'nullable|string',
+        ]);
 
-    $usuario = Usuario::create([
-        'nombre'      => $data['nombre'],
-        'apellidos'   => $data['apellidos'],
-        'email'       => $data['email'],
-        'password'    => $data['password'],
-        'propietario' => $data['propietario'],
-    ]);
+        $usuario = Usuario::create([
+            'nombre'           => $data['nombre'],
+            'apellidos'        => $data['apellidos'],
+            'email'            => $data['email'],
+            'password'         => $data['password'],
+            'propietario'      => $data['propietario'],
+            'fecha_nacimiento' => $data['fecha_nacimiento'] ?? null,
+            'telefono'         => $data['telefono'] ?? null,
+            'ciudad'           => $data['ciudad'] ?? null,
+            'descripcion'      => $data['descripcion'] ?? null,
+            'intereses'        => $data['intereses'] ?? null,
+        ]);
 
-    $token = $usuario->createToken('auth_token')->plainTextToken;
+        $token = $usuario->createToken('auth_token')->plainTextToken;
 
-    return response()->json(['token' => $token, 'user' => $usuario], 201);
-}
+        return response()->json(['token' => $token, 'user' => $usuario], 201);
+    }
 
     public function login(Request $request)
     {
