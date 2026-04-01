@@ -118,11 +118,13 @@
             </div>
           }
 
-          @if(auth.isLoggedIn() && auth.user()?.id !== piso()!.usuario_id) {
-            <button class="w-full mt-5 bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700 transition-all">
-              Me interesa
-            </button>
-          }
+@if(auth.isLoggedIn() && !auth.isPropietario() && auth.user()?.id !== piso()!.usuario_id) {
+  <button (click)="toggleInteres()" [disabled]="cargandoInteres()"
+    class="w-full mt-5 py-3 rounded-xl font-bold transition-all disabled:opacity-50"
+    [class]="interesado() ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-blue-600 text-white hover:bg-blue-700'">
+    {{ cargandoInteres() ? 'Cargando...' : interesado() ? '✅ Me interesa' : 'Me interesa' }}
+  </button>
+}
 
           <a routerLink="/pisos" class="block w-full mt-3 text-center border border-gray-200 text-gray-600 py-2.5 rounded-xl text-sm font-medium hover:bg-gray-50 transition-all">
             Volver al listado

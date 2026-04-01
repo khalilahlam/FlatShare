@@ -2,7 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule, DatePipe } from '@angular/common';
 import { AuthService } from '../../services/auth';
-import { PisoService, IPiso } from '../../services/piso';
+import { PisoService, IPiso, IInteresado } from '../../services/piso';
 
 @Component({
   selector: 'app-profile',
@@ -13,16 +13,34 @@ export class Profile implements OnInit {
   auth = inject(AuthService);
   pisoService = inject(PisoService);
   misPisos = signal<IPiso[]>([]);
+  interesadosPorPiso = signal<{ [pisoId: number]: IInteresado[] }>({});
 
   ngOnInit() {
     if (this.auth.isPropietario()) {
       this.pisoService.getPisos().subscribe({
         next: (data) => {
           const misId = this.auth.user()?.id;
-          this.misPisos.set(data.filter(p => p.usuario_id === misId));
+          const pisos = data.filter(p => p.usuario_id === misId);
+          this.misPisos.set(pisos);
+          pisos.forEach(piso => this.cargarInteresados(piso.id));
         }
       });
     }
+  }
+
+  cargarInteresados(pisoId: number) {
+    this.pisoService.getInteresados(pisoId).subscribe({
+      next: (data) => {
+        this.interesadosPorPiso.update(prev => ({ ...prev, [pisoId]: data }));
+      }
+    });
+  }
+
+  eliminarInteresado(pisoId: number, usuarioId: number) {
+    if (!confirm('¿Eliminar este candidato?')) return;
+    this.pisoService.eliminarInteresado(pisoId, usuarioId).subscribe({
+      next: () => this.cargarInteresados(pisoId)
+    });
   }
 
   eliminar(id: number) {

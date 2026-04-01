@@ -7,7 +7,22 @@ export interface IFoto {
   url: string;
   piso_id: number;
 }
-
+export interface IInteresado {
+  id: number;
+  usuario_id: number;
+  piso_id: number;
+  estado: string;
+  usuario: {
+    id: number;
+    nombre: string;
+    apellidos: string;
+    email: string;
+    ciudad?: string;
+    descripcion?: string;
+    intereses?: string;
+    fecha_nacimiento?: string;
+  };
+}
 export interface IPiso {
   id: number;
   titulo: string;
@@ -59,4 +74,11 @@ export class PisoService {
   deletePiso(id: number) {
     return this.http.delete(`${this.apiUrl}/pisos/${id}`);
   }
+  getInteresados(pisoId: number) {
+  return this.http.get<IInteresado[]>(`${this.apiUrl}/pisos/${pisoId}/interesados`);
+}
+
+eliminarInteresado(pisoId: number, usuarioId: number) {
+  return this.http.delete(`${this.apiUrl}/pisos/${pisoId}/interesados/${usuarioId}`);
+}
 }
