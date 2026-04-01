@@ -81,4 +81,15 @@ export class PisoService {
 eliminarInteresado(pisoId: number, usuarioId: number) {
   return this.http.delete(`${this.apiUrl}/pisos/${pisoId}/interesados/${usuarioId}`);
 }
+getFavoritos() {
+  return this.http.get<number[]>(this.apiUrl + '/favoritos');
+}
+
+addFavorito(pisoId: number) {
+  return this.http.post(this.apiUrl + '/favoritos/' + pisoId, {});
+}
+
+removeFavorito(pisoId: number) {
+  return this.http.delete(this.apiUrl + '/favoritos/' + pisoId);
+}
 }

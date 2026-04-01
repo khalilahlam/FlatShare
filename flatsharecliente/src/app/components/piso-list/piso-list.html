@@ -18,14 +18,14 @@
   <div class="flex flex-wrap gap-3 mb-4 shrink-0">
     <input
       type="text"
-      placeholder=" Ciudad"
+      placeholder="🔍 Ciudad"
       [value]="filtroCiudad() ?? ''"
       (input)="filtroCiudad.set($any($event.target).value || null)"
       class="border border-gray-200 rounded-xl px-4 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white w-44" />
 
     <input
       type="number"
-      placeholder=" Precio máximo"
+      placeholder="💰 Precio máximo"
       min="0"
       [value]="filtroPrecioMax() ?? ''"
       (input)="filtroPrecioMax.set($any($event.target).value ? +$any($event.target).value : null)"
@@ -44,7 +44,7 @@
     <select
       (change)="filtroAmueblado.set($any($event.target).value === '' ? null : $any($event.target).value === 'true')"
       class="border border-gray-200 rounded-xl px-4 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
-      <option value=""> Amueblado</option>
+      <option value="">🪑 Amueblado</option>
       <option value="true">Sí</option>
       <option value="false">No</option>
     </select>
@@ -99,6 +99,13 @@
                 }
               </div>
               <div class="flex gap-2 pt-3 border-t border-gray-100">
+                @if(auth.isLoggedIn() && !auth.isPropietario() && auth.user()?.id !== piso.usuario_id) {
+                  <button (click)="toggleFavorito(piso.id); $event.stopPropagation()"
+                    class="px-3 py-2 rounded-lg text-sm transition-all"
+                    [class]="esFavorito(piso.id) ? 'bg-red-50 text-red-500' : 'bg-gray-50 text-gray-400 hover:text-red-400'">
+                    {{ esFavorito(piso.id) ? '❤️' : '🤍' }}
+                  </button>
+                }
                 <a [routerLink]="['/pisos', piso.id]"
                   class="flex-1 text-center bg-blue-50 text-blue-600 py-2 rounded-lg text-sm font-semibold hover:bg-blue-100 transition-all">
                   Ver detalle

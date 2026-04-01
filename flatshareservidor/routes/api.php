@@ -4,6 +4,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PisoController;
 use App\Http\Controllers\InteresadoController;
+use App\Http\Controllers\FavoritoController;
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/favoritos', [FavoritoController::class, 'index']);
+    Route::post('/favoritos/{pisoId}', [FavoritoController::class, 'store']);
+    Route::delete('/favoritos/{pisoId}', [FavoritoController::class, 'destroy']);
+});
 
 // AUTH
 Route::post('/register', [AuthController::class, 'register']);
