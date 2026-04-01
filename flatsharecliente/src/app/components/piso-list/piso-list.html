@@ -1,31 +1,59 @@
 <div class="px-20 py-6 flex flex-col" style="height: calc(100vh - 89px); overflow: hidden;">
 
   <!-- Header -->
-  <div class="flex justify-between items-center mb-6 shrink-0">
+  <div class="flex justify-between items-center mb-4 shrink-0">
     <div>
       <h1 class="text-3xl font-black text-gray-900">Pisos disponibles</h1>
       <p class="text-gray-500 mt-1">{{ filteredPisos().length }} pisos encontrados</p>
-      @if (filtroCiudad() || filtroPrecioMax()) {
-        <div class="mt-2 flex items-center gap-2">
-          @if (filtroCiudad()) {
-            <span class="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
-              Ciudad: {{ filtroCiudad() }}
-            </span>
-          }
-          @if (filtroPrecioMax()) {
-            <span class="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
-              Max: {{ filtroPrecioMax() }}€
-            </span>
-          }
-          <a routerLink="/pisos" class="text-xs font-semibold text-blue-600 hover:underline">Quitar filtro</a>
-        </div>
-      }
     </div>
     @if(auth.isPropietario()) {
       <a routerLink="/pisos/create"
         class="bg-blue-600 text-white px-5 py-2.5 rounded-xl font-semibold hover:bg-blue-700 transition-all shadow-sm shadow-blue-200">
         + Publicar piso
       </a>
+    }
+  </div>
+
+  <!-- Filtros -->
+  <div class="flex flex-wrap gap-3 mb-4 shrink-0">
+    <input
+      type="text"
+      placeholder=" Ciudad"
+      [value]="filtroCiudad() ?? ''"
+      (input)="filtroCiudad.set($any($event.target).value || null)"
+      class="border border-gray-200 rounded-xl px-4 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white w-44" />
+
+    <input
+      type="number"
+      placeholder=" Precio máximo"
+      min="0"
+      [value]="filtroPrecioMax() ?? ''"
+      (input)="filtroPrecioMax.set($any($event.target).value ? +$any($event.target).value : null)"
+      class="border border-gray-200 rounded-xl px-4 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white w-44" />
+
+    <select
+      (change)="filtroHabitaciones.set($any($event.target).value ? +$any($event.target).value : null)"
+      class="border border-gray-200 rounded-xl px-4 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+      <option value="">🛏 Habitaciones</option>
+      <option value="1">1+</option>
+      <option value="2">2+</option>
+      <option value="3">3+</option>
+      <option value="4">4+</option>
+    </select>
+
+    <select
+      (change)="filtroAmueblado.set($any($event.target).value === '' ? null : $any($event.target).value === 'true')"
+      class="border border-gray-200 rounded-xl px-4 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+      <option value=""> Amueblado</option>
+      <option value="true">Sí</option>
+      <option value="false">No</option>
+    </select>
+
+    @if(filtroCiudad() || filtroPrecioMax() || filtroHabitaciones() || filtroAmueblado() !== null) {
+      <button (click)="limpiarFiltros()"
+        class="px-4 py-2 rounded-xl text-sm font-semibold text-red-500 border border-red-200 hover:bg-red-50 transition-all">
+        ✕ Limpiar
+      </button>
     }
   </div>
 
@@ -39,12 +67,13 @@
         <div class="text-center py-20 text-gray-400">
           <p class="text-5xl mb-4">🏠</p>
           <p class="text-xl font-semibold">No hay pisos disponibles</p>
-          <p class="text-sm mt-2">Sé el primero en publicar uno</p>
+          <p class="text-sm mt-2">Prueba con otros filtros</p>
         </div>
       }
 
       @for(piso of filteredPisos(); track piso.id) {
         <div class="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all overflow-hidden cursor-pointer shrink-0"
+          [attr.data-id]="piso.id"
           (click)="flyToPiso(piso)">
           <div class="flex" style="height: 180px;">
             <div class="bg-blue-50 shrink-0 overflow-hidden" style="width: 160px;">
@@ -65,7 +94,9 @@
                 </div>
                 <p class="text-gray-500 text-sm mb-1">📍 {{ piso.ubicacion }}</p>
                 <p class="text-gray-500 text-sm mb-2">👥 {{ piso.num_companeros }} comp · 🛏 {{ piso.habitaciones }} hab · 📐 {{ piso.metros }}m²</p>
-                <p class="text-gray-600 text-xs line-clamp-2">{{ piso.descripcion }}</p>
+                @if(piso.amueblado) {
+                  <span class="text-xs bg-green-50 text-green-600 px-2 py-0.5 rounded-full font-medium">✅ Amueblado</span>
+                }
               </div>
               <div class="flex gap-2 pt-3 border-t border-gray-100">
                 <a [routerLink]="['/pisos', piso.id]"
@@ -85,6 +116,7 @@
       }
     </div>
 
+    <!-- Mapa -->
     <div class="hidden lg:block lg:w-3/5">
       <div id="pisos-map" class="w-full h-full rounded-2xl border border-gray-200 shadow-sm"></div>
     </div>
