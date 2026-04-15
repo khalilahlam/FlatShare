@@ -35,8 +35,12 @@ export class PisoList implements OnInit, AfterViewInit, OnDestroy {
     if (this.filtroHabitaciones()) {
       resultado = resultado.filter(p => p.habitaciones >= this.filtroHabitaciones()!);
     }
+    // CORRECCIÓN: Normalizamos el valor de amueblado a booleano
     if (this.filtroAmueblado() !== null) {
-      resultado = resultado.filter(p => p.amueblado === this.filtroAmueblado());
+      resultado = resultado.filter(p => {
+        const esAmuebladoBooleano = Boolean(Number(p.amueblado));
+        return esAmuebladoBooleano === this.filtroAmueblado();
+      });
     }
     return resultado;
   });

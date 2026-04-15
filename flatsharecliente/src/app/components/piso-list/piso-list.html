@@ -48,9 +48,10 @@
 </div>
 
     <select
+      [value]="filtroHabitaciones() === null ? '' : filtroHabitaciones()"
       (change)="filtroHabitaciones.set($any($event.target).value ? +$any($event.target).value : null)"
       class="border border-gray-200 rounded-xl px-4 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
-      <option value="">Habitaciones</option>
+      <option value="" disabled selected hidden>Habitaciones</option>
       <option value="1">1+</option>
       <option value="2">2+</option>
       <option value="3">3+</option>
@@ -58,9 +59,10 @@
     </select>
 
     <select
+      [value]="filtroAmueblado() === null ? '' : filtroAmueblado()!.toString()"
       (change)="filtroAmueblado.set($any($event.target).value === '' ? null : $any($event.target).value === 'true')"
       class="border border-gray-200 rounded-xl px-4 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
-      <option value="">Amueblado</option>
+      <option value="" disabled selected hidden>Amueblado</option>
       <option value="true">Sí</option>
       <option value="false">No</option>
     </select>
