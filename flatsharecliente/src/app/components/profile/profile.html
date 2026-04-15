@@ -176,7 +176,7 @@
                   <div>
                     <h3 class="font-bold text-gray-900">{{ piso.titulo }}</h3>
                     <p class="text-blue-600 font-black text-lg">{{ piso.precio }}€/mes</p>
-                    <p class="text-gray-500 text-sm mt-1">📍 {{ piso.ubicacion }}</p>
+                    <p class="text-gray-500 text-sm mt-1"><svg class="w-3.5 h-3.5 shrink-0 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="vertical-align: middle;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0L6.343 16.657a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg>{{ piso.ubicacion }}</p>
                     <div class="flex gap-3 text-xs text-gray-400 mt-2">
                       <span>🛏 {{ piso.habitaciones }} hab</span>
                       <span>🚿 {{ piso.banos }} baños</span>
@@ -218,7 +218,7 @@
                           <div>
                             <p class="text-sm font-semibold text-gray-900">{{ interesado.usuario.nombre }} {{ interesado.usuario.apellidos }}</p>
                             @if(interesado.usuario.ciudad) {
-                              <p class="text-xs text-gray-400">📍 {{ interesado.usuario.ciudad }}</p>
+                              <p class="text-xs text-gray-400"><svg class="w-3.5 h-3.5 shrink-0 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="vertical-align: middle;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0L6.343 16.657a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg>{{ interesado.usuario.ciudad }}</p>
                             }
                           </div>
                         </div>

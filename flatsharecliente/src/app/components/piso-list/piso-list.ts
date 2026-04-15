@@ -117,10 +117,11 @@ export class PisoList implements OnInit, AfterViewInit, OnDestroy {
       const titulo = this.escapeHtml(piso.titulo ?? 'Piso');
       const ubicacion = this.escapeHtml(piso.ubicacion ?? '');
       const imagen = piso.fotos?.length ? 'http://localhost:8000/storage/' + piso.fotos[0].url : '';
+      const svg = `<svg style=\"width:16px;height:16px;vertical-align:middle;margin-right:2px;display:inline-block;\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0L6.343 16.657a8 8 0 1111.314 0z\"/><circle cx=\"12\" cy=\"11\" r=\"3\"/></svg>`;
       const popup = '<div style="width:220px">'
         + (imagen ? '<img src="' + imagen + '" style="width:100%;height:120px;object-fit:cover;border-radius:8px;">' : '')
         + '<h4 style="font-weight:bold;margin:6px 0">' + titulo + '</h4>'
-        + '<p style="color:gray;font-size:13px">📍 ' + ubicacion + '</p>'
+        + '<span style="color:gray;font-size:13px;display:flex;align-items:center;">' + svg + '<span style="display:inline-block;vertical-align:middle;">' + ubicacion + '</span></span>'
         + '<a href="/pisos/' + piso.id + '" style="display:block;margin-top:8px;text-align:center;background:#2563eb;color:white;padding:6px;border-radius:6px;text-decoration:none;">Ver detalle</a>'
         + '</div>';
       const marker = L.marker([piso.lat as number, piso.lng as number]).bindPopup(popup);
