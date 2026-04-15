@@ -28,7 +28,6 @@ export class PisoList implements OnInit, AfterViewInit, OnDestroy {
   filtroPrecioMax = signal<number | null>(null);
   filtroHabitaciones = signal<number | null>(null);
   filtroAmueblado = signal<boolean | null>(null);
-  favoritos = signal<number[]>([]);
 
   filteredPisos = computed(() => {
     let resultado = this.cityFilterPipe.transform(this.pisos(), this.filtroCiudad());
@@ -61,7 +60,6 @@ export class PisoList implements OnInit, AfterViewInit, OnDestroy {
       }
     });
     this.cargarPisos();
-    this.cargarFavoritos();
   }
 
   ngAfterViewInit() {
@@ -84,30 +82,6 @@ export class PisoList implements OnInit, AfterViewInit, OnDestroy {
       next: (data) => this.pisos.set(data),
       error: (err) => console.error(err)
     });
-  }
-
-  cargarFavoritos() {
-    if (this.auth.isLoggedIn() && !this.auth.isPropietario()) {
-      this.pisoService.getFavoritos().subscribe({
-        next: (data) => this.favoritos.set(data)
-      });
-    }
-  }
-
-  esFavorito(pisoId: number) {
-    return this.favoritos().includes(pisoId);
-  }
-
-  toggleFavorito(pisoId: number) {
-    if (this.esFavorito(pisoId)) {
-      this.pisoService.removeFavorito(pisoId).subscribe({
-        next: () => this.favoritos.update(favs => favs.filter(id => id !== pisoId))
-      });
-    } else {
-      this.pisoService.addFavorito(pisoId).subscribe({
-        next: () => this.favoritos.update(favs => [...favs, pisoId])
-      });
-    }
   }
 
   limpiarFiltros() {
