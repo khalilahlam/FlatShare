@@ -1,7 +1,182 @@
-@import "tailwindcss";
-@import "leaflet/dist/leaflet.css";
-
+@import 'tailwindcss';
+@import 'leaflet/dist/leaflet.css';
 
 * {
   font-family: 'Inter', sans-serif;
 }
+
+/* Modo oscuro básico */
+.dark body {
+  background-color: #18181b;
+  color: #f4f4f5;
+}
+.dark .bg-white {
+  background-color: #23232a !important;
+}
+.dark .text-gray-900,
+.dark .text-gray-800 {
+  color: #f4f4f5 !important;
+}
+.dark .border-gray-100,
+.dark .border-gray-200 {
+  border-color: #23232a !important;
+}
+.dark .bg-blue-50 {
+  background-color: #232346 !important;
+}
+.dark .bg-gray-50 {
+  background-color: #23232a !important;
+}
+.dark .bg-blue-100 {
+  background-color: #232346 !important;
+}
+.dark .bg-gray-100 {
+  background-color: #23232a !important;
+}
+.dark .text-gray-500 {
+  color: #a1a1aa !important;
+}
+.dark .bg-blue-600 {
+  background-color: #2563eb !important;
+}
+.dark .text-blue-600 {
+  color: #60a5fa !important;
+}
+.dark .bg-white\/20 {
+  background-color: rgba(35, 35, 42, 0.2) !important;
+}
+.dark .bg-white\/90 {
+  background-color: rgba(35, 35, 42, 0.9) !important;
+}
+.dark .border-l {
+  border-color: #3f3f46 !important; /* Un gris un poco más claro para que se vea el separador */
+}
+
+/* --------- Mejoras modo oscuro para inputs, selects, botones y textos --------- */
+.dark input,
+.dark select,
+.dark textarea {
+  background-color: #23232a !important;
+  color: #f4f4f5 !important;
+  border-color: #3f3f46 !important;
+}
+.dark input::placeholder,
+.dark select:disabled,
+.dark option,
+.dark textarea::placeholder {
+  color: #a1a1aa !important;
+  opacity: 1;
+}
+.dark .bg-white,
+.dark .bg-gray-50,
+.dark .bg-blue-50,
+.dark .bg-blue-100,
+.dark .bg-gray-100 {
+  background-color: #23232a !important;
+}
+.dark .text-gray-600 {
+  color: #d1d5db !important;
+}
+.dark .text-gray-700 {
+  color: #e5e7eb !important;
+}
+.dark .text-blue-700 {
+  color: #93c5fd !important;
+}
+.dark .bg-blue-600:hover,
+.dark .hover\:bg-blue-50:hover {
+  background-color: #1e293b !important;
+}
+.dark .bg-blue-600 {
+  background-color: #2563eb !important;
+}
+.dark .bg-blue-700 {
+  background-color: #1d4ed8 !important;
+}
+.dark .bg-gray-900 {
+  background-color: #18181b !important;
+}
+.dark .bg-gray-200 {
+  background-color: #23232a !important;
+}
+.dark .text-blue-600 {
+  color: #60a5fa !important;
+}
+.dark .text-blue-200 {
+  color: #bae6fd !important;
+}
+.dark .bg-blue-100 {
+  background-color: #232346 !important;
+}
+.dark .bg-blue-200 {
+  background-color: #1e293b !important;
+}
+.dark .text-white {
+  color: #f4f4f5 !important;
+}
+.dark .bg-white\/20 {
+  background-color: rgba(35,35,42,0.2) !important;
+}
+.dark .bg-white\/90 {
+  background-color: rgba(35,35,42,0.9) !important;
+}
+.dark .shadow-blue-200 {
+  box-shadow: 0 2px 8px 0 rgba(96,165,250,0.10) !important;
+}
+.dark .hover\:bg-blue-700:hover {
+  background-color: #1d4ed8 !important;
+}
+.dark .hover\:bg-gray-700:hover {
+  background-color: #27272a !important;
+}
+.dark .bg-red-50 {
+  background-color: #3f1d1d !important;
+}
+.dark .text-red-500 {
+  color: #f87171 !important;
+}
+.dark .border-red-200 {
+  border-color: #7f1d1d !important;
+}
+.dark .bg-green-50 {
+  background-color: #193a2c !important;
+}
+.dark .text-green-600 {
+  color: #6ee7b7 !important;
+}
+.dark .bg-blue-900\/60 {
+  background-color: rgba(30,41,59,0.6) !important;
+}
+.dark .bg-blue-900 {
+  background-color: #0f172a !important;
+}
+.dark .bg-blue-300 {
+  background-color: #60a5fa !important;
+}
+.dark .text-blue-300 {
+  color: #7dd3fc !important;
+}
+.dark .bg-gray-900 {
+  background-color: #18181b !important;
+}
+.dark .bg-gray-200 {
+  background-color: #23232a !important;
+}
+.dark .text-gray-400 {
+  color: #a1a1aa !important;
+}
+.dark .text-gray-300 {
+  color: #d1d5db !important;
+}
+.dark .bg-white\/20 {
+  background-color: rgba(35,35,42,0.2) !important;
+}
+.dark .bg-white\/90 {
+  background-color: rgba(35,35,42,0.9) !important;
+}
+.dark .rounded-xl,
+.dark .rounded-2xl,
+.dark .rounded-3xl {
+  box-shadow: 0 1px 4px 0 rgba(0,0,0,0.10) !important;
+}
+
