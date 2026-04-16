@@ -8,6 +8,8 @@ import { PisoEdit } from './components/piso-edit/piso-edit';
 import { PisoDetail } from './components/piso-detail/piso-detail';
 import { Profile } from './components/profile/profile';
 import { authGuard } from './auth/auth-guard';
+import { UsuarioPerfil } from './components/usuario-perfil/usuario-perfil';
+
 
 export const routes: Routes = [
     { path: '', component: Welcome },
@@ -18,5 +20,6 @@ export const routes: Routes = [
     { path: 'pisos/:id/edit', component: PisoEdit, canActivate: [authGuard] },
     { path: 'pisos/:id', component: PisoDetail },
     { path: 'perfil', component: Profile, canActivate: [authGuard] },
+    { path: 'usuarios/:id', component: UsuarioPerfil, canActivate: [authGuard] },
     { path: '**', redirectTo: '' },
 ];

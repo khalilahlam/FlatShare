@@ -87,5 +87,10 @@ class AuthController extends Controller
 
     return response()->json($usuario);
 }
+public function perfil($id)
+{
+    $usuario = Usuario::findOrFail($id);
+    return response()->json($usuario);
+}
 
 }

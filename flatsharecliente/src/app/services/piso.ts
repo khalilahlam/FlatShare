@@ -92,4 +92,7 @@ addFavorito(pisoId: number) {
 removeFavorito(pisoId: number) {
   return this.http.delete(this.apiUrl + '/favoritos/' + pisoId);
 }
+getUsuario(id: number) {
+  return this.http.get<any>(`${this.apiUrl}/usuarios/${id}`);
+}
 }

@@ -19,6 +19,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
     Route::put('/me', [AuthController::class, 'updateProfile']);
+    Route::get('/usuarios/{id}', [AuthController::class, 'perfil']);
     Route::post('/logout', [AuthController::class, 'logout']);
 
     // PISOS
