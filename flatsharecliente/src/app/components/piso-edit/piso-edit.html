@@ -1,105 +1,148 @@
 <div class="max-w-2xl mx-auto px-6 py-10">
+
   <h1 class="text-3xl font-black text-gray-900 mb-2">Editar piso</h1>
   <p class="text-gray-500 mb-8">Modifica los datos de tu piso</p>
 
   @if(cargando) {
     <div class="text-center py-20 text-gray-400">Cargando...</div>
   } @else {
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-5">
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-5">
+
+    <!-- TITULO -->
+    <div>
+      <label class="block text-sm font-semibold text-gray-700 mb-2">Título</label>
+      <input formControlName="titulo"
+        class="w-full border border-gray-200 rounded-xl px-4 py-3" />
+    </div>
+
+    <!-- DESCRIPCION -->
+    <div>
+      <label class="block text-sm font-semibold text-gray-700 mb-2">Descripción</label>
+      <textarea formControlName="descripcion" rows="4"
+        class="w-full border border-gray-200 rounded-xl px-4 py-3"></textarea>
+    </div>
+
+    <!-- PRECIO / UBICACION -->
+    <div class="grid grid-cols-2 gap-4">
+
       <div>
-        <label class="block text-sm font-semibold text-gray-700 mb-2">Título</label>
-        <input formControlName="titulo" placeholder="Ej: Piso luminoso en el centro"
-          class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white" />
+        <label class="block text-sm font-semibold text-gray-700 mb-2">Precio</label>
+        <input type="number" formControlName="precio"
+          class="w-full border border-gray-200 rounded-xl px-4 py-3"/>
       </div>
+
       <div>
-        <label class="block text-sm font-semibold text-gray-700 mb-2">Descripción</label>
-        <textarea formControlName="descripcion" rows="4" placeholder="Describe el piso..."
-          class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"></textarea>
+        <label class="block text-sm font-semibold text-gray-700 mb-2">Ubicación</label>
+        <input formControlName="ubicacion"
+          class="w-full border border-gray-200 rounded-xl px-4 py-3"/>
       </div>
-      <div class="grid grid-cols-2 gap-4">
-        <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-2">Precio (€/mes)</label>
-          <input type="number" formControlName="precio"
-            class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white" />
-        </div>
-        <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-2">Ubicación</label>
-          <input formControlName="ubicacion"
-            class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white" />
-        </div>
-      </div>
-      <div>
-        <label class="block text-sm font-semibold text-gray-700 mb-2">Ciudad</label>
-        <select formControlName="ciudad"
-          class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
-          <option value="" disabled>Selecciona una ciudad</option>
-          @for(ciudad of ciudadesDisponibles; track ciudad) {
-            <option [value]="ciudad">{{ ciudad }}</option>
-          }
-        </select>
-      </div>
-      <div>
-        <label class="block text-sm font-semibold text-gray-700 mb-2">Ubicación exacta en mapa</label>
-        <p class="text-xs text-gray-500 mb-3">Haz click para reposicionar la chincheta.</p>
-        <div id="piso-edit-map" class="h-80 w-full rounded-xl border border-gray-200"></div>
-        <input type="hidden" formControlName="lat" />
-        <input type="hidden" formControlName="lng" />
-      </div>
-      <div class="grid grid-cols-3 gap-4">
-        <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-2">Habitaciones</label>
-          <input type="number" formControlName="habitaciones"
-            class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white" />
-        </div>
-        <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-2">Baños</label>
-          <input type="number" formControlName="banos"
-            class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white" />
-        </div>
-        <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-2">Metros m²</label>
-          <input type="number" formControlName="metros"
-            class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white" />
-        </div>
-      </div>
-      <div class="grid grid-cols-2 gap-4">
-        <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-2">Máx. compañeros</label>
-          <input type="number" formControlName="num_companeros"
-            class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white" />
-        </div>
-        <div class="flex items-center gap-3 mt-7">
-          <input type="checkbox" formControlName="amueblado" id="amueblado" class="w-5 h-5 accent-blue-600" />
-          <label for="amueblado" class="text-sm font-semibold text-gray-700">Amueblado</label>
-        </div>
-      </div>
-      <div>
-        <label class="block text-sm font-semibold text-gray-700 mb-2">Fotos del piso</label>
-        <input type="file" accept="image/*" multiple (change)="onFotosSelected($event)"
-          class="w-full border border-gray-200 rounded-xl px-4 py-3 bg-white" />
-        @if(fotoPreviews.length > 0) {
-          <div class="grid grid-cols-3 gap-3 mt-3">
-            @for(foto of fotoPreviews; track $index) {
-              <img [src]="foto" class="rounded-xl w-full h-32 object-cover" />
-            }
-          </div>
+
+    </div>
+
+    <!-- CIUDAD -->
+    <div>
+      <label class="block text-sm font-semibold text-gray-700 mb-2">Ciudad</label>
+
+      <select formControlName="ciudad"
+        class="w-full border border-gray-200 rounded-xl px-4 py-3">
+
+        <option value="">Selecciona ciudad</option>
+
+        @for(ciudad of ciudadesDisponibles; track ciudad) {
+          <option [value]="ciudad">{{ ciudad }}</option>
         }
+
+      </select>
+    </div>
+
+    <!-- MAPA -->
+    <div>
+      <label class="block text-sm font-semibold text-gray-700 mb-2">Mapa</label>
+
+      <div id="piso-edit-map" class="h-80 w-full rounded-xl border"></div>
+
+      <input type="hidden" formControlName="lat">
+      <input type="hidden" formControlName="lng">
+    </div>
+
+    <!-- HAB / BAÑOS / METROS -->
+    <div class="grid grid-cols-3 gap-4">
+
+      <input type="number" formControlName="habitaciones" placeholder="Hab"
+        class="border rounded-xl px-4 py-3">
+
+      <input type="number" formControlName="banos" placeholder="Baños"
+        class="border rounded-xl px-4 py-3">
+
+      <input type="number" formControlName="metros" placeholder="m²"
+        class="border rounded-xl px-4 py-3">
+
+    </div>
+
+    <!-- FOTO ACTUALES -->
+    <div>
+      <label class="font-semibold block mb-2">Fotos actuales</label>
+
+      <div class="grid grid-cols-3 gap-3">
+
+        @for(foto of fotosActuales; track foto.id) {
+
+          <div class="relative">
+
+            <img
+              [src]="'http://localhost:8000/storage/' + foto.url"
+              class="rounded-xl w-full h-32 object-cover"
+            />
+
+            <button type="button"
+              (click)="eliminarFoto(foto.id)"
+              class="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 text-xs rounded">
+              X
+            </button>
+
+          </div>
+
+        }
+
       </div>
-      @if(error) {
-        <div class="bg-red-50 border border-red-100 text-red-600 px-4 py-3 rounded-xl text-sm">
-          {{ error }}
+    </div>
+
+    <!-- NUEVAS FOTOS -->
+    <div>
+      <label class="font-semibold block mb-2">Añadir fotos</label>
+
+      <input type="file" multiple accept="image/*"
+        (change)="onFotosSelected($event)"
+        class="w-full border rounded-xl px-4 py-3"/>
+
+      @if(fotoPreviews.length > 0) {
+        <div class="grid grid-cols-3 gap-3 mt-3">
+          @for(foto of fotoPreviews; track $index) {
+            <img [src]="foto" class="rounded-xl h-32 w-full object-cover">
+          }
         </div>
       }
-      <div class="flex gap-3 pt-2">
-        <a routerLink="/perfil"
-          class="flex-1 text-center border border-gray-200 text-gray-600 py-3 rounded-xl font-semibold hover:bg-gray-50 transition-all">
-          Cancelar
-        </a>
-        <button type="submit" [disabled]="form.invalid"
-          class="flex-1 bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700 transition-all disabled:opacity-40">
-          Guardar cambios
-        </button>
-      </div>
-    </form>
+    </div>
+
+    <!-- BOTONES -->
+    <div class="flex gap-3 pt-3">
+
+      <a routerLink="/perfil"
+        class="flex-1 text-center border rounded-xl py-3">
+        Cancelar
+      </a>
+
+      <button type="submit"
+        [disabled]="form.invalid"
+        class="flex-1 bg-blue-600 text-white rounded-xl py-3">
+        Guardar cambios
+      </button>
+
+    </div>
+
+  </form>
+
   }
+
 </div>

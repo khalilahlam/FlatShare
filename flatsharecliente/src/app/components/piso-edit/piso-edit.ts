@@ -13,6 +13,7 @@ declare const L: any;
   templateUrl: './piso-edit.html',
 })
 export class PisoEdit implements OnInit, AfterViewInit, OnDestroy {
+
   fb = inject(FormBuilder);
   pisoService = inject(PisoService);
   router = inject(Router);
@@ -21,9 +22,15 @@ export class PisoEdit implements OnInit, AfterViewInit, OnDestroy {
 
   error = '';
   cargando = true;
-  fotoPreviews: string[] = [];
-  fotosSeleccionadas: File[] = [];
+
+  // 📸 FOTOS
+  fotosActuales: any[] = [];        // fotos del backend
+  fotosSeleccionadas: File[] = [];  // nuevas fotos
+  fotoPreviews: string[] = [];      // previews nuevas
+  fotosEliminadas: number[] = [];   // IDs a borrar
+
   readonly ciudadesDisponibles = [...CIUDADES_ESPANA];
+
   private map: any;
   private marker: any;
   private readonly defaultCenter: [number, number] = [39.4699, -0.3763];
@@ -46,8 +53,10 @@ export class PisoEdit implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.pisoId = Number(this.route.snapshot.paramMap.get('id'));
+
     this.pisoService.getPiso(this.pisoId).subscribe({
-      next: (piso) => {
+      next: (piso: any) => {
+
         this.form.patchValue({
           titulo: piso.titulo,
           descripcion: piso.descripcion,
@@ -62,11 +71,19 @@ export class PisoEdit implements OnInit, AfterViewInit, OnDestroy {
           lat: piso.lat ?? this.defaultCenter[0],
           lng: piso.lng ?? this.defaultCenter[1],
         });
-        if (piso.fotos) {
-          this.fotoPreviews = piso.fotos.map(f => 'http://localhost:8000/storage/' + f.url);
-        }
+
+        // 📸 IMPORTANTÍSIMO: fotos reales
+        this.fotosActuales = piso.fotos || [];
+
         this.cargando = false;
-        setTimeout(() => this.initMap(piso.lat ?? this.defaultCenter[0], piso.lng ?? this.defaultCenter[1]), 0);
+
+        setTimeout(() => {
+          this.initMap(
+            piso.lat ?? this.defaultCenter[0],
+            piso.lng ?? this.defaultCenter[1]
+          );
+        }, 0);
+
       },
       error: () => this.router.navigate(['/pisos'])
     });
@@ -79,36 +96,55 @@ export class PisoEdit implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private initMap(lat: number, lng: number) {
+
     if (!isPlatformBrowser(this.platformId)) return;
-    const container = document.getElementById('piso-edit-map');
-    if (!container) return;
+
     this.map = L.map('piso-edit-map').setView([lat, lng], 15);
+
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(this.map);
+
     this.marker = L.marker([lat, lng]).addTo(this.map);
+
     this.map.on('click', (e: any) => {
       const { lat, lng } = e.latlng;
-      if (this.marker) this.map.removeLayer(this.marker);
-      this.marker = L.marker([lat, lng]).addTo(this.map);
+
+      this.marker.setLatLng([lat, lng]);
+
       this.form.patchValue({ lat, lng });
     });
-    setTimeout(() => this.map.invalidateSize(), 0);
   }
 
+  // 🧹 ELIMINAR FOTO EXISTENTE
+  eliminarFoto(id: number) {
+    this.fotosEliminadas.push(id);
+    this.fotosActuales = this.fotosActuales.filter(f => f.id !== id);
+  }
+
+  // ➕ NUEVAS FOTOS
   onFotosSelected(event: any) {
     const files: FileList = event.target.files;
+
     this.fotosSeleccionadas = Array.from(files);
     this.fotoPreviews = [];
+
     this.fotosSeleccionadas.forEach(file => {
       const reader = new FileReader();
-      reader.onload = () => this.fotoPreviews.push(reader.result as string);
+
+      reader.onload = () => {
+        this.fotoPreviews.push(reader.result as string);
+      };
+
       reader.readAsDataURL(file);
     });
   }
 
+  // 💾 GUARDAR
   onSubmit() {
+
     const fd = new FormData();
+
     fd.append('titulo', this.form.value.titulo ?? '');
     fd.append('descripcion', this.form.value.descripcion ?? '');
     fd.append('precio', String(this.form.value.precio ?? ''));
@@ -121,8 +157,18 @@ export class PisoEdit implements OnInit, AfterViewInit, OnDestroy {
     fd.append('amueblado', this.form.value.amueblado ? '1' : '0');
     fd.append('lat', String(this.form.value.lat ?? ''));
     fd.append('lng', String(this.form.value.lng ?? ''));
+
     fd.append('_method', 'PUT');
-    this.fotosSeleccionadas.forEach(foto => fd.append('fotos[]', foto, foto.name));
+
+    // 📸 nuevas fotos
+    this.fotosSeleccionadas.forEach(foto => {
+      fd.append('fotos[]', foto, foto.name);
+    });
+
+    // 🧹 fotos a eliminar
+    this.fotosEliminadas.forEach(id => {
+      fd.append('fotos_eliminar[]', String(id));
+    });
 
     this.pisoService.updatePiso(this.pisoId, fd).subscribe({
       next: () => this.router.navigate(['/perfil']),
