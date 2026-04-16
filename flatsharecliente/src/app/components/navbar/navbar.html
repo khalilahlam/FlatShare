@@ -2,12 +2,11 @@
   <div class="max-w-6xl mx-auto flex justify-between items-center">
     
     <a routerLink="/" class="flex items-center gap-2">
-        <ng-container *ngIf="!isDarkMode; else logoBlanco">
-          <img src="assets/logo2.png" alt="Logo FlatShare" class="w-12 h-12 rounded-xl object-contain mr-2" style="background:transparent;" />
-        </ng-container>
-        <ng-template #logoBlanco>
-          <img src="assets/logo.png" alt="Logo FlatShare" class="w-12 h-12 rounded-xl object-contain mr-2" style="background:transparent;" />
-        </ng-template>
+      @if (!isDarkMode) {
+        <img src="assets/logo2.png" alt="Logo FlatShare" class="w-12 h-12 rounded-xl object-contain mr-2" style="background:transparent;" />
+      } @else {
+        <img src="assets/logo.png" alt="Logo FlatShare" class="w-12 h-12 rounded-xl object-contain mr-2" style="background:transparent;" />
+      }
       <span class="text-xl font-black text-gray-900">FlatShare</span>
     </a>
 
