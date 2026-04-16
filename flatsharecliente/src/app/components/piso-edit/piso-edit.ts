@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, PLATFORM_ID, inject } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, PLATFORM_ID, inject, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
@@ -19,6 +19,7 @@ export class PisoEdit implements OnInit, AfterViewInit, OnDestroy {
   router = inject(Router);
   route = inject(ActivatedRoute);
   platformId = inject(PLATFORM_ID);
+  cdr = inject(ChangeDetectorRef);
 
   error = '';
   cargando = true;
@@ -53,10 +54,8 @@ export class PisoEdit implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.pisoId = Number(this.route.snapshot.paramMap.get('id'));
-
     this.pisoService.getPiso(this.pisoId).subscribe({
       next: (piso: any) => {
-
         this.form.patchValue({
           titulo: piso.titulo,
           descripcion: piso.descripcion,
@@ -71,25 +70,30 @@ export class PisoEdit implements OnInit, AfterViewInit, OnDestroy {
           lat: piso.lat ?? this.defaultCenter[0],
           lng: piso.lng ?? this.defaultCenter[1],
         });
-
-        // 📸 IMPORTANTÍSIMO: fotos reales
         this.fotosActuales = piso.fotos || [];
-
         this.cargando = false;
-
-        setTimeout(() => {
-          this.initMap(
-            piso.lat ?? this.defaultCenter[0],
-            piso.lng ?? this.defaultCenter[1]
-          );
-        }, 0);
-
+        this.cdr.detectChanges(); // Forzar render para que el div del mapa exista
       },
       error: () => this.router.navigate(['/pisos'])
     });
   }
 
-  ngAfterViewInit() {}
+  ngAfterViewInit() {
+    // Esperar a que cargando sea false y el div exista
+    const checkAndInitMap = () => {
+      if (!this.cargando && typeof window !== 'undefined') {
+        const mapDiv = document.getElementById('piso-edit-map');
+        if (mapDiv && !this.map) {
+          const lat = this.form.value.lat ?? this.defaultCenter[0];
+          const lng = this.form.value.lng ?? this.defaultCenter[1];
+          this.initMap(lat, lng);
+        }
+      } else {
+        setTimeout(checkAndInitMap, 50);
+      }
+    };
+    checkAndInitMap();
+  }
 
   ngOnDestroy() {
     if (this.map) this.map.remove();
