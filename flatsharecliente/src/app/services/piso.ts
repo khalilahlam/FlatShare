@@ -67,9 +67,9 @@ export class PisoService {
     return this.http.post<IPiso>(`${this.apiUrl}/pisos`, data);
   }
 
-  updatePiso(id: number, data: any) {
-    return this.http.put<IPiso>(`${this.apiUrl}/pisos/${id}`, data);
-  }
+ updatePiso(id: number, data: FormData) {
+  return this.http.post<IPiso>(`${this.apiUrl}/pisos/${id}`, data);
+}
 
   deletePiso(id: number) {
     return this.http.delete(`${this.apiUrl}/pisos/${id}`);

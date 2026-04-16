@@ -69,4 +69,23 @@ class AuthController extends Controller
         $request->user()->currentAccessToken()->delete();
         return response()->json(['message' => 'Sesión cerrada']);
     }
+    public function updateProfile(Request $request)
+{
+    $usuario = $request->user();
+
+    $data = $request->validate([
+        'nombre'           => 'required|string',
+        'apellidos'        => 'required|string',
+        'telefono'         => 'nullable|string|max:20',
+        'ciudad'           => 'nullable|string|max:100',
+        'descripcion'      => 'nullable|string',
+        'intereses'        => 'nullable|string',
+        'fecha_nacimiento' => 'nullable|date',
+    ]);
+
+    $usuario->update($data);
+
+    return response()->json($usuario);
+}
+
 }

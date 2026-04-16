@@ -28,24 +28,21 @@
         class="border border-gray-200 rounded-xl pl-9 pr-4 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white w-44" />
     </div>
 
-   <div class="relative">
-  <svg xmlns="http://www.w3.org/2000/svg"
-       width="16"
-       height="16"
-       fill="currentColor"
-       class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-       viewBox="0 0 16 16">
-    <path d="M4 9.42h1.063C5.4 12.323 7.317 14 10.34 14c.622 0 1.167-.068 1.659-.185v-1.3c-.484.119-1.045.17-1.659.17-2.1 0-3.455-1.198-3.775-3.264h4.017v-.928H6.497v-.936q-.002-.165.008-.329h4.078v-.927H6.618c.388-1.898 1.719-2.985 3.723-2.985.614 0 1.175.05 1.659.177V2.194A6.6 6.6 0 0 0 10.341 2c-2.928 0-4.82 1.569-5.244 4.3H4v.928h1.01v1.265H4v.928z"/>
-  </svg>
-
-  <input
-    type="number"
-    placeholder="Precio máximo"
-    min="0"
-    [value]="filtroPrecioMax() ?? ''"
-    (input)="filtroPrecioMax.set($any($event.target).value ? +$any($event.target).value : null)"
-    class="border border-gray-200 rounded-xl pl-9 pr-4 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white w-44" />
-</div>
+    <div class="relative">
+      <svg xmlns="http://www.w3.org/2000/svg"
+           width="16" height="16" fill="currentColor"
+           class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+           viewBox="0 0 16 16">
+        <path d="M4 9.42h1.063C5.4 12.323 7.317 14 10.34 14c.622 0 1.167-.068 1.659-.185v-1.3c-.484.119-1.045.17-1.659.17-2.1 0-3.455-1.198-3.775-3.264h4.017v-.928H6.497v-.936q-.002-.165.008-.329h4.078v-.927H6.618c.388-1.898 1.719-2.985 3.723-2.985.614 0 1.175.05 1.659.177V2.194A6.6 6.6 0 0 0 10.341 2c-2.928 0-4.82 1.569-5.244 4.3H4v.928h1.01v1.265H4v.928z"/>
+      </svg>
+      <input
+        type="number"
+        placeholder="Precio máximo"
+        min="0"
+        [value]="filtroPrecioMax() ?? ''"
+        (input)="filtroPrecioMax.set($any($event.target).value ? +$any($event.target).value : null)"
+        class="border border-gray-200 rounded-xl pl-9 pr-4 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white w-44" />
+    </div>
 
     <select
       [value]="filtroHabitaciones() === null ? '' : filtroHabitaciones()"
@@ -166,6 +163,13 @@
                   Ver detalle
                 </a>
                 @if(auth.user()?.id === piso.usuario_id) {
+                  <a [routerLink]="['/pisos', piso.id, 'edit']" (click)="$event.stopPropagation()"
+                    class="px-4 py-2 bg-yellow-50 text-yellow-600 rounded-lg text-sm font-semibold hover:bg-yellow-100 transition-all flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                    </svg>
+                    Editar
+                  </a>
                   <button (click)="eliminar(piso.id); $event.stopPropagation()"
                     class="px-4 py-2 bg-red-50 text-red-500 rounded-lg text-sm font-semibold hover:bg-red-100 transition-all flex items-center gap-1">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
