@@ -49,4 +49,9 @@ export class Profile implements OnInit {
       next: () => this.ngOnInit()
     });
   }
+
+  totalCandidatos(): number {
+    const interesadosObj = this.interesadosPorPiso();
+    return Object.values(interesadosObj).reduce((acc, arr) => acc + (arr?.length || 0), 0);
+  }
 }
