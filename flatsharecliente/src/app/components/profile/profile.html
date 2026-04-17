@@ -1,10 +1,10 @@
 <div class="min-h-screen bg-gray-50">
   <!-- HEADER / HERO del perfil -->
-  <div class="bg-gradient-to-br from-blue-600 to-blue-800 text-white">
+  <div class="bg-gradient-to-br from-blue-600 to-blue-900 text-white">
     <div class="max-w-5xl mx-auto px-6 py-12">
       <div class="flex items-center gap-6">
         <!-- Avatar -->
-        <div class="w-24 h-24 bg-white/20 rounded-2xl flex items-center justify-center text-4xl font-black backdrop-blur-sm border border-white/30">
+        <div class="w-24 h-24 bg-white/20 rounded-2xl flex items-center justify-center text-4xl font-black backdrop-blur-sm ">
           {{ auth.user()?.nombre?.charAt(0) }}{{ auth.user()?.apellidos?.charAt(0) }}
         </div>
         <!-- Info básica -->
@@ -35,15 +35,15 @@
       <!-- Stats rápidas (solo propietario) -->
       @if (auth.isPropietario()) {
         <div class="grid grid-cols-3 gap-4 mt-8">
-          <div class="bg-white/10 rounded-xl p-4 backdrop-blur-sm border border-white/20 text-center">
+          <div class="bg-white/20 rounded-xl p-4 backdrop-blur-sm text-center">
             <div class="text-3xl font-black">{{ misPisos().length }}</div>
             <div class="text-blue-200 text-sm mt-1">Pisos publicados</div>
           </div>
-          <div class="bg-white/10 rounded-xl p-4 backdrop-blur-sm border border-white/20 text-center">
+          <div class="bg-white/20 rounded-xl p-4 backdrop-blur-sm text-center">
             <div class="text-3xl font-black">{{ totalCandidatos() }}</div>
             <div class="text-blue-200 text-sm mt-1">Candidatos totales</div>
           </div>
-          <div class="bg-white/10 rounded-xl p-4 backdrop-blur-sm border border-white/20 text-center">
+          <div class="bg-white/20 rounded-xl p-4 backdrop-blur-sm text-center">
             <div class="text-3xl font-black">
               {{ precioMasBajo() }}
             </div>
