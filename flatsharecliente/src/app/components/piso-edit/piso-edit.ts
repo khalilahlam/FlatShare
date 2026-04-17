@@ -109,7 +109,15 @@ export class PisoEdit implements OnInit, AfterViewInit, OnDestroy {
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(this.map);
 
-    this.marker = L.marker([lat, lng]).addTo(this.map);
+    // Custom chincheta icon
+    const chinchetaIcon = L.icon({
+      iconUrl: 'assets/chincheta.png',
+      iconSize: [30, 48],
+      iconAnchor: [15, 48],
+      popupAnchor: [0, -48]
+    });
+
+    this.marker = L.marker([lat, lng], { icon: chinchetaIcon }).addTo(this.map);
 
     this.map.on('click', (e: any) => {
       const { lat, lng } = e.latlng;

@@ -117,6 +117,13 @@ export class PisoList implements OnInit, AfterViewInit, OnDestroy {
     const validPisos = pisos.filter(p => typeof p.lat === 'number' && typeof p.lng === 'number');
     if (validPisos.length === 0) { this.map.setView(this.defaultCenter, 13); return; }
     const bounds = L.latLngBounds([]);
+    // Custom chincheta icon
+    const chinchetaIcon = L.icon({
+      iconUrl: 'assets/chincheta.png',
+      iconSize: [30, 48],
+      iconAnchor: [15, 48],
+      popupAnchor: [0, -48]
+    });
     validPisos.forEach(piso => {
       const titulo = this.escapeHtml(piso.titulo ?? 'Piso');
       const ubicacion = this.escapeHtml(piso.ubicacion ?? '');
@@ -128,7 +135,7 @@ export class PisoList implements OnInit, AfterViewInit, OnDestroy {
         + '<span style="color:gray;font-size:13px;display:flex;align-items:center;">' + svg + '<span style="display:inline-block;vertical-align:middle;">' + ubicacion + '</span></span>'
         + '<a href="/pisos/' + piso.id + '" style="display:block;margin-top:8px;text-align:center;background:#2563eb;color:white;padding:6px;border-radius:6px;text-decoration:none;">Ver detalle</a>'
         + '</div>';
-      const marker = L.marker([piso.lat as number, piso.lng as number]).bindPopup(popup);
+      const marker = L.marker([piso.lat as number, piso.lng as number], { icon: chinchetaIcon }).bindPopup(popup);
       marker.addTo(this.markersLayer);
       marker.on('click', () => {
         this.activeId.set(piso.id);

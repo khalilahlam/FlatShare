@@ -89,7 +89,14 @@ export class PisoDetail implements OnInit, AfterViewInit, OnDestroy {
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(this.map);
-    L.marker([piso.lat, piso.lng])
+    // Custom chincheta icon
+    const chinchetaIcon = L.icon({
+      iconUrl: 'assets/chincheta.png',
+      iconSize: [30, 48],
+      iconAnchor: [15, 48],
+      popupAnchor: [0, -48]
+    });
+    L.marker([piso.lat, piso.lng], { icon: chinchetaIcon })
       .addTo(this.map)
       .bindPopup('<b>' + piso.titulo + '</b><br>' + piso.ubicacion)
       .openPopup();
