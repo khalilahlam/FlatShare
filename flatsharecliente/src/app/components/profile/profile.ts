@@ -16,6 +16,8 @@ export class Profile implements OnInit {
   misPisos = signal<IPiso[]>([]);
   interesadosPorPiso = signal<{ [pisoId: number]: IInteresado[] }>({});
   pisosFavoritos = signal<IPiso[]>([]);
+  pisosInteresados = signal<IPiso[]>([]);
+  tabActiva = signal<'favoritos' | 'interesados'>('favoritos');
 
   ngOnInit() {
     if (this.auth.isPropietario()) {
@@ -29,6 +31,7 @@ export class Profile implements OnInit {
       });
     } else {
       this.cargarFavoritos();
+      this.cargarMisIntereses();
     }
   }
 
@@ -53,11 +56,23 @@ export class Profile implements OnInit {
     });
   }
 
+  cargarMisIntereses() {
+    this.pisoService.getMisIntereses().subscribe({
+      next: (pisos) => this.pisosInteresados.set(pisos)
+    });
+  }
+
   quitarFavorito(pisoId: number) {
     this.pisoService.removeFavorito(pisoId).subscribe({
       next: () => this.pisosFavoritos.update(favs => favs.filter(p => p.id !== pisoId))
     });
   }
+
+  quitarInteres(pisoId: number) {
+  this.pisoService.eliminarInteresado_inquilino(pisoId).subscribe({
+    next: () => this.pisosInteresados.update(prev => prev.filter(p => p.id !== pisoId))
+  });
+}
 
   eliminarInteresado(pisoId: number, usuarioId: number) {
     if (!confirm('¿Eliminar este candidato?')) return;
@@ -74,8 +89,7 @@ export class Profile implements OnInit {
   }
 
   totalCandidatos(): number {
-    const interesadosObj = this.interesadosPorPiso();
-    return Object.values(interesadosObj).reduce((acc, arr) => acc + (arr?.length || 0), 0);
+    return Object.values(this.interesadosPorPiso()).reduce((acc, arr) => acc + (arr?.length || 0), 0);
   }
 
   precioMasBajo(): string | number {
