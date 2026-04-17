@@ -146,7 +146,7 @@
           @for (piso of misPisos(); track piso.id) {
             <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
               <div class="flex">
-                <div class="w-36 h-36 bg-gray-100 flex-shrink-0">
+                <div class="w-40 h-40 bg-blue-50 flex-shrink-0">
                   @if (piso.fotos && piso.fotos.length > 0) {
                     <img [src]="'http://localhost:8000/storage/' + piso.fotos[0].url" class="w-full h-full object-cover"/>
                   } @else {
@@ -258,7 +258,7 @@
           @for(piso of pisosFavoritos(); track piso.id) {
             <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
               <div class="flex" style="height: 130px;">
-                <div class="w-32 bg-gray-100 flex-shrink-0">
+                <div class="w-32 bg-blue-50 flex-shrink-0">
                   @if(piso.fotos && piso.fotos.length > 0) {
                     <img [src]="'http://localhost:8000/storage/' + piso.fotos[0].url" class="w-full h-full object-cover"/>
                   } @else {
