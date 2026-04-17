@@ -23,6 +23,7 @@ export class PisoDetail implements OnInit, AfterViewInit, OnDestroy {
   fotoActual = signal(0);
   interesado = signal(false);
   cargandoInteres = signal(false);
+  favorito = signal(false);
   private map: any;
 
   ngOnInit() {
@@ -34,6 +35,9 @@ export class PisoDetail implements OnInit, AfterViewInit, OnDestroy {
         if (this.auth.isLoggedIn() && !this.auth.isPropietario()) {
           this.http.get<{ interesado: boolean }>('http://localhost:8000/api/pisos/' + id + '/mi-estado')
             .subscribe({ next: (res) => this.interesado.set(res.interesado) });
+          this.pisoService.getFavoritos().subscribe({
+            next: (favs) => this.favorito.set(favs.includes(id))
+          });
         }
       }
     });
@@ -64,6 +68,20 @@ export class PisoDetail implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  toggleFavorito() {
+    const pisoId = this.piso()?.id;
+    if (!pisoId) return;
+    if (this.favorito()) {
+      this.pisoService.removeFavorito(pisoId).subscribe({
+        next: () => this.favorito.set(false)
+      });
+    } else {
+      this.pisoService.addFavorito(pisoId).subscribe({
+        next: () => this.favorito.set(true)
+      });
+    }
+  }
+
   fotoAnterior() {
     const fotos = this.piso()?.fotos ?? [];
     this.fotoActual.set((this.fotoActual() - 1 + fotos.length) % fotos.length);
@@ -89,7 +107,6 @@ export class PisoDetail implements OnInit, AfterViewInit, OnDestroy {
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(this.map);
-    // Custom chincheta icon
     const chinchetaIcon = L.icon({
       iconUrl: 'assets/chincheta.png',
       iconSize: [30, 48],
