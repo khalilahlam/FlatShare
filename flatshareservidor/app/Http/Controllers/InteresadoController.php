@@ -88,4 +88,15 @@ class InteresadoController extends Controller
 
         return response()->json(['interesado' => $interesado ? true : false]);
     }
+    // Inquilino ve todos los pisos donde está interesado
+public function misIntereses(Request $request)
+{
+    $interesados = Interesado::with('piso.fotos')
+        ->where('usuario_id', $request->user()->id)
+        ->get()
+        ->pluck('piso')
+        ->filter();
+
+    return response()->json($interesados->values());
+}
 }

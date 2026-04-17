@@ -39,4 +39,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/pisos/{pisoId}/interesados', [InteresadoController::class, 'porPiso']);
     Route::delete('/pisos/{pisoId}/interesados/{usuarioId}', [InteresadoController::class, 'eliminarCandidato']);
     Route::get('/pisos/{pisoId}/mi-estado', [InteresadoController::class, 'miEstado']);
+    Route::get('/mis-intereses', [InteresadoController::class, 'misIntereses']); // <- añade esta
 });

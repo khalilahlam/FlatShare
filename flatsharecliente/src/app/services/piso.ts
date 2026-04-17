@@ -95,4 +95,10 @@ removeFavorito(pisoId: number) {
 getUsuario(id: number) {
   return this.http.get<any>(`${this.apiUrl}/usuarios/${id}`);
 }
+getMisIntereses() {
+  return this.http.get<IPiso[]>(`${this.apiUrl}/mis-intereses`);
+}
+eliminarInteresado_inquilino(pisoId: number) {
+  return this.http.delete(`${this.apiUrl}/pisos/${pisoId}/interesados`);
+}
 }
