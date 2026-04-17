@@ -3,9 +3,9 @@
     
     <a routerLink="/" class="flex items-center gap-2">
       @if (!isDarkMode) {
-        <img src="assets/logo2.png" alt="Logo FlatShare" class="w-12 h-12 rounded-xl object-contain mr-2" style="background:transparent;" />
+        <img src="assets/logo2.png" alt="Logo FlatShare" class="w-12 h-12 rounded-lg object-contain mr-2" style="background:transparent;" />
       } @else {
-        <img src="assets/logo.png" alt="Logo FlatShare" class="w-12 h-12 rounded-xl object-contain mr-2" style="background:transparent;" />
+        <img src="assets/logo.png" alt="Logo FlatShare" class="w-12 h-12 rounded-lg object-contain mr-2" style="background:transparent;" />
       }
       <span class="text-xl font-black text-gray-900">FlatShare</span>
     </a>
@@ -36,7 +36,7 @@
 <div class="flex items-center gap-4 ml-3 pl-4 border-l border-gray-200">
   <!-- Botón modo claro/oscuro -->
 <button (click)="toggleDarkMode()"
-  class="p-3 rounded-xl hover:bg-blue-50 dark:hover:bg-gray-700 text-gray-400 hover:text-blue-600 dark:hover:text-yellow-400 transition"
+  class="p-3 rounded-lg hover:bg-blue-50 dark:hover:bg-gray-700 text-gray-400 hover:text-blue-600 dark:hover:text-yellow-400 transition"
   title="Cambiar modo claro/oscuro">
   
   @if (!isDarkMode) {
@@ -63,7 +63,7 @@
   </a>
 
   <button (click)="auth.logout()"
-    class="p-4 rounded-xl hover:bg-red-50 text-gray-400 hover:text-red-500 transition"
+    class="p-4 rounded-lg hover:bg-red-50 text-gray-400 hover:text-red-500 transition"
     title="Cerrar sesión">
     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
       viewBox="0 0 16 16">

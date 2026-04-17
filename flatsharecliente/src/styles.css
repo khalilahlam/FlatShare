@@ -65,7 +65,7 @@ nav.sticky {
   background-color: rgba(35, 35, 42, 0.9) !important;
 }
 .dark .border-l {
-  border-color: #3f3f46 !important; /* Un gris un poco más claro para que se vea el separador */
+  border-color: #505057 !important; /* Un gris un poco más claro para que se vea el separador */
 }
 
 /* --------- Mejoras modo oscuro para inputs, selects, botones y textos --------- */
@@ -187,9 +187,8 @@ nav.sticky {
 .dark .bg-white\/90 {
   background-color: rgba(35,35,42,0.9) !important;
 }
-.dark .rounded-xl,
-.dark .rounded-2xl,
-.dark .rounded-3xl {
-  box-shadow: 0 1px 4px 0 rgba(0,0,0,0.10) !important;
+.rounded-xl,
+.rounded-2xl,
+.rounded-3xl {
+  box-shadow: 2px 2px 10px 0 rgba(0, 0, 0, 0.5) !important;
 }
-
