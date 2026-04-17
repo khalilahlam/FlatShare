@@ -54,6 +54,10 @@ isPropietario = computed(() => !!this.user()?.propietario);
     this.limpiarSesion();
     this.router.navigate(['/login']);
   }
+  setUser(user: IUsuario) {
+  this.user.set(user);
+  localStorage.setItem('auth_user', JSON.stringify(user));
+}
 
   private guardarSesion(token: string, user: IUsuario) {
     this.token.set(token);
