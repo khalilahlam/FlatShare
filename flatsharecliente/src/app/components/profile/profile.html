@@ -150,7 +150,7 @@
                   @if (piso.fotos && piso.fotos.length > 0) {
                     <img [src]="'http://localhost:8000/storage/' + piso.fotos[0].url" class="w-full h-full object-cover"/>
                   } @else {
-                    <div class="w-full h-full flex items-center justify-center text-4xl">🏠</div>
+                    <img src="assets/logo2.png" alt="Logo FlatShare" class="w-full h-full object-contain p-6" />
                   }
                 </div>
                 <div class="p-4 flex flex-col justify-between flex-1">
@@ -252,9 +252,6 @@
               </svg>
               <p class="text-gray-500 font-medium">No tienes pisos guardados</p>
               <p class="text-gray-400 text-sm mt-1">Guarda los pisos que te interesen para acceder rápido</p>
-              <a routerLink="/pisos" class="text-blue-600 font-semibold text-sm mt-3 inline-block hover:underline">
-                Explorar pisos →
-              </a>
             </div>
           }
 
@@ -265,11 +262,7 @@
                   @if(piso.fotos && piso.fotos.length > 0) {
                     <img [src]="'http://localhost:8000/storage/' + piso.fotos[0].url" class="w-full h-full object-cover"/>
                   } @else {
-                    <div class="w-full h-full flex items-center justify-center">
-                      <svg class="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 9.75L12 3l9 6.75V21a1 1 0 01-1 1H4a1 1 0 01-1-1V9.75z"/>
-                      </svg>
-                    </div>
+                    <img src="assets/logo2.png" alt="Logo FlatShare" class="w-full h-full object-contain p-6" />
                   }
                 </div>
                 <div class="p-4 flex flex-col justify-between flex-1">
