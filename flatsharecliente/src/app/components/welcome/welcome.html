@@ -27,7 +27,7 @@
           </select>
           <input type="number" min="1" [(ngModel)]="precioMaxBusqueda" [ngModelOptions]="{ standalone: true }"
             placeholder="Precio máx."
-            class="w-36 px-4 py-2 text-gray-700 text-sm focus:outline-none rounded-xl border border-gray-100" />
+            class="w-40 px-4 py-2 text-gray-700 text-sm focus:outline-none rounded-xl border border-gray-100" />
           <a routerLink="/pisos" [queryParams]="getBusquedaQueryParams()"
             class="bg-blue-600 text-white px-6 py-2 rounded-xl font-semibold text-sm hover:bg-blue-700 transition-all">
             Buscar
@@ -144,7 +144,7 @@
                 <img [src]="'http://localhost:8000/storage/' + piso.fotos[0].url"
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
               } @else {
-                <div class="w-full h-full flex items-center justify-center text-5xl">🏠</div>
+                <img src="assets/logo2.png" alt="Logo FlatShare" class="w-full h-full object-contain p-6" />
               }
               <div class="absolute top-3 left-3 bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded-lg">
                 Destacado
