@@ -54,4 +54,11 @@ export class Profile implements OnInit {
     const interesadosObj = this.interesadosPorPiso();
     return Object.values(interesadosObj).reduce((acc, arr) => acc + (arr?.length || 0), 0);
   }
+  
+    precioMasBajo(): string | number {
+      const pisos = this.misPisos();
+      if (!pisos.length) return '—';
+      const min = pisos.reduce((acc, piso) => piso.precio < acc ? piso.precio : acc, pisos[0].precio);
+      return min + '€';
+    }
 }
