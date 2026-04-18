@@ -101,4 +101,11 @@ getMisIntereses() {
 eliminarInteresado_inquilino(pisoId: number) {
   return this.http.delete(`${this.apiUrl}/pisos/${pisoId}/interesados`);
 }
+aceptarInteresado(pisoId: number, usuarioId: number) {
+  return this.http.put(`${this.apiUrl}/pisos/${pisoId}/interesados/${usuarioId}/aceptar`, {});
+}
+
+rechazarInteresado(pisoId: number, usuarioId: number) {
+  return this.http.put(`${this.apiUrl}/pisos/${pisoId}/interesados/${usuarioId}/rechazar`, {});
+}
 }

@@ -69,10 +69,31 @@ export class Profile implements OnInit {
   }
 
   quitarInteres(pisoId: number) {
-  this.pisoService.eliminarInteresado_inquilino(pisoId).subscribe({
-    next: () => this.pisosInteresados.update(prev => prev.filter(p => p.id !== pisoId))
-  });
-}
+    this.pisoService.eliminarInteresado_inquilino(pisoId).subscribe({
+      next: () => this.pisosInteresados.update(prev => prev.filter(p => p.id !== pisoId))
+    });
+  }
+
+  aceptarInteresado(pisoId: number, usuarioId: number) {
+    this.pisoService.aceptarInteresado(pisoId, usuarioId).subscribe({
+      next: () => this.actualizarEstadoInteresado(pisoId, usuarioId, 'aceptado')
+    });
+  }
+
+  rechazarInteresado(pisoId: number, usuarioId: number) {
+    this.pisoService.rechazarInteresado(pisoId, usuarioId).subscribe({
+      next: () => this.actualizarEstadoInteresado(pisoId, usuarioId, 'rechazado')
+    });
+  }
+
+  private actualizarEstadoInteresado(pisoId: number, usuarioId: number, estado: string) {
+    this.interesadosPorPiso.update(prev => ({
+      ...prev,
+      [pisoId]: prev[pisoId].map(i =>
+        i.usuario_id === usuarioId ? { ...i, estado } : i
+      )
+    }));
+  }
 
   eliminarInteresado(pisoId: number, usuarioId: number) {
     if (!confirm('¿Eliminar este candidato?')) return;

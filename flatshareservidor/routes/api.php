@@ -40,4 +40,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/pisos/{pisoId}/interesados/{usuarioId}', [InteresadoController::class, 'eliminarCandidato']);
     Route::get('/pisos/{pisoId}/mi-estado', [InteresadoController::class, 'miEstado']);
     Route::get('/mis-intereses', [InteresadoController::class, 'misIntereses']); // <- añade esta
+    Route::put('/pisos/{pisoId}/interesados/{usuarioId}/aceptar', [InteresadoController::class, 'aceptar']);
+Route::put('/pisos/{pisoId}/interesados/{usuarioId}/rechazar', [InteresadoController::class, 'rechazar']);
 });

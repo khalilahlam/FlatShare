@@ -99,4 +99,37 @@ public function misIntereses(Request $request)
 
     return response()->json($interesados->values());
 }
+public function aceptar(Request $request, $pisoId, $usuarioId)
+{
+    $piso = Piso::findOrFail($pisoId);
+
+    if ($piso->usuario_id !== $request->user()->id) {
+        return response()->json(['message' => 'No autorizado'], 403);
+    }
+
+    $interesado = Interesado::where('piso_id', $pisoId)
+        ->where('usuario_id', $usuarioId)
+        ->firstOrFail();
+
+    $interesado->update(['estado' => 'aceptado']);
+
+    return response()->json($interesado);
+}
+
+public function rechazar(Request $request, $pisoId, $usuarioId)
+{
+    $piso = Piso::findOrFail($pisoId);
+
+    if ($piso->usuario_id !== $request->user()->id) {
+        return response()->json(['message' => 'No autorizado'], 403);
+    }
+
+    $interesado = Interesado::where('piso_id', $pisoId)
+        ->where('usuario_id', $usuarioId)
+        ->firstOrFail();
+
+    $interesado->update(['estado' => 'rechazado']);
+
+    return response()->json($interesado);
+}
 }
