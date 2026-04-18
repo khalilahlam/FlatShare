@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, PLATFORM_ID, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { PisoService, IPiso } from '../../services/piso';
+import { PisoService, IPiso, IInteresado } from '../../services/piso';
 import { AuthService } from '../../services/auth';
 import { HttpClient } from '@angular/common/http';
 
@@ -24,6 +24,7 @@ export class PisoDetail implements OnInit, AfterViewInit, OnDestroy {
   interesado = signal(false);
   cargandoInteres = signal(false);
   favorito = signal(false);
+  interesados = signal<IInteresado[]>([]);
   private map: any;
 
   ngOnInit() {
@@ -32,11 +33,18 @@ export class PisoDetail implements OnInit, AfterViewInit, OnDestroy {
       next: (data) => {
         this.piso.set(data);
         setTimeout(() => this.renderMap(), 0);
+
         if (this.auth.isLoggedIn() && !this.auth.isPropietario()) {
           this.http.get<{ interesado: boolean }>('http://localhost:8000/api/pisos/' + id + '/mi-estado')
             .subscribe({ next: (res) => this.interesado.set(res.interesado) });
           this.pisoService.getFavoritos().subscribe({
             next: (favs) => this.favorito.set(favs.includes(id))
+          });
+        }
+
+        if (this.auth.isPropietario() && data.usuario_id === this.auth.user()?.id) {
+          this.pisoService.getInteresados(data.id).subscribe({
+            next: (interesados) => this.interesados.set(interesados)
           });
         }
       }
