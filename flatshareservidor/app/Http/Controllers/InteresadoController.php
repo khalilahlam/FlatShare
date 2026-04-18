@@ -4,14 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Interesado;
 use App\Models\Piso;
+use App\Mail\InteresadoNuevo;
+use App\Mail\SolicitudAceptada;
+use App\Mail\SolicitudRechazada;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class InteresadoController extends Controller
 {
     public function store(Request $request, $pisoId)
     {
         $userId = $request->user()->id;
-        $piso = Piso::findOrFail($pisoId);
+        $piso = Piso::with('usuario')->findOrFail($pisoId);
 
         if ($piso->usuario_id === $userId) {
             return response()->json(['message' => 'No puedes interesarte en tu propio piso'], 403);
@@ -27,6 +31,9 @@ class InteresadoController extends Controller
             'piso_id'    => $pisoId,
             'estado'     => 'pendiente',
         ]);
+
+        // Email al propietario
+        Mail::to($piso->usuario->email)->send(new InteresadoNuevo($piso, $request->user()));
 
         return response()->json($interesado, 201);
     }
@@ -96,11 +103,16 @@ class InteresadoController extends Controller
             return response()->json(['message' => 'No autorizado'], 403);
         }
 
-        $interesado = Interesado::where('piso_id', $pisoId)
+        $interesado = Interesado::with('usuario')
+            ->where('piso_id', $pisoId)
             ->where('usuario_id', $usuarioId)
             ->firstOrFail();
 
         $interesado->update(['estado' => 'aceptado']);
+
+        // Email al inquilino
+        Mail::to($interesado->usuario->email)->send(new SolicitudAceptada($piso, $interesado->usuario));
+
         return response()->json($interesado);
     }
 
@@ -112,11 +124,15 @@ class InteresadoController extends Controller
             return response()->json(['message' => 'No autorizado'], 403);
         }
 
-        $interesado = Interesado::where('piso_id', $pisoId)
+        $interesado = Interesado::with('usuario')
+            ->where('piso_id', $pisoId)
             ->where('usuario_id', $usuarioId)
             ->firstOrFail();
 
         $interesado->update(['estado' => 'rechazado']);
+
+        Mail::to($interesado->usuario->email)->send(new SolicitudRechazada($piso, $interesado->usuario));
+
         return response()->json($interesado);
     }
 }
