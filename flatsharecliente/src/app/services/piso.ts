@@ -41,6 +41,7 @@ export interface IPiso {
   usuario_id: number;
   usuario?: any;
   fotos?: IFoto[];
+  mi_estado?: string;
 }
 @Injectable({
   providedIn: 'root'
