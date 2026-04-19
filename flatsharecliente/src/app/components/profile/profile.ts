@@ -1,23 +1,39 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth';
 import { PisoService, IPiso, IInteresado } from '../../services/piso';
 
 @Component({
   selector: 'app-profile',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './profile.html',
 })
 export class Profile implements OnInit {
   auth = inject(AuthService);
   pisoService = inject(PisoService);
+  http = inject(HttpClient);
 
   misPisos = signal<IPiso[]>([]);
   interesadosPorPiso = signal<{ [pisoId: number]: IInteresado[] }>({});
   pisosFavoritos = signal<IPiso[]>([]);
   pisosInteresados = signal<IPiso[]>([]);
   tabActiva = signal<'favoritos' | 'interesados'>('favoritos');
+
+  // Editar perfil
+  editandoPerfil = signal(false);
+  guardandoPerfil = signal(false);
+  perfilForm = signal({
+    nombre: '',
+    apellidos: '',
+    telefono: '',
+    ciudad: '',
+    descripcion: '',
+    intereses: '',
+    fecha_nacimiento: '',
+  });
 
   ngOnInit() {
     if (this.auth.isPropietario()) {
@@ -33,6 +49,36 @@ export class Profile implements OnInit {
       this.cargarFavoritos();
       this.cargarMisIntereses();
     }
+  }
+
+  abrirEditarPerfil() {
+    const u = this.auth.user();
+    this.perfilForm.set({
+      nombre: u?.nombre ?? '',
+      apellidos: u?.apellidos ?? '',
+      telefono: u?.telefono ?? '',
+      ciudad: u?.ciudad ?? '',
+      descripcion: u?.descripcion ?? '',
+      intereses: u?.intereses ?? '',
+      fecha_nacimiento: u?.fecha_nacimiento ?? '',
+    });
+    this.editandoPerfil.set(true);
+  }
+
+  guardarPerfil() {
+    this.guardandoPerfil.set(true);
+    this.http.put<any>('http://localhost:8000/api/me', this.perfilForm()).subscribe({
+      next: (usuario) => {
+        this.auth.setUser(usuario);
+        this.editandoPerfil.set(false);
+        this.guardandoPerfil.set(false);
+      },
+      error: () => this.guardandoPerfil.set(false)
+    });
+  }
+
+  cancelarEditarPerfil() {
+    this.editandoPerfil.set(false);
   }
 
   cargarInteresados(pisoId: number) {
