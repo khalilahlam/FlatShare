@@ -22,7 +22,6 @@ interface Turn {
 export class Chatbot {
   private http = inject(HttpClient);
 
-  // ── Historial para Gemini ──────────────────────────────
   private history: Turn[] = [];
 
   abierto  = signal(false);
@@ -43,9 +42,8 @@ export class Chatbot {
     const texto = this.input().trim();
     if (!texto || this.cargando()) return;
 
-    // Mostrar mensaje del usuario
     this.mensajes.update(m => [...m, { texto, esUsuario: true }]);
-    this.history.push({ role: 'user', text: texto }); // ← añadir al historial
+    this.history.push({ role: 'user', text: texto });
     this.input.set('');
     this.cargando.set(true);
 
@@ -53,20 +51,27 @@ export class Chatbot {
       'http://localhost:8000/api/chat',
       {
         mensaje: texto,
-        history: this.history   // ← enviar historial al backend
+        history: this.history
       },
       { withCredentials: true }
     ).subscribe({
       next: (res) => {
         this.mensajes.update(m => [...m, { texto: res.reply, esUsuario: false }]);
-        this.history.push({ role: 'model', text: res.reply }); // ← guardar respuesta
+        this.history.push({ role: 'model', text: res.reply });
         this.cargando.set(false);
       },
-      error: () => {
-        this.mensajes.update(m => [...m, {
-          texto: 'Error al conectar. Intenta de nuevo.',
-          esUsuario: false
-        }]);
+      error: (err) => {   // ← añadido err
+        if (err.status === 401) {
+          this.mensajes.update(m => [...m, {
+            texto: 'Debes iniciar sesión para usar el asistente. 😊',
+            esUsuario: false
+          }]);
+        } else {
+          this.mensajes.update(m => [...m, {
+            texto: 'Error al conectar. Intenta de nuevo.',
+            esUsuario: false
+          }]);
+        }
         this.cargando.set(false);
       }
     });

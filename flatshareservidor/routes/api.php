@@ -18,7 +18,7 @@ Route::get('/pisos/{id}', [PisoController::class, 'show']);
 
 
 // Chat IA (pública)
-Route::post('/chat', [ChatController::class, 'chat']);
+Route::middleware('auth:sanctum')->post('/chat', [ChatController::class, 'chat']);
 
 // Rutas protegidas
 Route::middleware('auth:sanctum')->group(function () {
