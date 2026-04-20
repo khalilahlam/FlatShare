@@ -1,12 +1,6 @@
 /* Fondo de hover para botón cerrar sesión en modo oscuro igual que modo oscuro/claro */
 
 /* Hover azul más oscuro en iconos de modo oscuro y cerrar sesión en modo oscuro */
-.dark button:hover svg,
-.dark .hover\:text-blue-600:hover svg {
-  color: #2563eb !important;
-  fill: #2563eb !important;
-  stroke: #2563eb !important;
-}
 /* Hover azul más oscuro en enlaces del navbar en modo oscuro */
 .dark .hover\:text-blue-600:hover {
   color: #2563eb !important;
@@ -148,6 +142,9 @@ nav.sticky {
 }
 .dark .bg-red-50 {
   background-color: #3f1d1d !important;
+}
+.dark .bg-yellow-50 {
+  background-color: #3a2f1d !important;
 }
 .dark .text-red-500 {
   color: #f87171 !important;
