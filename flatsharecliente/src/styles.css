@@ -40,6 +40,10 @@ nav.sticky {
 .dark .bg-white {
   background-color: #23232a !important;
 }
+.dark .card-perfil {
+  background-color: #18181b !important;
+}
+
 .dark .text-gray-900,
 .dark .text-gray-800 {
   color: #f4f4f5 !important;
