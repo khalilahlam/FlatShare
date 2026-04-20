@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PisoController;
 use App\Http\Controllers\InteresadoController;
 use App\Http\Controllers\FavoritoController;
+use App\Http\Controllers\ChatController;
 
 // AUTH públicas
 Route::post('/register', [AuthController::class, 'register']);
@@ -13,6 +14,10 @@ Route::post('/login', [AuthController::class, 'login']);
 // Pisos públicas
 Route::get('/pisos', [PisoController::class, 'index']);
 Route::get('/pisos/{id}', [PisoController::class, 'show']);
+
+
+// Chat IA (pública)
+Route::post('/chat', [ChatController::class, 'chat']);
 
 // Rutas protegidas
 Route::middleware('auth:sanctum')->group(function () {
