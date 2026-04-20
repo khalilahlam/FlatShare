@@ -3,14 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use App\Models\Piso;
 
 class ChatController extends Controller
 {
     public function chat(Request $request)
     {
-        $mensaje = $request->input('mensaje');
+        $request->validate([
+            'mensaje' => 'required|string',
+            'history' => 'array',
+        ]);
 
+        // 1. Cargar pisos de la BD (igual que antes)
         $pisos = Piso::with('fotos')->get()->map(function ($piso) {
             return [
                 'id'           => $piso->id,
@@ -24,35 +29,46 @@ class ChatController extends Controller
             ];
         });
 
-        $contexto = "Eres un asistente de FlatShare, una plataforma de búsqueda de pisos compartidos. "
+        // 2. System prompt con los pisos inyectados
+        $systemPrompt = "Eres un asistente de FlatShare, una plataforma de búsqueda de pisos compartidos. "
             . "Ayuda a los usuarios a encontrar piso y responde dudas sobre alquiler. "
             . "Estos son los pisos disponibles actualmente: "
             . json_encode($pisos, JSON_UNESCAPED_UNICODE)
             . ". Responde siempre en español y de forma breve.";
 
-        $apiKey = env('OPENROUTER_API_KEY');
-        $url = "https://openrouter.ai/api/v1/chat/completions";
+        // 3. Construir historial + mensaje nuevo
+        $history = $request->input('history', []);
+        $mensaje = $request->input('mensaje');
 
-        $body = json_encode([
-            'model' => 'meta-llama/llama-3.1-8b-instruct:free',
-            'messages' => [
-                ['role' => 'system', 'content' => $contexto],
-                ['role' => 'user',   'content' => $mensaje],
-            ],
-        ]);
+        $contents = [];
+        foreach ($history as $turn) {
+            $contents[] = [
+                'role'  => $turn['role'],   // 'user' o 'model'
+                'parts' => [['text' => $turn['text']]],
+            ];
+        }
+        $contents[] = [
+            'role'  => 'user',
+            'parts' => [['text' => $mensaje]],
+        ];
 
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Content-Type: application/json',
-            'Authorization: Bearer ' . $apiKey,
-        ]);
-        $response = curl_exec($ch);
-        curl_close($ch);
+        // 4. Llamada a Gemini con Http facade (más limpio que curl)
+        $apiKey = env('GEMINI_API_KEY');
+        $model  = 'gemini-2.5-flash';
 
-        // DEBUG TEMPORAL
-        return response()->json(['raw' => $response]);
+        $response = Http::post(
+            "https://generativelanguage.googleapis.com/v1beta/models/{$model}:generateContent?key={$apiKey}",
+            [
+                'system_instruction' => [
+                    'parts' => [['text' => $systemPrompt]]
+                ],
+                'contents' => $contents,
+            ]
+        );
+
+        // 5. Extraer respuesta
+        $reply = $response->json('candidates.0.content.parts.0.text') ?? 'Sin respuesta';
+
+        return response()->json(['reply' => $reply]);
     }
 }

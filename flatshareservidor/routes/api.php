@@ -7,6 +7,7 @@ use App\Http\Controllers\InteresadoController;
 use App\Http\Controllers\FavoritoController;
 use App\Http\Controllers\ChatController;
 
+
 // AUTH públicas
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);

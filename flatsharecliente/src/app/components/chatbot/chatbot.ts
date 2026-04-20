@@ -9,6 +9,11 @@ interface Mensaje {
   esUsuario: boolean;
 }
 
+interface Turn {
+  role: 'user' | 'model';
+  text: string;
+}
+
 @Component({
   selector: 'app-chatbot',
   imports: [CommonModule, FormsModule],
@@ -17,11 +22,17 @@ interface Mensaje {
 export class Chatbot {
   private http = inject(HttpClient);
 
-  abierto = signal(false);
+  // ── Historial para Gemini ──────────────────────────────
+  private history: Turn[] = [];
+
+  abierto  = signal(false);
   cargando = signal(false);
-  input = signal('');
+  input    = signal('');
   mensajes = signal<Mensaje[]>([
-    { texto: '¡Hola! Soy el asistente de FlatShare. Puedo ayudarte a encontrar piso o resolver dudas sobre alquiler. ¿En qué te ayudo?', esUsuario: false }
+    {
+      texto: '¡Hola! Soy el asistente de FlatShare. Puedo ayudarte a encontrar piso o resolver dudas sobre alquiler. ¿En qué te ayudo?',
+      esUsuario: false
+    }
   ]);
 
   toggleChat() {
@@ -32,20 +43,33 @@ export class Chatbot {
     const texto = this.input().trim();
     if (!texto || this.cargando()) return;
 
+    // Mostrar mensaje del usuario
     this.mensajes.update(m => [...m, { texto, esUsuario: true }]);
+    this.history.push({ role: 'user', text: texto }); // ← añadir al historial
     this.input.set('');
     this.cargando.set(true);
 
-      this.http.post<{ respuesta: string }>('http://localhost:8000/api/chat', { mensaje: texto }, { withCredentials: true })      .subscribe({
-        next: (res) => {
-          this.mensajes.update(m => [...m, { texto: res.respuesta, esUsuario: false }]);
-          this.cargando.set(false);
-        },
-        error: () => {
-          this.mensajes.update(m => [...m, { texto: 'Error al conectar. Intenta de nuevo.', esUsuario: false }]);
-          this.cargando.set(false);
-        }
-      });
+    this.http.post<{ reply: string }>(
+      'http://localhost:8000/api/chat',
+      {
+        mensaje: texto,
+        history: this.history   // ← enviar historial al backend
+      },
+      { withCredentials: true }
+    ).subscribe({
+      next: (res) => {
+        this.mensajes.update(m => [...m, { texto: res.reply, esUsuario: false }]);
+        this.history.push({ role: 'model', text: res.reply }); // ← guardar respuesta
+        this.cargando.set(false);
+      },
+      error: () => {
+        this.mensajes.update(m => [...m, {
+          texto: 'Error al conectar. Intenta de nuevo.',
+          esUsuario: false
+        }]);
+        this.cargando.set(false);
+      }
+    });
   }
 
   onKeyDown(event: KeyboardEvent) {
