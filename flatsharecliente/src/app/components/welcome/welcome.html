@@ -157,9 +157,26 @@
               <h3 class="font-bold text-gray-900 text-lg mb-1">{{ piso.titulo }}</h3>
               <p class="text-gray-500 text-sm mb-3"><svg class="w-3.5 h-3.5 shrink-0 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="vertical-align: middle;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0L6.343 16.657a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg>{{ piso.ubicacion }}</p>
               <div class="flex gap-2 mb-4">
-                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-lg">🛏 {{ piso.habitaciones }} hab</span>
-                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-lg">👥 {{ piso.num_companeros }} comp</span>
-                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-lg"><svg style="width:16px;height:16px;vertical-align:middle;margin-right:2px;display:inline-block;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg><span style="display:inline-block;vertical-align:middle;"> {{ piso.metros }}m²</span></span>
+                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-lg" style="display:inline-flex;align-items:center;gap:2px;">
+                  <svg class="w-4 h-4" style="vertical-align:middle;margin-right:2px;display:inline-block;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                  </svg>
+                  <span style="display:inline-block;vertical-align:middle;">{{ piso.habitaciones }} hab</span>
+                </span>
+                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-lg" style="display:inline-flex;align-items:center;gap:2px;">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M17 20H7a2 2 0 01-2-2v-2a5 5 0 015-5h4a5 5 0 015 5v2a2 2 0 01-2 2z" />
+                    <circle cx="12" cy="7" r="3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+                  </svg>
+                  <span style="display:inline-block;vertical-align:middle;">{{ piso.num_companeros }} comp</span>
+                </span>
+                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-lg" style="display:inline-flex;align-items:center;gap:2px;">
+                  <svg style="width:16px;height:16px;vertical-align:middle;margin-right:2px;display:inline-block;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
+                  </svg>
+                <span style="display:inline-block;vertical-align:middle;"> {{ piso.metros }}m²</span></span>
               </div>
               <a [routerLink]="['/pisos', piso.id]"
                 class="block text-center bg-blue-600 text-white py-2.5 rounded-xl text-sm font-semibold hover:bg-blue-700 transition-all">
