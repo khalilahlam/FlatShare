@@ -30,31 +30,29 @@ class ChatController extends Controller
             . json_encode($pisos, JSON_UNESCAPED_UNICODE)
             . ". Responde siempre en español y de forma breve.";
 
-        $apiKey = env('GEMINI_API_KEY');
-        $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={$apiKey}";
+        $apiKey = env('OPENROUTER_API_KEY');
+        $url = "https://openrouter.ai/api/v1/chat/completions";
 
         $body = json_encode([
-            'contents' => [
-                [
-                    'parts' => [
-                        ['text' => $contexto . "\n\nUsuario: " . $mensaje]
-                    ]
-                ]
-            ]
+            'model' => 'meta-llama/llama-3.1-8b-instruct:free',
+            'messages' => [
+                ['role' => 'system', 'content' => $contexto],
+                ['role' => 'user',   'content' => $mensaje],
+            ],
         ]);
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json',
+            'Authorization: Bearer ' . $apiKey,
+        ]);
         $response = curl_exec($ch);
         curl_close($ch);
 
-        $data = json_decode($response, true);
-
-        $texto = $data['candidates'][0]['content']['parts'][0]['text'] ?? 'No he podido responder, intenta de nuevo.';
-
-        return response()->json(['respuesta' => $texto]);
+        // DEBUG TEMPORAL
+        return response()->json(['raw' => $response]);
     }
 }
