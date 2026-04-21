@@ -51,7 +51,8 @@ export class Chatbot {
       'http://localhost:8000/api/chat',
       {
         mensaje: texto,
-        history: this.history
+        history: this.history.slice(-10)
+
       },
       { withCredentials: true }
     ).subscribe({
