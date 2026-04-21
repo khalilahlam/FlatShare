@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { CIUDADES_ESPANA } from '../../constants/ciudades';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth';
@@ -9,6 +10,7 @@ import { AuthService } from '../../services/auth';
   templateUrl: './register.html',
 })
 export class Register {
+  readonly ciudadesDisponibles = [...CIUDADES_ESPANA];
   private fb = inject(FormBuilder);
   private auth = inject(AuthService);
   private router = inject(Router);

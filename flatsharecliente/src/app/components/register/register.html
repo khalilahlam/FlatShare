@@ -1,11 +1,11 @@
 <div class="min-h-screen bg-gray-50 flex">
 
   <!-- Panel izquierdo -->
-  <div class="hidden lg:flex w-1/2 bg-gradient-to-br from-blue-600 to-blue-900 flex-col justify-center items-center p-12 text-white">
+  <div class="hidden lg:flex w-1/2 bg-gradient-to-br from-blue-600 to-blue-900 flex-col justify-center items-center p-12 text-white sticky top-0 h-screen">
     <div class="max-w-sm text-center">
-      <div class="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
-        <span class="text-white font-black text-3xl">F</span>
-      </div>
+      <div class="flex justify-center mb-6">
+      <img src="assets/logo.png" alt="Logo FlatShare" class="w-20 h-20 object-contain" />
+    </div>
       <h1 class="text-4xl font-black mb-4">FlatShare</h1>
       <p class="text-blue-100 text-lg leading-relaxed">
         Únete a miles de personas que ya encontraron su piso ideal.
@@ -77,7 +77,7 @@
           </div>
           <div>
             <label class="block text-sm font-semibold text-gray-700 mb-2">Teléfono</label>
-            <input type="tel" formControlName="telefono" placeholder="600 000 000"
+            <input type="tel" formControlName="telefono" placeholder="000 000 000"
               class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white transition-all" />
           </div>
         </div>
@@ -85,8 +85,13 @@
         <!-- Ciudad -->
         <div class="mb-5">
           <label class="block text-sm font-semibold text-gray-700 mb-2">Ciudad</label>
-          <input formControlName="ciudad" placeholder="¿En qué ciudad vives?"
-            class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white transition-all" />
+          <select formControlName="ciudad"
+            class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white transition-all">
+            <option value="" disabled hidden>Selecciona tu ciudad</option>
+            @for (ciudad of ciudadesDisponibles; track ciudad) {
+              <option [value]="ciudad">{{ ciudad }}</option>
+            }
+          </select>
         </div>
 
         <!-- Descripción -->
@@ -112,7 +117,7 @@
               [class]="form.get('propietario')?.value === false ?
                 'border-2 border-blue-600 bg-blue-50 text-blue-600 rounded-xl p-4 text-sm font-semibold transition-all' :
                 'border-2 border-gray-200 rounded-xl p-4 text-sm font-medium text-gray-500 hover:border-gray-300 transition-all'">
-              <svg class="w-12 h-12 text-white mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-12 h-12 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
               </svg>
               Busco piso
@@ -122,7 +127,7 @@
               [class]="form.get('propietario')?.value === true ?
                 'border-2 border-blue-600 bg-blue-50 text-blue-600 rounded-xl p-4 text-sm font-semibold transition-all' :
                 'border-2 border-gray-200 rounded-xl p-4 text-sm font-medium text-gray-500 hover:border-gray-300 transition-all'">
-              <svg class="w-12 h-12 text-white mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-12 h-12 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
               </svg>
               Tengo piso
