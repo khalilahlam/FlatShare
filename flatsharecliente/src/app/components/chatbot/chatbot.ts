@@ -1,8 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, effect, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { inject } from '@angular/core';
+import { AuthService } from '../../services/auth';
 
 interface Mensaje {
   texto: string;
@@ -21,6 +21,7 @@ interface Turn {
 })
 export class Chatbot {
   private http = inject(HttpClient);
+  private auth = inject(AuthService);
 
   private history: Turn[] = [];
 
@@ -33,6 +34,22 @@ export class Chatbot {
       esUsuario: false
     }
   ]);
+
+  constructor() {
+    effect(() => {
+      this.auth.chatReset();
+      this.resetChat();
+    });
+  }
+
+  resetChat() {
+    this.history = [];
+    this.mensajes.set([{
+      texto: '¡Hola! Soy el asistente de FlatShare. Puedo ayudarte a encontrar piso o resolver dudas sobre alquiler. ¿En qué te ayudo?',
+      esUsuario: false
+    }]);
+    this.abierto.set(false);
+  }
 
   toggleChat() {
     this.abierto.set(!this.abierto());
@@ -52,7 +69,6 @@ export class Chatbot {
       {
         mensaje: texto,
         history: this.history.slice(-10)
-
       },
       { withCredentials: true }
     ).subscribe({
@@ -61,7 +77,7 @@ export class Chatbot {
         this.history.push({ role: 'model', text: res.reply });
         this.cargando.set(false);
       },
-      error: (err) => {   // ← añadido err
+      error: (err) => {
         if (err.status === 401) {
           this.mensajes.update(m => [...m, {
             texto: 'Debes iniciar sesión para usar el asistente. 😊',

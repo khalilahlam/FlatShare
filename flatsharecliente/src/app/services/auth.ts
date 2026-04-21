@@ -28,8 +28,10 @@ export class AuthService {
 
   user = signal<IUsuario | null>(null);
   token = signal<string | null>(null);
+  chatReset = signal(0);
+
   isLoggedIn = computed(() => !!this.token());
-isPropietario = computed(() => !!this.user()?.propietario);
+  isPropietario = computed(() => !!this.user()?.propietario);
 
   constructor() {
     const t = localStorage.getItem('auth_token');
@@ -52,12 +54,14 @@ isPropietario = computed(() => !!this.user()?.propietario);
 
   logout() {
     this.limpiarSesion();
+    this.chatReset.update(v => v + 1);
     this.router.navigate(['/login']);
   }
+
   setUser(user: IUsuario) {
-  this.user.set(user);
-  localStorage.setItem('auth_user', JSON.stringify(user));
-}
+    this.user.set(user);
+    localStorage.setItem('auth_user', JSON.stringify(user));
+  }
 
   private guardarSesion(token: string, user: IUsuario) {
     this.token.set(token);
