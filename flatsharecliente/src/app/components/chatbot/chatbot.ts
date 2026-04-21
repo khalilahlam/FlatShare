@@ -29,11 +29,11 @@ export class Chatbot {
   cargando = signal(false);
   input    = signal('');
   mensajes = signal<Mensaje[]>([
-    {
-      texto: '¡Hola! Soy el asistente de FlatShare. Puedo ayudarte a encontrar piso o resolver dudas sobre alquiler. ¿En qué te ayudo?',
-      esUsuario: false
-    }
-  ]);
+  {
+    texto: '¡Hola! Soy Verónica, tu asistente de FlatShare. Puedo ayudarte a encontrar piso o resolver dudas sobre alquiler. ¿En qué te ayudo? 😊',
+    esUsuario: false
+  }
+]);
 
   constructor() {
     effect(() => {
@@ -43,13 +43,13 @@ export class Chatbot {
   }
 
   resetChat() {
-    this.history = [];
-    this.mensajes.set([{
-      texto: '¡Hola! Soy el asistente de FlatShare. Puedo ayudarte a encontrar piso o resolver dudas sobre alquiler. ¿En qué te ayudo?',
-      esUsuario: false
-    }]);
-    this.abierto.set(false);
-  }
+  this.history = [];
+  this.mensajes.set([{
+    texto: '¡Hola! Soy Verónica, tu asistente de FlatShare. Puedo ayudarte a encontrar piso o resolver dudas sobre alquiler. ¿En qué te ayudo? 😊',
+    esUsuario: false
+  }]);
+  this.abierto.set(false);
+}
 
   toggleChat() {
     this.abierto.set(!this.abierto());
