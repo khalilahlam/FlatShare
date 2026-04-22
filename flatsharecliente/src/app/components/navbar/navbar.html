@@ -26,6 +26,18 @@
           </a>
         }
 
+        <!-- Añade esto en el navbar.html dentro de @if (auth.isLoggedIn())
+            justo después del botón "Encontrar personas" / "Publicar piso" -->
+
+        <a routerLink="/mensajes" class="relative text-gray-600 hover:text-blue-600 font-medium px-4 py-2 rounded-lg hover:bg-blue-50 transition-all text-sm flex items-center gap-1.5">
+          Mensajes
+          @if (noLeidos() > 0) {
+            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-black rounded-full w-4 h-4 flex items-center justify-center leading-none">
+              {{ noLeidos() > 9 ? '9+' : noLeidos() }}
+            </span>
+          }
+        </a>
+
         <!-- Botón modo claro/oscuro + Perfil + logout -->
         <div class="flex items-center gap-4 ml-3 pl-4 border-l border-gray-300">
           <!-- Botón modo claro/oscuro -->

@@ -1,24 +1,25 @@
-import { Component, inject, OnInit } from '@angular/core'; // Añadido OnInit
+import { Component, inject, OnInit, OnDestroy, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common'; // ¡IMPORTANTE!
+import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth';
+import { MensajesService } from '../../services/mensajes';
 
 @Component({
   selector: 'app-navbar',
-  standalone: true, // Asegúrate de que sea standalone
-  imports: [RouterModule, CommonModule], // Añadido CommonModule
+  standalone: true,
+  imports: [RouterModule, CommonModule],
   templateUrl: './navbar.html',
 })
-export class Navbar implements OnInit {
+export class Navbar implements OnInit, OnDestroy {
   auth = inject(AuthService);
+  mensajesService = inject(MensajesService);
   isDarkMode = false;
+  noLeidos = signal(0);
+  private polling: any;
 
   ngOnInit() {
-    // Leer preferencia guardada al iniciar
     const theme = localStorage.getItem('theme');
-    // Si no hay tema guardado, podemos chequear la preferencia del sistema
     const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
     if (theme === 'dark' || (!theme && systemPrefersDark)) {
       this.isDarkMode = true;
       document.documentElement.classList.add('dark');
@@ -26,6 +27,23 @@ export class Navbar implements OnInit {
       this.isDarkMode = false;
       document.documentElement.classList.remove('dark');
     }
+
+    if (this.auth.isLoggedIn()) {
+      this.cargarNoLeidos();
+      this.polling = setInterval(() => this.cargarNoLeidos(), 10000);
+    }
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.polling);
+  }
+
+  cargarNoLeidos() {
+    if (!this.auth.isLoggedIn()) return;
+    this.mensajesService.getNoLeidos().subscribe({
+      next: (data) => this.noLeidos.set(data.total),
+      error: () => {}
+    });
   }
 
   toggleDarkMode() {
