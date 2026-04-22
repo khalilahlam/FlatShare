@@ -68,45 +68,51 @@ export class PisoService {
     return this.http.post<IPiso>(`${this.apiUrl}/pisos`, data);
   }
 
- updatePiso(id: number, data: FormData) {
-  return this.http.post<IPiso>(`${this.apiUrl}/pisos/${id}`, data);
-}
+  updatePiso(id: number, data: FormData) {
+    return this.http.post<IPiso>(`${this.apiUrl}/pisos/${id}`, data);
+  }
 
   deletePiso(id: number) {
     return this.http.delete(`${this.apiUrl}/pisos/${id}`);
   }
+
   getInteresados(pisoId: number) {
-  return this.http.get<IInteresado[]>(`${this.apiUrl}/pisos/${pisoId}/interesados`);
-}
+    return this.http.get<IInteresado[]>(`${this.apiUrl}/pisos/${pisoId}/interesados`);
+  }
 
-eliminarInteresado(pisoId: number, usuarioId: number) {
-  return this.http.delete(`${this.apiUrl}/pisos/${pisoId}/interesados/${usuarioId}`);
-}
-getFavoritos() {
-  return this.http.get<number[]>(this.apiUrl + '/favoritos');
-}
+  eliminarInteresado(pisoId: number, usuarioId: number) {
+    return this.http.delete(`${this.apiUrl}/pisos/${pisoId}/interesados/${usuarioId}`);
+  }
 
-addFavorito(pisoId: number) {
-  return this.http.post(this.apiUrl + '/favoritos/' + pisoId, {});
-}
+  getFavoritos() {
+    return this.http.get<number[]>(this.apiUrl + '/favoritos');
+  }
 
-removeFavorito(pisoId: number) {
-  return this.http.delete(this.apiUrl + '/favoritos/' + pisoId);
-}
-getUsuario(id: number) {
-  return this.http.get<any>(`${this.apiUrl}/usuarios/${id}`);
-}
-getMisIntereses() {
-  return this.http.get<IPiso[]>(`${this.apiUrl}/mis-intereses`);
-}
-eliminarInteresado_inquilino(pisoId: number) {
-  return this.http.delete(`${this.apiUrl}/pisos/${pisoId}/interesados`);
-}
-aceptarInteresado(pisoId: number, usuarioId: number) {
-  return this.http.put(`${this.apiUrl}/pisos/${pisoId}/interesados/${usuarioId}/aceptar`, {});
-}
+  addFavorito(pisoId: number) {
+    return this.http.post(this.apiUrl + '/favoritos/' + pisoId, {});
+  }
 
-rechazarInteresado(pisoId: number, usuarioId: number) {
-  return this.http.put(`${this.apiUrl}/pisos/${pisoId}/interesados/${usuarioId}/rechazar`, {});
-}
+  removeFavorito(pisoId: number) {
+    return this.http.delete(this.apiUrl + '/favoritos/' + pisoId);
+  }
+
+  getUsuario(id: number) {
+    return this.http.get<any>(`${this.apiUrl}/usuarios/${id}`);
+  }
+
+  getMisIntereses() {
+    return this.http.get<IPiso[]>(`${this.apiUrl}/mis-intereses`);
+  }
+
+  eliminarInteresado_inquilino(pisoId: number) {
+    return this.http.delete(`${this.apiUrl}/pisos/${pisoId}/interesados`);
+  }
+
+  aceptarInteresado(pisoId: number, usuarioId: number) {
+    return this.http.put(`${this.apiUrl}/pisos/${pisoId}/interesados/${usuarioId}/aceptar`, {});
+  }
+
+  rechazarInteresado(pisoId: number, usuarioId: number) {
+    return this.http.put(`${this.apiUrl}/pisos/${pisoId}/interesados/${usuarioId}/rechazar`, {});
+  }
 }
