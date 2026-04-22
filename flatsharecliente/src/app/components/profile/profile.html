@@ -89,7 +89,10 @@
         @if(auth.user()?.fecha_nacimiento) {
           <div>
             <p class="text-xs text-gray-400 font-medium">Fecha de nacimiento</p>
-            <p class="text-gray-900 font-semibold mt-0.5">{{ auth.user()?.fecha_nacimiento }}</p>
+            <p class="text-gray-900 font-semibold mt-0.5">
+              {{ auth.user()?.fecha_nacimiento }}
+              <span class="text-gray-500 font-normal">({{ calcularEdad(auth.user()?.fecha_nacimiento) }} años)</span>
+            </p>
           </div>
         }
         @if(auth.user()?.telefono) {
