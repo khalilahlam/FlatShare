@@ -6,6 +6,7 @@ use App\Http\Controllers\PisoController;
 use App\Http\Controllers\InteresadoController;
 use App\Http\Controllers\FavoritoController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\ConversacionController;
 
 
 // AUTH públicas
@@ -48,4 +49,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/pisos/{pisoId}/mi-estado', [InteresadoController::class, 'miEstado']);
     Route::put('/pisos/{pisoId}/interesados/{usuarioId}/aceptar', [InteresadoController::class, 'aceptar']);
     Route::put('/pisos/{pisoId}/interesados/{usuarioId}/rechazar', [InteresadoController::class, 'rechazar']);
+
+    // Conversaciones
+    Route::get('/conversaciones',                        [ConversacionController::class, 'misChats']);
+    Route::get('/conversaciones/{chatId}/mensajes',      [ConversacionController::class, 'mensajes']);
+    Route::post('/conversaciones/{chatId}/mensajes',     [ConversacionController::class, 'enviar']);
+    Route::get('/conversaciones/no-leidos',              [ConversacionController::class, 'noLeidos']);
+    Route::post('/pisos/{pisoId}/chat',                  [ConversacionController::class, 'crearOActualizarChat']);
+ 
 });

@@ -9,6 +9,7 @@ use App\Mail\SolicitudAceptada;
 use App\Mail\SolicitudRechazada;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use App\Models\Chat;
 
 class InteresadoController extends Controller
 {
@@ -109,6 +110,19 @@ class InteresadoController extends Controller
             ->firstOrFail();
 
         $interesado->update(['estado' => 'aceptado']);
+
+        // Contar cuántos aceptados hay ahora
+        $aceptados = Interesado::where('piso_id', $pisoId)
+            ->where('estado', 'aceptado')
+            ->pluck('usuario_id')
+            ->toArray();
+
+        // Siempre actualizar el chat cuando se acepta alguien
+        $participantes = array_unique(array_merge([$piso->usuario_id], $aceptados));
+        $chat = \App\Models\Chat::firstOrCreate(['piso_id' => $pisoId]);
+
+        // Usar syncWithoutDetaching para no borrar los que ya están
+        $chat->usuarios()->syncWithoutDetaching($participantes);
 
         // Email al inquilino
         Mail::to($interesado->usuario->email)->send(new SolicitudAceptada($piso, $interesado->usuario));
