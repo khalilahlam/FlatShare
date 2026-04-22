@@ -35,14 +35,14 @@
             (chatActivo()?.id === chat.id ? 'bg-blue-50 border-l-4 border-l-blue-500' : '')">
 
           <!-- Avatar grupo -->
-          <div [class]="'w-12 h-12 rounded-full bg-gradient-to-br flex items-center justify-center flex-shrink-0 text-white font-black text-sm ' + getColorAvatar(chat.piso?.titulo ?? '')">
+          <div [class]="'w-12 h-12 rounded-full bg-gradient-to-br flex items-center justify-center flex-shrink-0 text-white font-black text-sm ' + getColorAvatar(chat.piso.titulo)">
             🏠
           </div>
 
           <!-- Info -->
           <div class="flex-1 min-w-0">
             <div class="flex justify-between items-start">
-              <p class="font-bold text-gray-900 text-sm truncate">{{ chat.piso?.titulo }}</p>
+              <p class="font-bold text-gray-900 text-sm truncate">{{ chat.piso.titulo }}</p>
               @if (chat.ultimo_mensaje) {
                 <span class="text-xs text-gray-400 flex-shrink-0 ml-1">
                   {{ formatearHora(chat.ultimo_mensaje.created_at) }}
@@ -52,7 +52,7 @@
             <div class="flex justify-between items-center mt-0.5">
               <p class="text-xs text-gray-500 truncate">
                 @if (chat.ultimo_mensaje) {
-                  <span class="font-medium">{{ chat.ultimo_mensaje.usuario?.nombre }}:</span>
+                  <span class="font-medium">{{ chat.ultimo_mensaje.usuario.nombre }}:</span>
                   {{ chat.ultimo_mensaje.contenido }}
                 } @else {
                   <span class="italic">Sin mensajes aún</span>
@@ -64,7 +64,7 @@
                 </span>
               }
             </div>
-            <p class="text-xs text-gray-400 mt-0.5">{{ chat.piso?.ciudad }}</p>
+            <p class="text-xs text-gray-400 mt-0.5">{{ chat.piso.ciudad }}</p>
           </div>
         </button>
       }
@@ -97,7 +97,7 @@
           🏠
         </div>
         <div class="flex-1">
-          <h3 class="font-black text-gray-900">{{ chatActivo()!.piso?.titulo }}</h3>
+          <h3 class="font-black text-gray-900">{{ chatActivo()!.piso.titulo }}</h3>
           <p class="text-xs text-gray-400">
             {{ chatActivo()!.usuarios.length }} participantes ·
             @for (u of chatActivo()!.usuarios; track u.id) {
@@ -105,7 +105,7 @@
             }
           </p>
         </div>
-        <a [routerLink]="['/pisos', chatActivo()!.piso?.id]"
+        <a [routerLink]="['/pisos', chatActivo()!.piso.id]"
           class="text-xs text-blue-500 font-semibold hover:text-blue-700 transition">
           Ver piso →
         </a>
@@ -135,8 +135,8 @@
 
             <!-- Avatar (solo mensajes ajenos) -->
             @if (!esMio(msg)) {
-              <div [class]="'w-8 h-8 rounded-full bg-gradient-to-br flex items-center justify-center text-white font-bold text-xs flex-shrink-0 self-end ' + getColorAvatar(msg.usuario?.nombre ?? '')">
-                {{ getIniciales(msg.usuario?.nombre ?? '', msg.usuario?.apellidos ?? '') }}
+              <div [class]="'w-8 h-8 rounded-full bg-gradient-to-br flex items-center justify-center text-white font-bold text-xs flex-shrink-0 self-end ' + getColorAvatar(msg.usuario.nombre)">
+                {{ getIniciales(msg.usuario.nombre, msg.usuario.apellidos) }}
               </div>
             }
 
@@ -144,7 +144,7 @@
             <div [class]="'max-w-xs lg:max-w-md ' + (esMio(msg) ? 'items-end' : 'items-start') + ' flex flex-col gap-1'">
               @if (!esMio(msg)) {
                 <span class="text-xs text-gray-500 font-semibold px-1">
-                  {{ msg.usuario?.nombre }}
+                  {{ msg.usuario.nombre }}
                 </span>
               }
               <div [class]="'px-4 py-2.5 rounded-2xl text-sm leading-relaxed shadow-sm ' +
