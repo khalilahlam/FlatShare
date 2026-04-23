@@ -38,7 +38,7 @@
 
           <!-- Avatar: foto del piso -->
           <div class="w-12 h-12 rounded-xl overflow-hidden flex-shrink-0 bg-blue-100 border border-gray-100 shadow-sm">
-            @if (chat.piso?.foto) {
+            @if (chat.piso.foto) {
               <img [src]="'http://localhost:8000/storage/' + chat.piso.foto" class="w-full h-full object-cover"/>
             } @else {
               <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-600 to-blue-800">
@@ -52,7 +52,7 @@
           <!-- Info -->
           <div class="flex-1 min-w-0">
             <div class="flex justify-between items-start gap-1">
-              <p class="font-bold text-gray-900 text-sm truncate">{{ chat.piso?.titulo }}</p>
+              <p class="font-bold text-gray-900 text-sm truncate">{{ chat.piso.titulo }}</p>
               @if (chat.ultimo_mensaje) {
                 <span class="text-xs text-gray-400 flex-shrink-0">
                   {{ formatearHora(chat.ultimo_mensaje.created_at) }}
@@ -62,7 +62,7 @@
             <div class="flex justify-between items-center mt-0.5">
               <p class="text-xs text-gray-500 truncate">
                 @if (chat.ultimo_mensaje) {
-                  <span class="font-semibold text-gray-600">{{ chat.ultimo_mensaje.usuario?.nombre }}:</span>
+                  <span class="font-semibold text-gray-600">{{ chat.ultimo_mensaje.usuario.nombre }}:</span>
                   {{ chat.ultimo_mensaje.contenido }}
                 } @else {
                   <span class="italic text-gray-400">Sin mensajes aún</span>
@@ -79,7 +79,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0L6.343 16.657a8 8 0 1111.314 0z"/>
                 <circle cx="12" cy="11" r="3"/>
               </svg>
-              {{ chat.piso?.ciudad }}
+              {{ chat.piso.ciudad }}
             </p>
           </div>
         </button>
@@ -109,7 +109,7 @@
       <!-- Header chat activo -->
       <div class="bg-white border-b border-gray-100 px-6 py-4 flex items-center gap-4 shadow-sm">
         <div class="w-11 h-11 rounded-xl overflow-hidden flex-shrink-0 bg-blue-100 border border-gray-100">
-          @if (chatActivo()!.piso?.foto) {
+          @if (chatActivo()!.piso.foto) {
             <img [src]="'http://localhost:8000/storage/' + chatActivo()!.piso.foto" class="w-full h-full object-cover"/>
           } @else {
             <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-600 to-blue-800">
@@ -121,7 +121,7 @@
         </div>
 
         <div class="flex-1 min-w-0">
-          <h3 class="font-black text-gray-900 truncate">{{ chatActivo()!.piso?.titulo }}</h3>
+          <h3 class="font-black text-gray-900 truncate">{{ chatActivo()!.piso.titulo }}</h3>
           <p class="text-xs text-gray-400 truncate">
             {{ chatActivo()!.usuarios.length }} participantes ·
             @for (u of chatActivo()!.usuarios; track u.id) {
@@ -130,7 +130,7 @@
           </p>
         </div>
 
-        <a [routerLink]="['/pisos', chatActivo()!.piso?.id]"
+        <a [routerLink]="['/pisos', chatActivo()!.piso.id]"
           class="flex items-center gap-1.5 text-xs text-blue-600 font-semibold hover:text-blue-800 transition-colors border border-blue-200 px-3 py-1.5 rounded-lg hover:bg-blue-50 flex-shrink-0">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
