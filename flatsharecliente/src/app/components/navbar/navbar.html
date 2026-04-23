@@ -32,7 +32,7 @@
         <a routerLink="/mensajes" class="relative text-gray-600 hover:text-blue-600 font-medium px-4 py-2 rounded-lg hover:bg-blue-50 transition-all text-sm flex items-center gap-1.5">
           Mensajes
           @if (noLeidos() > 0) {
-            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-black rounded-full w-4 h-4 flex items-center justify-center leading-none">
+            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-black rounded-full w-6 h-4 flex items-center justify-center leading-none">
               {{ noLeidos() > 9 ? '9+' : noLeidos() }}
             </span>
           }
