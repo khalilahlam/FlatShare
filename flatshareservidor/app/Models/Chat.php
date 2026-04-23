@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Usuario;
+
 
 class Chat extends Model
 {
@@ -15,7 +17,7 @@ class Chat extends Model
 
     public function usuarios()
     {
-        return $this->belongsToMany(User::class, 'chat_usuarios', 'chat_id', 'usuario_id')
+        return $this->belongsToMany(Usuario::class, 'chat_usuarios', 'chat_id', 'usuario_id')
                     ->withTimestamps();
     }
 

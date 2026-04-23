@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Usuario;
 
 class Mensaje extends Model
 {
@@ -10,7 +11,7 @@ class Mensaje extends Model
 
     public function usuario()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Usuario::class, 'usuario_id');
     }
 
     public function chat()
