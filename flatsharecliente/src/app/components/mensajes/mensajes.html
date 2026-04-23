@@ -1,12 +1,12 @@
-<div class="flex h-screen bg-gray-100" style="height: calc(100vh - 73px)">
+<div class="flex bg-white" style="height: calc(100vh - 73px)">
 
-  <!-- ===== PANEL IZQUIERDO: lista de chats ===== -->
-  <div class="w-80 bg-white border-r border-gray-200 flex flex-col flex-shrink-0">
+  <!-- ===== PANEL IZQUIERDO ===== -->
+  <div class="w-80 bg-white border-r border-gray-100 flex flex-col flex-shrink-0">
 
     <!-- Header -->
-    <div class="px-5 py-4 border-b border-gray-100 bg-white">
+    <div class="px-6 py-5 border-b border-gray-100">
       <h2 class="text-xl font-black text-gray-900">Mensajes</h2>
-      <p class="text-xs text-gray-400 mt-0.5">Chats de tus pisos</p>
+      <p class="text-xs text-gray-400 mt-0.5">Chats de tus pisos compartidos</p>
     </div>
 
     <!-- Lista chats -->
@@ -14,37 +14,47 @@
 
       @if (cargandoChats()) {
         <div class="flex justify-center py-10">
-          <div class="w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
+          <div class="w-7 h-7 border-4 border-blue-100 border-t-blue-600 rounded-full animate-spin"></div>
         </div>
       }
 
       @if (!cargandoChats() && chats().length === 0) {
         <div class="flex flex-col items-center justify-center py-16 px-6 text-center gap-3">
-          <div class="text-5xl"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4.414a1 1 0 0 0-.707.293L.854 15.146A.5.5 0 0 1 0 14.793zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
-          </svg></div>
+          <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto">
+            <svg class="w-7 h-7 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+            </svg>
+          </div>
           <p class="text-gray-500 font-semibold text-sm">No tienes chats aún</p>
-          <p class="text-gray-400 text-xs">Los chats se crean cuando un propietario acepta inquilinos</p>
+          <p class="text-gray-400 text-xs leading-relaxed">Los chats se crean cuando un propietario completa el cupo de su piso</p>
         </div>
       }
 
       @for (chat of chats(); track chat.id) {
         <button
           (click)="seleccionarChat(chat)"
-          [class]="'w-full text-left px-4 py-3 hover:bg-gray-50 transition-all border-b border-gray-50 flex items-center gap-3 ' +
-            (chatActivo()?.id === chat.id ? 'bg-blue-50 border-l-4 border-l-blue-500' : '')">
+          [class]="'w-full text-left px-4 py-3.5 hover:bg-gray-50 transition-all border-b border-gray-50 flex items-center gap-3 border-l-4 ' +
+            (chatActivo()?.id === chat.id ? 'bg-blue-50 border-l-blue-600' : 'border-l-transparent')">
 
-          <!-- Avatar grupo -->
-          <div [class]="'w-12 h-12 rounded-full bg-gradient-to-br flex items-center justify-center flex-shrink-0 text-white font-black text-sm ' + getColorAvatar(chat.piso.titulo)">
-            🏠
+          <!-- Avatar: foto del piso -->
+          <div class="w-12 h-12 rounded-xl overflow-hidden flex-shrink-0 bg-blue-100 border border-gray-100 shadow-sm">
+            @if (chat.piso?.foto) {
+              <img [src]="'http://localhost:8000/storage/' + chat.piso.foto" class="w-full h-full object-cover"/>
+            } @else {
+              <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-600 to-blue-800">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                </svg>
+              </div>
+            }
           </div>
 
           <!-- Info -->
           <div class="flex-1 min-w-0">
-            <div class="flex justify-between items-start">
-              <p class="font-bold text-gray-900 text-sm truncate">{{ chat.piso.titulo }}</p>
+            <div class="flex justify-between items-start gap-1">
+              <p class="font-bold text-gray-900 text-sm truncate">{{ chat.piso?.titulo }}</p>
               @if (chat.ultimo_mensaje) {
-                <span class="text-xs text-gray-400 flex-shrink-0 ml-1">
+                <span class="text-xs text-gray-400 flex-shrink-0">
                   {{ formatearHora(chat.ultimo_mensaje.created_at) }}
                 </span>
               }
@@ -52,134 +62,153 @@
             <div class="flex justify-between items-center mt-0.5">
               <p class="text-xs text-gray-500 truncate">
                 @if (chat.ultimo_mensaje) {
-                  <span class="font-medium">{{ chat.ultimo_mensaje.usuario.nombre }}:</span>
+                  <span class="font-semibold text-gray-600">{{ chat.ultimo_mensaje.usuario?.nombre }}:</span>
                   {{ chat.ultimo_mensaje.contenido }}
                 } @else {
-                  <span class="italic">Sin mensajes aún</span>
+                  <span class="italic text-gray-400">Sin mensajes aún</span>
                 }
               </p>
               @if (chat.no_leidos > 0) {
-                <span class="ml-2 flex-shrink-0 bg-blue-600 text-white text-xs font-black rounded-full w-5 h-5 flex items-center justify-center">
+                <span class="ml-2 flex-shrink-0 bg-blue-600 text-white text-xs font-black rounded-full w-5 h-5 flex items-center justify-center leading-none">
                   {{ chat.no_leidos }}
                 </span>
               }
             </div>
-            <p class="text-xs text-gray-400 mt-0.5">{{ chat.piso.ciudad }}</p>
+            <p class="text-xs text-gray-400 mt-0.5 flex items-center gap-1">
+              <svg class="w-3 h-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0L6.343 16.657a8 8 0 1111.314 0z"/>
+                <circle cx="12" cy="11" r="3"/>
+              </svg>
+              {{ chat.piso?.ciudad }}
+            </p>
           </div>
         </button>
       }
     </div>
   </div>
 
-  <!-- ===== PANEL DERECHO: conversación ===== -->
+  <!-- ===== PANEL DERECHO ===== -->
   <div class="flex-1 flex flex-col bg-gray-50">
 
     @if (!chatActivo()) {
-      <!-- Estado vacío -->
       <div class="flex-1 flex flex-col items-center justify-center gap-4 text-center px-8">
-        <div class="w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center text-5xl">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4.414a1 1 0 0 0-.707.293L.854 15.146A.5.5 0 0 1 0 14.793zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+        <div class="w-20 h-20 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto">
+          <svg class="w-10 h-10 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
           </svg>
         </div>
         <h3 class="text-xl font-black text-gray-800">Selecciona un chat</h3>
-        <p class="text-gray-400 text-sm max-w-xs">
-          Elige una conversación de la izquierda para empezar a chatear con tus compañeros de piso.
+        <p class="text-gray-400 text-sm max-w-xs leading-relaxed">
+          Elige una conversación de la izquierda para hablar con tus compañeros de piso.
         </p>
       </div>
     }
 
     @if (chatActivo()) {
 
-      <!-- Header del chat activo -->
-      <div class="bg-white border-b border-gray-200 px-6 py-4 flex items-center gap-4 shadow-sm">
-        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-violet-600 flex items-center justify-center text-white text-lg flex-shrink-0">
-          🏠
+      <!-- Header chat activo -->
+      <div class="bg-white border-b border-gray-100 px-6 py-4 flex items-center gap-4 shadow-sm">
+        <div class="w-11 h-11 rounded-xl overflow-hidden flex-shrink-0 bg-blue-100 border border-gray-100">
+          @if (chatActivo()!.piso?.foto) {
+            <img [src]="'http://localhost:8000/storage/' + chatActivo()!.piso.foto" class="w-full h-full object-cover"/>
+          } @else {
+            <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-600 to-blue-800">
+              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+              </svg>
+            </div>
+          }
         </div>
-        <div class="flex-1">
-          <h3 class="font-black text-gray-900">{{ chatActivo()!.piso.titulo }}</h3>
-          <p class="text-xs text-gray-400">
+
+        <div class="flex-1 min-w-0">
+          <h3 class="font-black text-gray-900 truncate">{{ chatActivo()!.piso?.titulo }}</h3>
+          <p class="text-xs text-gray-400 truncate">
             {{ chatActivo()!.usuarios.length }} participantes ·
             @for (u of chatActivo()!.usuarios; track u.id) {
-              {{ u.nombre }}@if (!$last) { , }
+              {{ u.nombre }}@if (!$last) {, }
             }
           </p>
         </div>
-        <a [routerLink]="['/pisos', chatActivo()!.piso.id]"
-          class="text-xs text-blue-500 font-semibold hover:text-blue-700 transition">
-          Ver piso →
+
+        <a [routerLink]="['/pisos', chatActivo()!.piso?.id]"
+          class="flex items-center gap-1.5 text-xs text-blue-600 font-semibold hover:text-blue-800 transition-colors border border-blue-200 px-3 py-1.5 rounded-lg hover:bg-blue-50 flex-shrink-0">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+          </svg>
+          Ver piso
         </a>
       </div>
 
       <!-- Mensajes -->
-      <div
-        #mensajesContainer
-        class="flex-1 overflow-y-auto px-6 py-4 space-y-2">
+      <div #mensajesContainer class="flex-1 overflow-y-auto px-6 py-5 space-y-3">
 
         @if (cargandoMensajes()) {
           <div class="flex justify-center py-8">
-            <div class="w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
+            <div class="w-7 h-7 border-4 border-blue-100 border-t-blue-600 rounded-full animate-spin"></div>
           </div>
         }
 
         @if (!cargandoMensajes() && mensajes().length === 0) {
-          <div class="flex flex-col items-center justify-center py-16 gap-2 text-center">
-            <div class="text-4xl">👋</div>
-            <p class="text-gray-500 font-semibold text-sm">¡Sé el primero en escribir!</p>
-            <p class="text-gray-400 text-xs">Empieza la conversación con tus compañeros</p>
+          <div class="flex flex-col items-center justify-center py-16 gap-3 text-center">
+            <div class="w-14 h-14 bg-white rounded-2xl border border-gray-100 shadow-sm flex items-center justify-center mx-auto">
+              <svg class="w-7 h-7 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+              </svg>
+            </div>
+            <p class="text-gray-500 font-semibold text-sm">Sé el primero en escribir</p>
+            <p class="text-gray-400 text-xs">Empieza la conversación con tus compañeros de piso</p>
           </div>
         }
 
         @for (msg of mensajes(); track msg.id) {
           <div [class]="'flex gap-2 ' + (esMio(msg) ? 'justify-end' : 'justify-start')">
 
-            <!-- Avatar (solo mensajes ajenos) -->
             @if (!esMio(msg)) {
-              <div [class]="'w-8 h-8 rounded-full bg-gradient-to-br flex items-center justify-center text-white font-bold text-xs flex-shrink-0 self-end ' + getColorAvatar(msg.usuario.nombre)">
+              <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center text-white font-bold text-xs flex-shrink-0 self-end shadow-sm">
                 {{ getIniciales(msg.usuario.nombre, msg.usuario.apellidos) }}
               </div>
             }
 
-            <!-- Burbuja -->
-            <div [class]="'max-w-xs lg:max-w-md ' + (esMio(msg) ? 'items-end' : 'items-start') + ' flex flex-col gap-1'">
+            <div [class]="'max-w-xs lg:max-w-md flex flex-col gap-1 ' + (esMio(msg) ? 'items-end' : 'items-start')">
               @if (!esMio(msg)) {
-                <span class="text-xs text-gray-500 font-semibold px-1">
-                  {{ msg.usuario.nombre }}
-                </span>
+                <span class="text-xs text-gray-500 font-semibold px-1">{{ msg.usuario.nombre }}</span>
               }
               <div [class]="'px-4 py-2.5 rounded-2xl text-sm leading-relaxed shadow-sm ' +
                 (esMio(msg)
-                  ? 'bg-gradient-to-br from-blue-600 to-violet-600 text-white rounded-br-sm'
+                  ? 'bg-blue-600 text-white rounded-br-sm'
                   : 'bg-white text-gray-800 rounded-bl-sm border border-gray-100')">
                 {{ msg.contenido }}
               </div>
-              <span class="text-xs text-gray-400 px-1">
-                {{ formatearHora(msg.created_at) }}
+              <div class="flex items-center gap-1 px-1">
+                <span class="text-xs text-gray-400">{{ formatearHora(msg.created_at) }}</span>
                 @if (esMio(msg)) {
-                  @if (msg.leido) { ✓✓ } @else { ✓ }
+                  <svg [class]="'w-3.5 h-3.5 ' + (msg.leido ? 'text-blue-500' : 'text-gray-300')" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                  </svg>
                 }
-              </span>
+              </div>
             </div>
 
           </div>
         }
       </div>
 
-      <!-- Input enviar mensaje -->
-      <div class="bg-white border-t border-gray-200 px-4 py-3">
-        <div class="flex items-end gap-3 bg-gray-50 rounded-2xl px-4 py-2 border border-gray-200 focus-within:border-blue-400 focus-within:bg-white transition-all">
+      <!-- Input -->
+      <div class="bg-white border-t border-gray-100 px-5 py-4">
+        <div class="flex items-end gap-3 bg-gray-50 rounded-2xl px-4 py-2.5 border border-gray-200 focus-within:border-blue-400 focus-within:bg-white transition-all">
           <textarea
             [value]="nuevoMensaje()"
             (input)="nuevoMensaje.set($any($event.target).value)"
             (keydown)="onKeyDown($event)"
-            placeholder="Escribe un mensaje... (Enter para enviar)"
+            placeholder="Escribe un mensaje..."
             rows="1"
             class="flex-1 bg-transparent resize-none outline-none text-sm text-gray-800 placeholder-gray-400 max-h-32 py-1">
           </textarea>
           <button
             (click)="enviar()"
             [disabled]="!nuevoMensaje().trim() || enviando()"
-            class="w-9 h-9 bg-gradient-to-br from-blue-600 to-violet-600 rounded-xl flex items-center justify-center text-white shadow-md hover:scale-105 transition-all disabled:opacity-40 disabled:scale-100 flex-shrink-0">
+            class="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-sm hover:bg-blue-700 transition-all disabled:opacity-40 flex-shrink-0">
             @if (enviando()) {
               <div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
             } @else {
@@ -189,9 +218,7 @@
             }
           </button>
         </div>
-        <p class="text-xs text-gray-400 mt-1.5 text-center">
-          Shift+Enter para salto de línea
-        </p>
+        <p class="text-xs text-gray-400 mt-1.5 text-center">Shift+Enter para salto de línea · Enter para enviar</p>
       </div>
     }
   </div>

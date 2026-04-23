@@ -48,7 +48,10 @@ export class AuthService {
 
   login(data: any) {
     return this.http.post<any>(`${this.apiUrl}/login`, data).pipe(
-      tap(r => this.guardarSesion(r.token, r.user))
+      tap(r => {
+      console.log('Respuesta login:', r); // 👈 temporal
+      this.guardarSesion(r.token, r.user);
+    })
     );
   }
 

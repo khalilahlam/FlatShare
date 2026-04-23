@@ -20,7 +20,7 @@ export interface IMensaje {
 
 export interface IChat {
   id: number;
-  piso: { id: number; titulo: string; ciudad: string };
+  piso: { id: number; titulo: string; ciudad: string; foto?: string };
   usuarios: IUsuarioChat[];
   ultimo_mensaje: IMensaje | null;
   no_leidos: number;
