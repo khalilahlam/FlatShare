@@ -1,9 +1,9 @@
 <div class="max-w-5xl mx-auto px-6 py-10">
   @if(piso()) {
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8" >
 
     <!-- Izquierda -->
-    <div class="lg:col-span-2">
+    <div class="lg:col-span-2 bg-white border border-gray-100 rounded-2xl p-6 shadow-sm">
 
       <!-- Galería de fotos -->
       @if(piso()!.fotos && piso()!.fotos!.length > 0) {
@@ -28,11 +28,7 @@
       </div>
       } @else {
       <div class="rounded-2xl h-72 bg-blue-50 flex items-center justify-center">
-        <svg class="w-16 h-16 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-            d="M3 9.75L12 3l9 6.75V21a1 1 0 01-1 1H4a1 1 0 01-1-1V9.75z" />
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 22V12h6v10" />
-        </svg>
+        <img src="assets/logo2.png" alt="Sin fotos" class="w-50 h-auto" />
       </div>
       }
 
