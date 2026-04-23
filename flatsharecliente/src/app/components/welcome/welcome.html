@@ -19,7 +19,7 @@
         </p>
         <div class="bg-white rounded-2xl p-3 flex gap-2 flex-wrap mb-6 shadow-2xl">
           <select [(ngModel)]="ciudadBusqueda" [ngModelOptions]="{ standalone: true }"
-            class="flex-1 min-w-40 px-4 py-2 text-gray-700 text-sm focus:outline-none rounded-xl border border-gray-100 bg-white">
+            class="flex-1 min-w-40 px-4 py-2 cursor-pointer text-gray-700 text-sm focus:outline-none rounded-xl border border-gray-100 bg-white">
             <option value="">Todas las ciudades</option>
             @for (ciudad of ciudadesDisponibles; track ciudad) {
               <option [value]="ciudad">{{ ciudad }}</option>

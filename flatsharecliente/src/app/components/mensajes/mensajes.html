@@ -1,10 +1,10 @@
-<div class="flex bg-white" style="height: calc(100vh - 73px)">
+<div class="flex bg-white" style="height: calc(100vh - 83px)">
 
   <!-- ===== PANEL IZQUIERDO ===== -->
-  <div class="w-100 bg-white border-r border-gray-100 flex flex-col flex-shrink-0">
+  <div class="w-100 bg-white flex flex-col flex-shrink-0">
 
     <!-- Header -->
-    <div class="px-6 py-5 border-b border-gray-100">
+    <div class="px-6 py-5">
       <h2 class="text-2xl font-black text-gray-900">Mensajes</h2>
       <p class="text-base text-gray-400 mt-0.5">Chats de tus pisos compartidos</p>
     </div>
@@ -33,7 +33,7 @@
       @for (chat of chats(); track chat.id) {
         <button
           (click)="seleccionarChat(chat)"
-          [class]="'w-full text-left px-4 py-3.5 hover:bg-gray-50 transition-all border-b border-gray-50 flex items-center gap-3 border-l-4 ' +
+          [class]="'w-full text-left px-4 py-3.5 cursor-pointer transition-all flex items-center gap-3 border-l-4 ' +
             (chatActivo()?.id === chat.id ? 'bg-blue-50 border-l-blue-600' : 'border-l-transparent')">
 
           <!-- Avatar: foto del piso -->
@@ -195,7 +195,7 @@
       </div>
 
       <!-- Input -->
-      <div class="bg-white border-t border-gray-100 px-5 py-4">
+      <div class="bg-white border-t border-gray-100 px-5 py-4 card-perfil">
         <div class="flex items-end gap-3 bg-gray-50 rounded-2xl px-4 py-2.5 border border-gray-200 focus-within:border-blue-400 focus-within:bg-white transition-all">
           <textarea
             [value]="nuevoMensaje()"
@@ -203,12 +203,12 @@
             (keydown)="onKeyDown($event)"
             placeholder="Escribe un mensaje..."
             rows="1"
-            class="flex-1 bg-transparent resize-none outline-none text-sm text-gray-800 placeholder-gray-400 max-h-32 py-1">
+            class="flex-1 bg-transparent resize-none outline-none text-sm text-gray-800 placeholder-gray-400 max-h-32 py-3">
           </textarea>
           <button
             (click)="enviar()"
             [disabled]="!nuevoMensaje().trim() || enviando()"
-            class="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-sm hover:bg-blue-700 transition-all disabled:opacity-40 flex-shrink-0">
+            class="w-9 h-9 cursor-pointer bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-sm hover:bg-blue-700 transition-all disabled:opacity-40 flex-shrink-0">
             @if (enviando()) {
               <div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
             } @else {

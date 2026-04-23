@@ -61,7 +61,7 @@
       <h2 class="font-bold text-sm uppercase tracking-wide text-gray-400">Datos personales</h2>
       @if(!editandoPerfil()) {
         <button (click)="abrirEditarPerfil()"
-                  class="flex items-center gap-1 text-xs text-blue-600 font-semibold hover:text-blue-800 hover:underline underline-offset-1 transition-colors">
+                  class="flex items-center cursor-pointer gap-1 text-xs text-blue-600 font-semibold hover:text-blue-800 hover:underline underline-offset-1 transition-colors">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
@@ -180,7 +180,7 @@
   </div>
 
   <button (click)="auth.logout()"
-    class="w-full py-3 rounded-xl border border-red-200 text-red-500 font-semibold text-sm hover:bg-red-200 hover:!text-red-700 transition-all">
+    class="w-full py-3 rounded-xl cursor-pointer border border-red-200 text-red-500 font-semibold text-sm hover:bg-red-200 hover:!text-red-700 transition-all">
     Cerrar sesión
   </button>
 </div>
@@ -240,7 +240,7 @@
                       Editar
                     </a>
                     <button (click)="eliminar(piso.id)"
-                      class="text-xs px-3 py-1.5 rounded-lg border border-red-200 text-red-500 font-semibold hover:bg-red-50 transition-all">
+                      class="text-xs cursor-pointer px-3 py-1.5 rounded-lg border border-red-200 text-red-500 font-semibold hover:bg-red-50 transition-all">
                       Eliminar
                     </button>
                   </div>
@@ -278,11 +278,11 @@
                         <div class="flex items-center gap-2">
                           @if(interesado.estado === 'pendiente') {
                             <button (click)="aceptarInteresado(piso.id, interesado.usuario_id)"
-                              class="text-xs px-2 py-1 rounded-lg bg-green-50 text-green-600 font-semibold hover:bg-green-100 transition-all">
+                              class="text-xs cursor-pointer px-2 py-1 rounded-lg bg-green-50 text-green-600 font-semibold hover:bg-green-100 transition-all">
                               Aceptar
                             </button>
                             <button (click)="rechazarInteresado(piso.id, interesado.usuario_id)"
-                              class="text-xs px-2 py-1 rounded-lg bg-red-50 text-red-400 font-semibold hover:bg-red-100 transition-all">
+                              class="text-xs cursor-pointer px-2 py-1 rounded-lg bg-red-50 text-red-400 font-semibold hover:bg-red-100 transition-all">
                               Rechazar
                             </button>
                           } @else if(interesado.estado === 'aceptado') {
@@ -299,7 +299,7 @@
                             Ver perfil
                           </a>
                           <button (click)="eliminarInteresado(piso.id, interesado.usuario_id)"
-                            class="text-xs text-red-400 hover:text-red-600 font-medium transition-colors">
+                            class="text-xs cursor-pointer text-red-400 hover:text-red-600 font-medium transition-colors">
                             Eliminar
                           </button>
                         </div>
