@@ -104,6 +104,14 @@ class InteresadoController extends Controller
             return response()->json(['message' => 'No autorizado'], 403);
         }
 
+        $aceptadosActuales = Interesado::where('piso_id', $pisoId)
+        ->where('estado', 'aceptado')
+        ->count();
+
+        if ($aceptadosActuales >= $piso->num_companeros) {
+            return response()->json(['message' => 'El piso ya tiene el máximo de compañeros aceptados'], 422);
+        }
+
         $interesado = Interesado::with('usuario')
             ->where('piso_id', $pisoId)
             ->where('usuario_id', $usuarioId)
