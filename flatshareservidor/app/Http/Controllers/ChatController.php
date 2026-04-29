@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Log;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -120,39 +121,33 @@ LIMITACIONES:
 - No puedes realizar acciones en nombre del usuario
 - Ante problemas técnicos graves sugiere recargar la página o contactar con soporte";
 
-        // 4. Construir historial + mensaje nuevo
+       // 4. Construir historial + mensaje nuevo
         $history = $request->input('history', []);
         $mensaje = $request->input('mensaje');
 
-        $contents = [];
+        // 5. Llamada a Groq
+        $apiKey = env('GROQ_API_KEY');
+
+        $mensajes = [['role' => 'system', 'content' => $systemPrompt]];
         foreach ($history as $turn) {
-            $contents[] = [
-                'role'  => $turn['role'],
-                'parts' => [['text' => $turn['text']]],
-            ];
+            $mensajes[] = ['role' => $turn['role'], 'content' => $turn['text']];
         }
-        $contents[] = [
-            'role'  => 'user',
-            'parts' => [['text' => $mensaje]],
-        ];
+        $mensajes[] = ['role' => 'user', 'content' => $mensaje];
 
-        // 5. Llamada a Gemini
-        $apiKey = env('GEMINI_API_KEY');
-        $model  = 'gemini-2.5-flash';
-
-        $response = Http::post(
-            "https://generativelanguage.googleapis.com/v1beta/models/{$model}:generateContent?key={$apiKey}",
-            [
-                'system_instruction' => [
-                    'parts' => [['text' => $systemPrompt]]
-                ],
-                'contents' => $contents,
-            ]
-        );
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $apiKey,
+            'Content-Type'  => 'application/json',
+        ])->post('https://api.groq.com/openai/v1/chat/completions', [
+            'model'       => 'llama-3.3-70b-versatile',
+            'messages'    => $mensajes,
+            'max_tokens'  => 500,
+            'temperature' => 0.7,
+        ]);
 
         // 6. Extraer respuesta
         $json  = $response->json();
-        $reply = $json['candidates'][0]['content']['parts'][0]['text'] ?? 'Sin respuesta';
+        Log::info('Groq response:', $json);
+        $reply = $json['choices'][0]['message']['content'] ?? 'Sin respuesta';
 
         return response()->json(['reply' => $reply]);
     }
