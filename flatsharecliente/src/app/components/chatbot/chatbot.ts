@@ -10,7 +10,7 @@ interface Mensaje {
 }
 
 interface Turn {
-  role: 'user' | 'model';
+  role: 'user' | 'assistant';
   text: string;
 }
 
@@ -29,11 +29,11 @@ export class Chatbot {
   cargando = signal(false);
   input    = signal('');
   mensajes = signal<Mensaje[]>([
-  {
-    texto: '¡Hola! Soy Verónica, tu asistente de FlatShare. Puedo ayudarte a encontrar piso o resolver dudas sobre alquiler. ¿En qué te ayudo? 😊',
-    esUsuario: false
-  }
-]);
+    {
+      texto: '¡Hola! Soy Verónica, tu asistente de FlatShare. Puedo ayudarte a encontrar piso o resolver dudas sobre alquiler. ¿En qué te ayudo? 😊',
+      esUsuario: false
+    }
+  ]);
 
   constructor() {
     effect(() => {
@@ -43,13 +43,13 @@ export class Chatbot {
   }
 
   resetChat() {
-  this.history = [];
-  this.mensajes.set([{
-    texto: '¡Hola! Soy Verónica, tu asistente de FlatShare. Puedo ayudarte a encontrar piso o resolver dudas sobre alquiler. ¿En qué te ayudo? 😊',
-    esUsuario: false
-  }]);
-  this.abierto.set(false);
-}
+    this.history = [];
+    this.mensajes.set([{
+      texto: '¡Hola! Soy Verónica, tu asistente de FlatShare. Puedo ayudarte a encontrar piso o resolver dudas sobre alquiler. ¿En qué te ayudo? 😊',
+      esUsuario: false
+    }]);
+    this.abierto.set(false);
+  }
 
   toggleChat() {
     this.abierto.set(!this.abierto());
@@ -60,7 +60,7 @@ export class Chatbot {
     if (!texto || this.cargando()) return;
 
     this.mensajes.update(m => [...m, { texto, esUsuario: true }]);
-    this.history.push({ role: 'user', text: texto });
+    this.history.push({ role: 'user', text: texto }); // ← corregido
     this.input.set('');
     this.cargando.set(true);
 
@@ -72,12 +72,12 @@ export class Chatbot {
       },
       { withCredentials: true }
     ).subscribe({
-      next: (res) => {
+      next: (res: { reply: string }) => {
         this.mensajes.update(m => [...m, { texto: res.reply, esUsuario: false }]);
-        this.history.push({ role: 'model', text: res.reply });
+        this.history.push({ role: 'assistant', text: res.reply }); // ← corregido
         this.cargando.set(false);
       },
-      error: (err) => {
+      error: (err: any) => {
         if (err.status === 401) {
           this.mensajes.update(m => [...m, {
             texto: 'Debes iniciar sesión para usar el asistente. 😊',
