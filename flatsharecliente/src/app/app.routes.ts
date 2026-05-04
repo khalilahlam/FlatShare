@@ -11,6 +11,9 @@ import { authGuard } from './auth/auth-guard';
 import { UsuarioPerfil } from './components/usuario-perfil/usuario-perfil';
 import { Mensajes } from './components/mensajes/mensajes';
 import { PrivacidadComponent } from './components/privacidad/privacidad';
+import { Terminos } from './components/terminos/terminos';
+
+
 export const routes: Routes = [
     { path: '', component: Welcome },
     { path: 'login', component: Login },
@@ -23,5 +26,6 @@ export const routes: Routes = [
     { path: 'usuarios/:id', component: UsuarioPerfil, canActivate: [authGuard] },
     { path: 'mensajes', component: Mensajes, canActivate: [authGuard] },
 { path: 'privacidad', component: PrivacidadComponent },
+{ path: 'terminos', component: Terminos },
     { path: '**', redirectTo: '' },
 ];
