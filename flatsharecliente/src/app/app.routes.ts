@@ -12,7 +12,8 @@ import { UsuarioPerfil } from './components/usuario-perfil/usuario-perfil';
 import { Mensajes } from './components/mensajes/mensajes';
 import { PrivacidadComponent } from './components/privacidad/privacidad';
 import { Terminos } from './components/terminos/terminos';
-
+import { Footer } from './components/footer/footer';
+import { Cookies } from './components/cookies/cookies';
 
 export const routes: Routes = [
     { path: '', component: Welcome },
@@ -27,5 +28,6 @@ export const routes: Routes = [
     { path: 'mensajes', component: Mensajes, canActivate: [authGuard] },
 { path: 'privacidad', component: PrivacidadComponent },
 { path: 'terminos', component: Terminos },
+{ path: 'cookies', component: Cookies },
     { path: '**', redirectTo: '' },
 ];
