@@ -4,10 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Piso;
 use Illuminate\Http\Request;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class PisoController extends Controller
 {
+    private function getCloudinary()
+    {
+        return new \Cloudinary\Cloudinary([
+            'cloud' => [
+                'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+                'api_key'    => env('CLOUDINARY_API_KEY'),
+                'api_secret' => env('CLOUDINARY_API_SECRET'),
+            ]
+        ]);
+    }
+
     public function index(Request $request)
     {
         $query = Piso::with(['usuario', 'fotos']);
@@ -47,11 +57,12 @@ class PisoController extends Controller
         $piso = Piso::create($data);
 
         if ($request->hasFile('fotos')) {
+            $cloudinary = $this->getCloudinary();
             foreach ($request->file('fotos') as $foto) {
-                $uploadedFile = Cloudinary::upload($foto->getRealPath(), [
+                $result = $cloudinary->uploadApi()->upload($foto->getRealPath(), [
                     'folder' => 'fotos_pisos'
                 ]);
-                $piso->fotos()->create(['url' => $uploadedFile->getSecurePath()]);
+                $piso->fotos()->create(['url' => $result['secure_url']]);
             }
         }
 
@@ -84,11 +95,12 @@ class PisoController extends Controller
         $piso->update($data);
 
         if ($request->hasFile('fotos')) {
+            $cloudinary = $this->getCloudinary();
             foreach ($request->file('fotos') as $foto) {
-                $uploadedFile = Cloudinary::upload($foto->getRealPath(), [
+                $result = $cloudinary->uploadApi()->upload($foto->getRealPath(), [
                     'folder' => 'fotos_pisos'
                 ]);
-                $piso->fotos()->create(['url' => $uploadedFile->getSecurePath()]);
+                $piso->fotos()->create(['url' => $result['secure_url']]);
             }
         }
 

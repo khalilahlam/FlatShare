@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class PerfilController extends Controller
 {
@@ -34,7 +33,7 @@ class PerfilController extends Controller
         return response()->json($user);
     }
 
-   public function updateFoto(Request $request)
+  public function updateFoto(Request $request)
 {
     $request->validate([
         'foto' => 'required|image|max:2048',
@@ -42,14 +41,19 @@ class PerfilController extends Controller
 
     $user = $request->user();
 
-    $uploadedFile = Cloudinary::upload($request->file('foto')->getRealPath(), [
+    $cloudinary = new \Cloudinary\Cloudinary([
+        'cloud' => [
+            'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+            'api_key'    => env('CLOUDINARY_API_KEY'),
+            'api_secret' => env('CLOUDINARY_API_SECRET'),
+        ]
+    ]);
+
+    $result = $cloudinary->uploadApi()->upload($request->file('foto')->getRealPath(), [
         'folder' => 'fotos_perfil'
     ]);
 
-    $response = $uploadedFile->getResponse();
-    \Log::info('Cloudinary response:', $response ?? ['null response']);
-    $url = $response['secure_url'] ?? 'sin_url';
-
+    $url = $result['secure_url'];
     $user->update(['foto_perfil' => $url]);
 
     return response()->json(['foto_perfil' => $url]);
