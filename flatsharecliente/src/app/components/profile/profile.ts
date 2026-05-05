@@ -21,6 +21,7 @@ export class Profile implements OnInit {
   pisosFavoritos = signal<IPiso[]>([]);
   pisosInteresados = signal<IPiso[]>([]);
   tabActiva = signal<'favoritos' | 'interesados'>('favoritos');
+  subiendoFoto = signal(false);
 
   // Editar perfil
   editandoPerfil = signal(false);
@@ -49,6 +50,23 @@ export class Profile implements OnInit {
       this.cargarFavoritos();
       this.cargarMisIntereses();
     }
+  }
+
+  subirFoto(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files?.length) return;
+
+    const formData = new FormData();
+    formData.append('foto', input.files[0]);
+
+    this.subiendoFoto.set(true);
+    this.http.post<any>('http://localhost:8000/api/perfil/foto', formData).subscribe({
+      next: (res) => {
+        this.auth.setUser({ ...this.auth.user()!, foto_perfil: res.foto_perfil });
+        this.subiendoFoto.set(false);
+      },
+      error: () => this.subiendoFoto.set(false)
+    });
   }
 
   abrirEditarPerfil() {

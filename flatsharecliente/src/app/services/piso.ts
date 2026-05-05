@@ -21,6 +21,7 @@ export interface IInteresado {
     descripcion?: string;
     intereses?: string;
     fecha_nacimiento?: string;
+    foto_perfil?: string;
   };
 }
 export interface IPiso {
