@@ -34,22 +34,22 @@ class PerfilController extends Controller
         return response()->json($user);
     }
 
-    public function updateFoto(Request $request)
-    {
-        $request->validate([
-            'foto' => 'required|image|max:2048',
-        ]);
+   public function updateFoto(Request $request)
+{
+    $request->validate([
+        'foto' => 'required|image|max:2048',
+    ]);
 
-        $user = $request->user();
+    $user = $request->user();
 
-        $uploadedFile = Cloudinary::upload($request->file('foto')->getRealPath(), [
-            'folder' => 'fotos_perfil'
-        ]);
+    $uploadedFile = Cloudinary::upload($request->file('foto')->getRealPath(), [
+        'folder' => 'fotos_perfil'
+    ]);
 
-        $url = $uploadedFile->getSecurePath();
+    $url = $uploadedFile->getResponse()['secure_url'];
 
-        $user->update(['foto_perfil' => $url]);
+    $user->update(['foto_perfil' => $url]);
 
-        return response()->json(['foto_perfil' => $url]);
-    }
+    return response()->json(['foto_perfil' => $url]);
+}
 }
