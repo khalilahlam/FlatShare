@@ -26,8 +26,8 @@ export const routes: Routes = [
     { path: 'perfil', component: Profile, canActivate: [authGuard] },
     { path: 'usuarios/:id', component: UsuarioPerfil, canActivate: [authGuard] },
     { path: 'mensajes', component: Mensajes, canActivate: [authGuard] },
-{ path: 'privacidad', component: PrivacidadComponent },
-{ path: 'terminos', component: Terminos },
-{ path: 'cookies', component: Cookies },
+    { path: 'privacidad', component: PrivacidadComponent },
+    { path: 'terminos', component: Terminos },
+    { path: 'cookies', component: Cookies },
     { path: '**', redirectTo: '' },
 ];

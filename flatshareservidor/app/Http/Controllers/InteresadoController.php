@@ -129,18 +129,27 @@ class InteresadoController extends Controller
         $participantes = array_unique(array_merge([$piso->usuario_id], $aceptados));
         $chat = \App\Models\Chat::firstOrCreate(['piso_id' => $pisoId]);
 
+        // Email a todos los participantes del chat
+$todosUsuarios = $chat->usuarios()->get();
+foreach ($todosUsuarios as $usuario) {
+    Mail::to($usuario->email)->send(new SolicitudAceptada($piso, $usuario));
+}
+
+
+
         // Usar syncWithoutDetaching para no borrar los que ya están
         $chat->usuarios()->syncWithoutDetaching($participantes);
 
-        // Email al inquilino
-        Mail::to($interesado->usuario->email)->send(new SolicitudAceptada($piso, $interesado->usuario));
+       // Email al inquilino
+Mail::to($interesado->usuario->email)->send(new SolicitudAceptada($piso, $interesado->usuario));
 
-        return response()->json($interesado);
+// Email al propietario
+Mail::to($piso->usuario->email)->send(new SolicitudAceptada($piso, $interesado->usuario));
     }
 
     public function rechazar(Request $request, $pisoId, $usuarioId)
     {
-        $piso = Piso::findOrFail($pisoId);
+        $piso = Piso::with('usuario')->findOrFail($pisoId);
 
         if ($piso->usuario_id !== $request->user()->id) {
             return response()->json(['message' => 'No autorizado'], 403);
