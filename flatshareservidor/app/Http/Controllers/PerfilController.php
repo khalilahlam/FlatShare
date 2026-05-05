@@ -46,7 +46,9 @@ class PerfilController extends Controller
         'folder' => 'fotos_perfil'
     ]);
 
-    $url = $uploadedFile->getResponse()['secure_url'];
+    $response = $uploadedFile->getResponse();
+    \Log::info('Cloudinary response:', $response ?? ['null response']);
+    $url = $response['secure_url'] ?? 'sin_url';
 
     $user->update(['foto_perfil' => $url]);
 
