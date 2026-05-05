@@ -45,12 +45,14 @@ class PisoController extends Controller
         $data['usuario_id'] = $request->user()->id;
         $piso = Piso::create($data);
 
-        if ($request->hasFile('fotos')) {
-            foreach ($request->file('fotos') as $foto) {
-                $path = $foto->store('fotos', 'public');
-                $piso->fotos()->create(['url' => $path]);
-            }
-        }
+       if ($request->hasFile('fotos')) {
+    foreach ($request->file('fotos') as $foto) {
+        $result = cloudinary()->upload($foto->getRealPath(), [
+            'folder' => 'fotos_pisos'
+        ]);
+        $piso->fotos()->create(['url' => $result->getSecurePath()]);
+    }
+}
 
         return response()->json($piso->load('fotos'), 201);
     }
@@ -81,12 +83,13 @@ class PisoController extends Controller
         $piso->update($data);
 
         if ($request->hasFile('fotos')) {
-            foreach ($request->file('fotos') as $foto) {
-                $path = $foto->store('fotos', 'public');
-                $piso->fotos()->create(['url' => $path]);
-            }
-        }
-
+    foreach ($request->file('fotos') as $foto) {
+        $result = cloudinary()->upload($foto->getRealPath(), [
+            'folder' => 'fotos_pisos'
+        ]);
+        $piso->fotos()->create(['url' => $result->getSecurePath()]);
+    }
+}
         return response()->json($piso->load('fotos'));
     }
 

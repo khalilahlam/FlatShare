@@ -34,22 +34,20 @@ class PerfilController extends Controller
         return response()->json($user);
     }
 
-    public function updateFoto(Request $request)
-    {
-        $request->validate([
-            'foto' => 'required|image|max:2048',
-        ]);
+   public function updateFoto(Request $request)
+{
+    $request->validate([
+        'foto' => 'required|image|max:2048',
+    ]);
 
-        $user = $request->user();
+    $user = $request->user();
 
-        // Eliminar foto anterior si existe
-        if ($user->foto_perfil) {
-            Storage::disk('public')->delete($user->foto_perfil);
-        }
+    $result = cloudinary()->upload($request->file('foto')->getRealPath(), [
+        'folder' => 'fotos_perfil'
+    ]);
 
-        $path = $request->file('foto')->store('fotos_perfil', 'public');
-        $user->update(['foto_perfil' => $path]);
+    $user->update(['foto_perfil' => $result->getSecurePath()]);
 
-        return response()->json(['foto_perfil' => $path]);
-    }
+    return response()->json(['foto_perfil' => $result->getSecurePath()]);
+}
 }
