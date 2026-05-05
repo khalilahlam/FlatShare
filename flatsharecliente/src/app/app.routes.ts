@@ -14,6 +14,10 @@ import { PrivacidadComponent } from './components/privacidad/privacidad';
 import { Terminos } from './components/terminos/terminos';
 import { Footer } from './components/footer/footer';
 import { Cookies } from './components/cookies/cookies';
+import { NotFound } from './components/not-found/not-found';
+
+
+
 
 export const routes: Routes = [
     { path: '', component: Welcome },
@@ -29,5 +33,5 @@ export const routes: Routes = [
     { path: 'privacidad', component: PrivacidadComponent },
     { path: 'terminos', component: Terminos },
     { path: 'cookies', component: Cookies },
-    { path: '**', redirectTo: '' },
+    { path: '**', component: NotFound },
 ];
