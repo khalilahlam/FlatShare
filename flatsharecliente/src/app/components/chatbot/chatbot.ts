@@ -65,7 +65,7 @@ export class Chatbot {
     this.cargando.set(true);
 
     this.http.post<{ reply: string }>(
-      'http://localhost:8000/api/chat',
+      'https://flatshare-production.up.railway.app/api/chat',
       {
         mensaje: texto,
         history: this.history.slice(-10)

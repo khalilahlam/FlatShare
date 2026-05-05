@@ -62,7 +62,7 @@ export class Profile implements OnInit {
     const formData = new FormData();
     formData.append('foto', input.files[0]);
     this.subiendoFoto.set(true);
-    this.http.post<any>('http://localhost:8000/api/perfil/foto', formData).subscribe({
+    this.http.post<any>('https://flatshare-production.up.railway.app/api/perfil/foto', formData).subscribe({
       next: (res) => {
         this.auth.setUser({ ...this.auth.user()!, foto_perfil: res.foto_perfil });
         this.subiendoFoto.set(false);
@@ -87,7 +87,7 @@ export class Profile implements OnInit {
 
   guardarPerfil() {
     this.guardandoPerfil.set(true);
-    this.http.put<any>('http://localhost:8000/api/me', this.perfilForm()).subscribe({
+    this.http.put<any>('https://flatshare-production.up.railway.app/api/me', this.perfilForm()).subscribe({
       next: (usuario) => {
         this.auth.setUser(usuario);
         this.editandoPerfil.set(false);

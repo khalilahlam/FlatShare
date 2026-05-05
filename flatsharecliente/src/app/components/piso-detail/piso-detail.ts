@@ -35,7 +35,7 @@ export class PisoDetail implements OnInit, AfterViewInit, OnDestroy {
         setTimeout(() => this.renderMap(), 0);
 
         if (this.auth.isLoggedIn() && !this.auth.isPropietario()) {
-          this.http.get<{ interesado: boolean }>('http://localhost:8000/api/pisos/' + id + '/mi-estado')
+          this.http.get<{ interesado: boolean }>('https://flatshare-production.up.railway.app/api/pisos/' + id + '/mi-estado')
             .subscribe({ next: (res) => this.interesado.set(res.interesado) });
           this.pisoService.getFavoritos().subscribe({
             next: (favs) => this.favorito.set(favs.includes(id))
@@ -64,12 +64,12 @@ export class PisoDetail implements OnInit, AfterViewInit, OnDestroy {
     if (!pisoId || this.cargandoInteres()) return;
     this.cargandoInteres.set(true);
     if (this.interesado()) {
-      this.http.delete('http://localhost:8000/api/pisos/' + pisoId + '/interesados').subscribe({
+      this.http.delete('https://flatshare-production.up.railway.app/api/pisos/' + pisoId + '/interesados').subscribe({
         next: () => { this.interesado.set(false); this.cargandoInteres.set(false); },
         error: () => this.cargandoInteres.set(false)
       });
     } else {
-      this.http.post('http://localhost:8000/api/pisos/' + pisoId + '/interesados', {}).subscribe({
+      this.http.post('https://flatshare-production.up.railway.app/api/pisos/' + pisoId + '/interesados', {}).subscribe({
         next: () => { this.interesado.set(true); this.cargandoInteres.set(false); },
         error: () => this.cargandoInteres.set(false)
       });
@@ -101,7 +101,7 @@ export class PisoDetail implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getFotoUrl(url: string) {
-    return 'http://localhost:8000/storage/' + url;
+    return 'https://flatshare-production.up.railway.app/storage/' + url;
   }
 
   private renderMap() {

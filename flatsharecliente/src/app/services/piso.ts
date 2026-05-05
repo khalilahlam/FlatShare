@@ -49,7 +49,7 @@ export interface IPiso {
 })
 export class PisoService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8000/api';
+  private apiUrl = 'https://flatshare-production.up.railway.app/api';
 
   getPisos(ciudad?: string) {
     let params = new HttpParams();

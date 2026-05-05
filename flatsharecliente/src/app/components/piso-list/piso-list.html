@@ -88,7 +88,7 @@
         <div class="flex" style="height: 180px;">
           <div class="bg-blue-50 shrink-0 overflow-hidden" style="width: 160px;">
             @if(piso.fotos && piso.fotos.length > 0) {
-            <img [src]="'http://localhost:8000/storage/' + piso.fotos[0].url" class="w-full h-full object-cover" />
+            <img [src]="'https://flatshare-production.up.railway.app/storage/' + piso.fotos[0].url" class="w-full h-full object-cover" />
             } @else {
               <img src="assets/logo2.png" alt="Logo FlatShare" class="w-full h-full object-contain p-6" />
             }

@@ -29,7 +29,7 @@ export interface IChat {
 @Injectable({ providedIn: 'root' })
 export class MensajesService {
   private http = inject(HttpClient);
-  private base = 'http://localhost:8000/api';
+  private base = 'https://flatshare-production.up.railway.app/api';
 
   getMisChats(): Observable<IChat[]> {
     return this.http.get<IChat[]>(`${this.base}/conversaciones`);

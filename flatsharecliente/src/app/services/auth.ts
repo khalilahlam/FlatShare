@@ -24,7 +24,7 @@ export interface IUsuario {
 export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
-  private apiUrl = 'http://localhost:8000/api';
+private apiUrl = 'https://flatshare-production.up.railway.app/api';
 
   user = signal<IUsuario | null>(null);
   token = signal<string | null>(null);
