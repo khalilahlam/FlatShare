@@ -7,6 +7,7 @@ use App\Http\Controllers\InteresadoController;
 use App\Http\Controllers\FavoritoController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ConversacionController;
+use App\Http\Controllers\PerfilController;
 
 
 // AUTH públicas
@@ -56,5 +57,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/conversaciones/{chatId}/mensajes',     [ConversacionController::class, 'enviar']);
     Route::get('/conversaciones/no-leidos',              [ConversacionController::class, 'noLeidos']);
     Route::post('/pisos/{pisoId}/chat',                  [ConversacionController::class, 'crearOActualizarChat']);
- 
+   
+   
+    // Usuario fotos
+    Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/perfil', [PerfilController::class, 'show']);
+    Route::put('/perfil', [PerfilController::class, 'update']);
+    Route::post('/perfil/foto', [PerfilController::class, 'updateFoto']);
+});
 });

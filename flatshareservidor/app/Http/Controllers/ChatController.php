@@ -126,7 +126,8 @@ LIMITACIONES:
         $mensaje = $request->input('mensaje');
 
         // 5. Llamada a Groq
-        $apiKey = env('GROQ_API_KEY');
+        
+        $apiKey = $_ENV['GROQ_API_KEY'] ?? env('GROQ_API_KEY');
 
         $mensajes = [['role' => 'system', 'content' => $systemPrompt]];
         foreach ($history as $turn) {
