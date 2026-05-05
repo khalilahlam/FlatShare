@@ -25,7 +25,7 @@ return Application::configure(basePath: dirname(__DIR__))
             if ($request->is('api/*')) {
                 return response()->json([
                     'message' => $e->getMessage(),
-                ], 500)->header('Access-Control-Allow-Origin', 'http://localhost:4200');
+                ], 500)->header('Access-Control-Allow-Origin', 'https://flat-share-4uy5dne9k-khalilahlams-projects.vercel.app');
             }
         });
     })->create();

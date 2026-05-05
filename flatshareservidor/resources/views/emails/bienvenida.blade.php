@@ -9,7 +9,7 @@ Como **propietario**, puedes publicar tu piso y gestionar las solicitudes de los
 Como **inquilino**, puedes buscar pisos y enviar solicitudes a los propietarios.
 @endif
 
-<x-mail::button :url="'http://localhost:4200'">
+<x-mail::button :url="'https://flat-share-4uy5dne9k-khalilahlams-projects.vercel.app'">
 Acceder a FlatShare
 </x-mail::button>
 

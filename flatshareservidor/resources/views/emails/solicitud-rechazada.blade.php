@@ -5,7 +5,7 @@ Lamentamos informarte que tu solicitud para el piso **{{ $piso->titulo }}** en {
 
 No te desanimes, hay muchos otros pisos disponibles en FlatShare que pueden encajar contigo.
 
-<x-mail::button :url="'http://localhost:4200'">
+<x-mail::button :url="'https://flat-share-4uy5dne9k-khalilahlams-projects.vercel.app'">
 Buscar otros pisos
 </x-mail::button>
 

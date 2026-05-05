@@ -9,7 +9,7 @@ Se ha confirmado un match en el siguiente piso y ya tienes acceso al chat grupal
 
 Entra en la plataforma y empieza a chatear con tus futuros compañeros.
 
-<x-mail::button :url="'http://localhost:4200/chat'">
+<x-mail::button :url="'https://flat-share-4uy5dne9k-khalilahlams-projects.vercel.app/chat'">
 Ver el chat
 </x-mail::button>
 

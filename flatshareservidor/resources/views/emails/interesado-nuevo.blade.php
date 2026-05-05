@@ -11,7 +11,7 @@ El usuario **{{ $inquilino->nombre }} {{ $inquilino->apellidos }}** se ha intere
 
 Puedes ver su perfil y gestionar la solicitud desde tu panel.
 
-<x-mail::button :url="'http://localhost:4200'">
+<x-mail::button :url="'https://flat-share-4uy5dne9k-khalilahlams-projects.vercel.app'">
 Ver solicitudes
 </x-mail::button>
 

@@ -9,7 +9,7 @@ Tu solicitud para el siguiente piso ha sido **aceptada**:
 
 El propietario ha revisado tu perfil y pronto se pondrá en contacto contigo.
 
-<x-mail::button :url="'http://localhost:4200'">
+<x-mail::button :url="'https://flat-share-4uy5dne9k-khalilahlams-projects.vercel.app'">
 Ver mi piso
 </x-mail::button>
 
