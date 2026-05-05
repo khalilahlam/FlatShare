@@ -150,7 +150,6 @@
 
             <!-- Botones -->
             <div class="flex items-center gap-1.5 pt-3 border-t border-gray-100">
-
               <a [routerLink]="['/pisos', piso.id]"
                 class="flex items-center gap-1 px-3 py-1.5 bg-blue-50 text-blue-600 rounded-lg text-xs font-semibold hover:bg-blue-100 transition-all">
                 <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -186,13 +185,11 @@
                 Eliminar
               </button>
               }
-
             </div>
           </div>
         </div>
       </div>
       }
-
     </div>
 
     <!-- Mapa -->
@@ -201,4 +198,33 @@
     </div>
 
   </div>
+
+  <!-- Modal eliminar -->
+  @if(pisoAEliminar() !== null) {
+  <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm animate-fade-in">
+    <div class="bg-white rounded-2xl shadow-xl p-8 w-full max-w-sm mx-4 animate-scale-in">
+      <div class="flex flex-col items-center text-center">
+        <div class="w-14 h-14 bg-red-50 rounded-full flex items-center justify-center mb-4">
+          <svg class="w-7 h-7 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M1 7h22M8 7V5a1 1 0 011-1h6a1 1 0 011 1v2" />
+          </svg>
+        </div>
+        <h3 class="text-lg font-bold text-gray-900 mb-2">¿Eliminar este piso?</h3>
+        <p class="text-gray-500 text-sm mb-6">Esta acción no se puede deshacer.</p>
+        <div class="flex gap-3 w-full">
+          <button (click)="cancelarEliminar()"
+            class="flex-1 px-4 py-2.5 rounded-xl border border-gray-200 text-gray-600 font-semibold hover:bg-gray-50 transition-all cursor-pointer">
+            Cancelar
+          </button>
+          <button (click)="confirmarEliminar()"
+            class="flex-1 px-4 py-2.5 rounded-xl bg-red-500 text-white font-semibold hover:bg-red-600 transition-all cursor-pointer">
+            Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+
 </div>

@@ -120,12 +120,26 @@ export class PisoList implements OnInit, AfterViewInit, OnDestroy {
     this.filtroAmueblado.set(null);
   }
 
-  eliminar(id: number) {
-    if (!confirm('¿Eliminar este piso?')) return;
-    this.pisoService.deletePiso(id).subscribe({
-      next: () => this.cargarPisos()
-    });
-  }
+  pisoAEliminar = signal<number | null>(null);
+
+eliminar(id: number) {
+  this.pisoAEliminar.set(id);
+}
+
+confirmarEliminar() {
+  const id = this.pisoAEliminar();
+  if (!id) return;
+  this.pisoService.deletePiso(id).subscribe({
+    next: () => {
+      this.pisoAEliminar.set(null);
+      this.cargarPisos();
+    }
+  });
+}
+
+cancelarEliminar() {
+  this.pisoAEliminar.set(null);
+}
 
   flyToPiso(piso: IPiso) {
     if (!this.map || !piso.lat || !piso.lng) return;
