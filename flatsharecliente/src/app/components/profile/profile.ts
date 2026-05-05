@@ -23,6 +23,10 @@ export class Profile implements OnInit {
   tabActiva = signal<'favoritos' | 'interesados'>('favoritos');
   subiendoFoto = signal(false);
 
+  // Modales
+  pisoAEliminar = signal<number | null>(null);
+  candidatoAEliminar = signal<{ pisoId: number; usuarioId: number } | null>(null);
+
   // Editar perfil
   editandoPerfil = signal(false);
   guardandoPerfil = signal(false);
@@ -55,10 +59,8 @@ export class Profile implements OnInit {
   subirFoto(event: Event) {
     const input = event.target as HTMLInputElement;
     if (!input.files?.length) return;
-
     const formData = new FormData();
     formData.append('foto', input.files[0]);
-
     this.subiendoFoto.set(true);
     this.http.post<any>('http://localhost:8000/api/perfil/foto', formData).subscribe({
       next: (res) => {
@@ -160,16 +162,32 @@ export class Profile implements OnInit {
   }
 
   eliminarInteresado(pisoId: number, usuarioId: number) {
-    if (!confirm('¿Eliminar este candidato?')) return;
-    this.pisoService.eliminarInteresado(pisoId, usuarioId).subscribe({
-      next: () => this.cargarInteresados(pisoId)
+    this.candidatoAEliminar.set({ pisoId, usuarioId });
+  }
+
+  confirmarEliminarCandidato() {
+    const c = this.candidatoAEliminar();
+    if (!c) return;
+    this.pisoService.eliminarInteresado(c.pisoId, c.usuarioId).subscribe({
+      next: () => {
+        this.candidatoAEliminar.set(null);
+        this.cargarInteresados(c.pisoId);
+      }
     });
   }
 
   eliminar(id: number) {
-    if (!confirm('¿Eliminar este piso?')) return;
+    this.pisoAEliminar.set(id);
+  }
+
+  confirmarEliminarPiso() {
+    const id = this.pisoAEliminar();
+    if (!id) return;
     this.pisoService.deletePiso(id).subscribe({
-      next: () => this.ngOnInit()
+      next: () => {
+        this.pisoAEliminar.set(null);
+        this.ngOnInit();
+      }
     });
   }
 
