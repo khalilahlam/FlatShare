@@ -30,8 +30,7 @@ export class Navbar implements OnInit, OnDestroy {
 
     if (this.auth.isLoggedIn()) {
       this.cargarNoLeidos();
-      this.polling = setInterval(() => this.cargarNoLeidos(), 10000);
-    }
+this.polling = setInterval(() => this.cargarNoLeidos(), 60000);    }
   }
 
   ngOnDestroy() {
