@@ -34,7 +34,7 @@ class InteresadoController extends Controller
         ]);
 
         // Email al propietario
-        Mail::to($piso->usuario->email)->send(new InteresadoNuevo($piso, $request->user()));
+        Mail::to($piso->usuario->email)->queue(new InteresadoNuevo($piso, $request->user()));
 
         return response()->json($interesado, 201);
     }
@@ -132,7 +132,7 @@ class InteresadoController extends Controller
         // Email a todos los participantes del chat
 $todosUsuarios = $chat->usuarios()->get();
 foreach ($todosUsuarios as $usuario) {
-    Mail::to($usuario->email)->send(new SolicitudAceptada($piso, $usuario));
+    Mail::to($usuario->email)->queue(new SolicitudAceptada($piso, $usuario));
 }
 
 
@@ -141,10 +141,10 @@ foreach ($todosUsuarios as $usuario) {
         $chat->usuarios()->syncWithoutDetaching($participantes);
 
        // Email al inquilino
-Mail::to($interesado->usuario->email)->send(new SolicitudAceptada($piso, $interesado->usuario));
+Mail::to($interesado->usuario->email)->queue(new SolicitudAceptada($piso, $interesado->usuario));
 
 // Email al propietario
-Mail::to($piso->usuario->email)->send(new SolicitudAceptada($piso, $interesado->usuario));
+Mail::to($piso->usuario->email)->queue(new SolicitudAceptada($piso, $interesado->usuario));
     }
 
     public function rechazar(Request $request, $pisoId, $usuarioId)
@@ -162,7 +162,7 @@ Mail::to($piso->usuario->email)->send(new SolicitudAceptada($piso, $interesado->
 
         $interesado->update(['estado' => 'rechazado']);
 
-        Mail::to($interesado->usuario->email)->send(new SolicitudRechazada($piso, $interesado->usuario));
+        Mail::to($interesado->usuario->email)->queue(new SolicitudRechazada($piso, $interesado->usuario));
 
         return response()->json($interesado);
     }

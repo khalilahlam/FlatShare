@@ -38,8 +38,7 @@ class AuthController extends Controller
             'intereses'        => $data['intereses'] ?? null,
         ]);
 
-        Mail::to($usuario->email)->send(new Bienvenida($usuario));
-
+Mail::to($usuario->email)->queue(new Bienvenida($usuario));
         $token = $usuario->createToken('auth_token')->plainTextToken;
 
         return response()->json(['token' => $token, 'user' => $usuario], 201);
