@@ -100,9 +100,11 @@ export class PisoDetail implements OnInit, AfterViewInit, OnDestroy {
     this.fotoActual.set((this.fotoActual() + 1) % fotos.length);
   }
 
-  getFotoUrl(url: string) {
+  getFotoUrl(url: string | undefined | null): string {
+    if (!url) return '';
+    if (url.startsWith('http')) return url;
     return 'https://flatshare-production.up.railway.app/storage/' + url;
-  }
+}
 
   private renderMap() {
     if (!isPlatformBrowser(this.platformId)) return;

@@ -152,7 +152,7 @@ export class Mensajes implements OnInit, OnDestroy, AfterViewChecked {
     if (d.toDateString() === ayer.toDateString()) return 'Ayer';
     return d.toLocaleDateString('es-ES', { day: '2-digit', month: 'short' });
   }
-  getFotoUrl(url: string): string {
+  getFotoUrl(url: string | undefined | null): string {
     if (!url) return '';
     if (url.startsWith('http')) return url;
     return 'https://flatshare-production.up.railway.app/storage/' + url;

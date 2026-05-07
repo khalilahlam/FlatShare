@@ -36,7 +36,7 @@ export class Welcome implements OnInit {
 
     return queryParams;
   }
-  getFotoUrl(url: string): string {
+  getFotoUrl(url: string | undefined | null): string {
     if (!url) return '';
     if (url.startsWith('http')) return url;
     return 'https://flatshare-production.up.railway.app/storage/' + url;
