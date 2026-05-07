@@ -152,6 +152,11 @@ export class Mensajes implements OnInit, OnDestroy, AfterViewChecked {
     if (d.toDateString() === ayer.toDateString()) return 'Ayer';
     return d.toLocaleDateString('es-ES', { day: '2-digit', month: 'short' });
   }
+  getFotoUrl(url: string): string {
+    if (!url) return '';
+    if (url.startsWith('http')) return url;
+    return 'https://flatshare-production.up.railway.app/storage/' + url;
+}
 
   totalNoLeidos = computed(() =>
     this.chats().reduce((acc, c) => acc + c.no_leidos, 0)

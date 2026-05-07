@@ -56,4 +56,9 @@ export class Navbar implements OnInit, OnDestroy {
       localStorage.setItem('theme', 'light');
     }
   }
+  getFotoUrl(url: string): string {
+    if (!url) return '';
+    if (url.startsWith('http')) return url;
+    return 'https://flatshare-production.up.railway.app/storage/' + url;
+}
 }

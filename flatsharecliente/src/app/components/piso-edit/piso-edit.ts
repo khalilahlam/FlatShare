@@ -187,4 +187,9 @@ export class PisoEdit implements OnInit, AfterViewInit, OnDestroy {
       error: () => this.error = 'Error al guardar los cambios'
     });
   }
+   getFotoUrl(url: string): string {
+    if (!url) return '';
+    if (url.startsWith('http')) return url;
+    return 'https://flatshare-production.up.railway.app/storage/' + url;
+}
 }

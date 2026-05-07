@@ -189,4 +189,9 @@ cancelarEliminar() {
   private escapeHtml(text: string): string {
     return text.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#39;');
   }
+  getFotoUrl(url: string): string {
+    if (!url) return '';
+    if (url.startsWith('http')) return url;
+    return 'https://flatshare-production.up.railway.app/storage/' + url;
+}
 }
