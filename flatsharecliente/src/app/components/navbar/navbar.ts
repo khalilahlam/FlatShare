@@ -15,6 +15,7 @@ export class Navbar implements OnInit, OnDestroy {
   mensajesService = inject(MensajesService);
   isDarkMode = false;
   noLeidos = signal(0);
+  menuAbierto = false;
   private polling: any;
 
   ngOnInit() {
@@ -30,7 +31,8 @@ export class Navbar implements OnInit, OnDestroy {
 
     if (this.auth.isLoggedIn()) {
       this.cargarNoLeidos();
-this.polling = setInterval(() => this.cargarNoLeidos(), 60000);    }
+      this.polling = setInterval(() => this.cargarNoLeidos(), 60000);
+    }
   }
 
   ngOnDestroy() {
@@ -55,9 +57,18 @@ this.polling = setInterval(() => this.cargarNoLeidos(), 60000);    }
       localStorage.setItem('theme', 'light');
     }
   }
+
+  toggleMenu() {
+    this.menuAbierto = !this.menuAbierto;
+  }
+
+  cerrarMenu() {
+    this.menuAbierto = false;
+  }
+
   getFotoUrl(url: string | undefined | null): string {
     if (!url) return '';
     if (url.startsWith('http')) return url;
     return 'https://flatshare-production.up.railway.app/storage/' + url;
-}
+  }
 }
