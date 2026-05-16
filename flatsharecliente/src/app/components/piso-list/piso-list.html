@@ -1,28 +1,28 @@
-<div class="px-20 py-6 flex flex-col" style="height: calc(100vh - 83px); overflow: hidden;">
+<div class="px-4 sm:px-8 lg:px-20 py-6 flex flex-col" style="height: calc(100vh - 83px); overflow: hidden;">
 
   <!-- Header -->
   <div class="flex justify-between items-center mb-4 shrink-0">
     <div>
-      <h1 class="text-3xl font-black text-gray-900">Pisos disponibles</h1>
+      <h1 class="text-2xl sm:text-3xl font-black text-gray-900">Pisos disponibles</h1>
       <p class="text-gray-500 mt-1">{{ filteredPisos().length }} pisos encontrados</p>
     </div>
     @if(auth.isPropietario()) {
     <a routerLink="/pisos/create"
-      class="bg-blue-600 text-white px-5 py-2.5 rounded-xl font-semibold hover:bg-blue-700 transition-all shadow-sm shadow-blue-200">
+      class="bg-blue-600 text-white px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl font-semibold hover:bg-blue-700 transition-all shadow-sm shadow-blue-200 text-sm sm:text-base">
       + Publicar piso
     </a>
     }
   </div>
 
   <!-- Filtros -->
-  <div class="flex flex-wrap gap-3 mb-4 shrink-0">
+  <div class="flex flex-wrap gap-2 sm:gap-3 mb-4 shrink-0">
     <div class="relative">
       <svg class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
       </svg>
       <input type="text" placeholder="Ciudad" [value]="filtroCiudad() ?? ''"
         (input)="filtroCiudad.set($any($event.target).value || null)"
-        class="border border-gray-200 rounded-xl pl-9 pr-4 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white w-44" />
+        class="border border-gray-200 rounded-xl pl-9 pr-4 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white w-36 sm:w-44" />
     </div>
 
     <div class="relative">
@@ -30,14 +30,14 @@
         class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" viewBox="0 0 16 16">
         <path d="M4 9.42h1.063C5.4 12.323 7.317 14 10.34 14c.622 0 1.167-.068 1.659-.185v-1.3c-.484.119-1.045.17-1.659.17-2.1 0-3.455-1.198-3.775-3.264h4.017v-.928H6.497v-.936q-.002-.165.008-.329h4.078v-.927H6.618c.388-1.898 1.719-2.985 3.723-2.985.614 0 1.175.05 1.659.177V2.194A6.6 6.6 0 0 0 10.341 2c-2.928 0-4.82 1.569-5.244 4.3H4v.928h1.01v1.265H4v.928z" />
       </svg>
-      <input type="number" placeholder="Precio máximo" min="0" step="10" [value]="filtroPrecioMax() ?? ''"
+      <input type="number" placeholder="Precio máx." min="0" step="10" [value]="filtroPrecioMax() ?? ''"
         (input)="filtroPrecioMax.set($any($event.target).value ? +$any($event.target).value : null)"
-        class="border border-gray-200 rounded-xl pl-9 pr-4 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white w-44" />
+        class="border border-gray-200 rounded-xl pl-9 pr-4 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white w-36 sm:w-44" />
     </div>
 
     <select [value]="filtroHabitaciones() === null ? '' : filtroHabitaciones()"
       (change)="filtroHabitaciones.set($any($event.target).value ? +$any($event.target).value : null)"
-      class="border border-gray-200 cursor-pointer rounded-xl px-4 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+      class="border border-gray-200 cursor-pointer rounded-xl px-3 sm:px-4 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
       <option value="" disabled selected hidden>Habitaciones</option>
       <option value="1">1+</option>
       <option value="2">2+</option>
@@ -47,7 +47,7 @@
 
     <select [value]="filtroAmueblado() === null ? '' : filtroAmueblado()!.toString()"
       (change)="filtroAmueblado.set($any($event.target).value === '' ? null : $any($event.target).value === 'true')"
-      class="border border-gray-200 cursor-pointer rounded-xl px-4 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+      class="border border-gray-200 cursor-pointer rounded-xl px-3 sm:px-4 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
       <option value="" disabled selected hidden>Amueblado</option>
       <option value="true">Sí</option>
       <option value="false">No</option>
@@ -55,7 +55,7 @@
 
     @if(filtroCiudad() || filtroPrecioMax() || filtroHabitaciones() || filtroAmueblado() !== null) {
     <button (click)="limpiarFiltros()"
-      class="px-4 cursor-pointer py-2 rounded-xl text-sm font-semibold text-red-500 border border-red-200 hover:bg-red-50 transition-all flex items-center gap-1">
+      class="px-3 sm:px-4 cursor-pointer py-2 rounded-xl text-sm font-semibold text-red-500 border border-red-200 hover:bg-red-50 transition-all flex items-center gap-1">
       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
       </svg>
@@ -68,7 +68,7 @@
   <div class="flex gap-7 flex-1 min-h-0">
 
     <!-- LEFT: cards con scroll -->
-    <div class="w-full lg:w-2/5 overflow-y-auto p-4 flex flex-col gap-4">
+    <div class="w-full lg:w-2/5 overflow-y-auto p-1 sm:p-4 flex flex-col gap-4">
 
       @if(filteredPisos().length === 0) {
       <div class="text-center py-20 text-gray-400">
@@ -86,20 +86,20 @@
         class="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all overflow-hidden cursor-pointer shrink-0"
         [attr.data-id]="piso.id" (click)="flyToPiso(piso)">
         <div class="flex" style="height: 180px;">
-          <div class="bg-blue-50 shrink-0 overflow-hidden" style="width: 160px;">
+          <div class="bg-blue-50 shrink-0 overflow-hidden" style="width: 140px;">
             @if(piso.fotos && piso.fotos.length > 0) {
-            <img [src]="getFotoUrl( piso.fotos[0].url)" class="w-full h-full object-cover" />
+            <img [src]="getFotoUrl(piso.fotos[0].url)" class="w-full h-full object-cover" />
             } @else {
               <img src="assets/logo2.png" alt="Logo FlatShare" class="w-full h-full object-contain p-6" />
             }
           </div>
-          <div class="p-4 flex flex-col justify-between flex-1 min-w-0">
+          <div class="p-3 sm:p-4 flex flex-col justify-between flex-1 min-w-0">
             <div>
-              <div class="flex justify-between items-start mb-2">
-                <h3 class="font-bold text-gray-900 text-base leading-tight">{{ piso.titulo }}</h3>
-                <span class="text-blue-600 font-black text-base ml-2 shrink-0">{{ piso.precio }}€</span>
+              <div class="flex justify-between items-start mb-1 sm:mb-2">
+                <h3 class="font-bold text-gray-900 text-sm sm:text-base leading-tight">{{ piso.titulo }}</h3>
+                <span class="text-blue-600 font-black text-sm sm:text-base ml-2 shrink-0">{{ piso.precio }}€</span>
               </div>
-              <div class="flex items-center gap-1 text-gray-500 text-sm mb-1">
+              <div class="flex items-center gap-1 text-gray-500 text-xs sm:text-sm mb-1">
                 <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0L6.343 16.657a8 8 0 1111.314 0z" />
@@ -107,7 +107,7 @@
                 </svg>
                 {{ piso.ubicacion }}
               </div>
-              <div class="flex items-center gap-3 text-gray-500 text-sm mb-2">
+              <div class="flex items-center gap-2 sm:gap-3 text-gray-500 text-xs sm:text-sm mb-2">
                 <span class="flex items-center gap-1">
                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -149,9 +149,9 @@
             </div>
 
             <!-- Botones -->
-            <div class="flex items-center gap-1.5 pt-3 border-t border-gray-100">
+            <div class="flex items-center gap-1 sm:gap-1.5 pt-2 sm:pt-3 border-t border-gray-100">
               <a [routerLink]="['/pisos', piso.id]"
-                class="flex items-center gap-1 px-3 py-1.5 bg-blue-50 text-blue-600 rounded-lg text-xs font-semibold hover:bg-blue-100 transition-all">
+                class="flex items-center gap-1 px-2 sm:px-3 py-1.5 bg-blue-50 text-blue-600 rounded-lg text-xs font-semibold hover:bg-blue-100 transition-all">
                 <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -171,14 +171,14 @@
 
               @if(auth.user()?.id === piso.usuario_id) {
               <a [routerLink]="['/pisos', piso.id, 'edit']" (click)="$event.stopPropagation()"
-                class="flex items-center gap-1 px-3 py-1.5 bg-yellow-50 text-yellow-600 rounded-lg text-xs font-semibold hover:bg-yellow-100 transition-all">
+                class="flex items-center gap-1 px-2 sm:px-3 py-1.5 bg-yellow-50 text-yellow-600 rounded-lg text-xs font-semibold hover:bg-yellow-100 transition-all">
                 <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                 </svg>
                 Editar
               </a>
               <button (click)="eliminar(piso.id); $event.stopPropagation()"
-                class="flex items-center gap-1 px-3 py-1.5 bg-red-50 text-red-500 rounded-lg text-xs font-semibold hover:bg-red-100 transition-all cursor-pointer">
+                class="flex items-center gap-1 px-2 sm:px-3 py-1.5 bg-red-50 text-red-500 rounded-lg text-xs font-semibold hover:bg-red-100 transition-all cursor-pointer">
                 <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M1 7h22M8 7V5a1 1 0 011-1h6a1 1 0 011 1v2" />
                 </svg>
