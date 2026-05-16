@@ -25,6 +25,7 @@ export class Mensajes implements OnInit, OnDestroy, AfterViewChecked {
   enviando = signal(false);
   private polling: any;
   private scrollPendiente = false;
+  mostrarChat = signal(false);
 
   miId = computed(() => this.auth.user()?.id);
 
@@ -62,6 +63,7 @@ export class Mensajes implements OnInit, OnDestroy, AfterViewChecked {
   seleccionarChat(chat: IChat) {
     this.chatActivo.set(chat);
     this.cargarMensajes(chat.id);
+    this.mostrarChat.set(true);
   }
 
   cargarMensajes(chatId: number, mostrarCarga = true) {
@@ -161,4 +163,8 @@ export class Mensajes implements OnInit, OnDestroy, AfterViewChecked {
   totalNoLeidos = computed(() =>
     this.chats().reduce((acc, c) => acc + c.no_leidos, 0)
   );
+  volverALista() {
+  this.mostrarChat.set(false);
+  this.chatActivo.set(null);
+}
 }
