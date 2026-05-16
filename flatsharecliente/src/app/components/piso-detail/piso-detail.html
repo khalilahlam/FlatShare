@@ -1,13 +1,13 @@
-<div class="max-w-5xl mx-auto px-6 py-10">
+<div class="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
   @if(piso()) {
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8" >
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
 
     <!-- Izquierda -->
-    <div class="lg:col-span-2 bg-white border border-gray-100 rounded-2xl p-6 shadow-sm">
+    <div class="lg:col-span-2 bg-white border border-gray-100 rounded-2xl p-4 sm:p-6 shadow-sm">
 
       <!-- Galería de fotos -->
       @if(piso()!.fotos && piso()!.fotos!.length > 0) {
-      <div class="relative rounded-2xl overflow-hidden h-72 bg-blue-50">
+      <div class="relative rounded-2xl overflow-hidden h-56 sm:h-72 bg-blue-50">
         <img [src]="getFotoUrl(piso()!.fotos![fotoActual()].url)" class="w-full h-full object-cover" />
         @if(piso()!.fotos!.length > 1) {
         <button (click)="fotoAnterior()"
@@ -24,22 +24,21 @@
         </button>
         <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1">
           @for(foto of piso()!.fotos!; track $index) {
-          <div [class]="$index === fotoActual() ? 'w-2 h-2 rounded-full bg-white' : 'w-2 h-2 rounded-full bg-white/50'">
-          </div>
+          <div [class]="$index === fotoActual() ? 'w-2 h-2 rounded-full bg-white' : 'w-2 h-2 rounded-full bg-white/50'"></div>
           }
         </div>
         }
       </div>
       } @else {
-      <div class="rounded-2xl h-72 bg-blue-50 flex items-center justify-center">
-        <img src="assets/logo2.png" alt="Sin fotos" class="w-50 h-auto" />
+      <div class="rounded-2xl h-56 sm:h-72 bg-blue-50 flex items-center justify-center">
+        <img src="assets/logo2.png" alt="Sin fotos" class="w-40 sm:w-50 h-auto" />
       </div>
       }
 
       <!-- Info -->
-      <div class="mt-6">
-        <h1 class="text-2xl font-black text-gray-900">{{ piso()!.titulo }}</h1>
-        <p class="text-gray-500 mt-1 flex items-center gap-1.5">
+      <div class="mt-5 sm:mt-6">
+        <h1 class="text-xl sm:text-2xl font-black text-gray-900">{{ piso()!.titulo }}</h1>
+        <p class="text-gray-500 mt-1 flex items-center gap-1.5 text-sm sm:text-base">
           <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0L6.343 16.657a8 8 0 1111.314 0z" />
@@ -48,7 +47,7 @@
           {{ piso()!.ubicacion }}
         </p>
         @if(piso()!.ciudad) {
-        <p class="text-gray-500 mt-1 flex items-center gap-1.5">
+        <p class="text-gray-500 mt-1 flex items-center gap-1.5 text-sm sm:text-base">
           <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
@@ -60,15 +59,15 @@
 
       <!-- Badges -->
       <div class="flex flex-wrap gap-2 mt-4">
-        <span class="bg-blue-50 text-blue-700 text-sm px-3 py-1 rounded-lg font-medium flex items-center gap-1.5">
+        <span class="bg-blue-50 text-blue-700 text-xs sm:text-sm px-3 py-1 rounded-lg font-medium flex items-center gap-1.5">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
           </svg>
           {{ piso()!.habitaciones }} hab
         </span>
-        <span class="bg-blue-50 text-blue-700 text-sm px-3 py-1 rounded-lg font-medium flex items-center gap-1.5">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-bath">
+        <span class="bg-blue-50 text-blue-700 text-xs sm:text-sm px-3 py-1 rounded-lg font-medium flex items-center gap-1.5">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
             <path d="M4 12h16a1 1 0 0 1 1 1v3a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-3a1 1 0 0 1 1 -1" />
             <path d="M6 12v-7a2 2 0 0 1 2 -2h3v2.25" />
@@ -77,14 +76,14 @@
           </svg>
           {{ piso()!.banos }} baños
         </span>
-        <span class="bg-blue-50 text-blue-700 text-sm px-3 py-1 rounded-lg font-medium flex items-center gap-1.5">
+        <span class="bg-blue-50 text-blue-700 text-xs sm:text-sm px-3 py-1 rounded-lg font-medium flex items-center gap-1.5">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
           </svg>
           {{ piso()!.metros }}m²
         </span>
-        <span class="bg-blue-50 text-blue-700 text-sm px-3 py-1 rounded-lg font-medium flex items-center gap-1.5">
+        <span class="bg-blue-50 text-blue-700 text-xs sm:text-sm px-3 py-1 rounded-lg font-medium flex items-center gap-1.5">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M17 20H7a2 2 0 01-2-2v-2a5 5 0 015-5h4a5 5 0 015 5v2a2 2 0 01-2 2z" />
@@ -93,14 +92,14 @@
           {{ piso()!.num_companeros }} compañeros
         </span>
         @if(piso()!.amueblado) {
-        <span class="bg-green-50 text-green-600 text-sm px-3 py-1 rounded-lg font-medium flex items-center gap-1.5">
+        <span class="bg-green-50 text-green-600 text-xs sm:text-sm px-3 py-1 rounded-lg font-medium flex items-center gap-1.5">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
           </svg>
           Amueblado
         </span>
         } @else {
-          <span class="bg-red-50 text-red-500 text-sm px-3 py-1 rounded-lg font-medium flex items-center gap-1.5">
+          <span class="bg-red-50 text-red-500 text-xs sm:text-sm px-3 py-1 rounded-lg font-medium flex items-center gap-1.5">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -110,24 +109,24 @@
       </div>
 
       <!-- Descripción -->
-      <div class="mt-6 border-t border-gray-100 pt-6">
+      <div class="mt-5 sm:mt-6 border-t border-gray-100 pt-5 sm:pt-6">
         <h2 class="text-lg font-bold text-gray-900 mb-3">Descripción</h2>
-        <p class="text-gray-600 leading-relaxed">{{ piso()!.descripcion }}</p>
+        <p class="text-gray-600 leading-relaxed text-sm sm:text-base">{{ piso()!.descripcion }}</p>
       </div>
 
       <!-- Mapa -->
       @if(piso()!.lat != null && piso()!.lng != null) {
-      <div class="mt-6 border-t border-gray-100 pt-6">
+      <div class="mt-5 sm:mt-6 border-t border-gray-100 pt-5 sm:pt-6">
         <h2 class="text-lg font-bold text-gray-900 mb-3">Ubicación</h2>
-        <div id="piso-detail-map" class="h-80 w-full rounded-2xl border border-gray-200 shadow-sm"></div>
+        <div id="piso-detail-map" class="h-60 sm:h-80 w-full rounded-2xl border border-gray-200 shadow-sm"></div>
       </div>
       }
     </div>
 
-    <!-- Derecha -->
+    <!-- Derecha (sidebar) -->
     <div>
-      <div class="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm sticky top-31">
-        <div class="text-3xl font-black text-blue-600">{{ piso()!.precio }}€<span
+      <div class="bg-white border border-gray-100 rounded-2xl p-4 sm:p-6 shadow-sm lg:sticky lg:top-31">
+        <div class="text-2xl sm:text-3xl font-black text-blue-600">{{ piso()!.precio }}€<span
             class="text-base text-gray-400 font-normal">/mes</span></div>
         <p class="text-gray-500 text-sm mt-1">Máx. {{ piso()!.num_companeros }} compañeros</p>
 
@@ -169,8 +168,7 @@
             @for(interesado of interesados(); track interesado.id) {
             <div class="flex items-center justify-between bg-gray-50 rounded-xl px-3 py-2">
               <div class="flex items-center gap-2">
-                <div
-                  class="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-xs shrink-0">
+                <div class="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-xs shrink-0">
                   {{ interesado.usuario.nombre.charAt(0) }}{{ interesado.usuario.apellidos.charAt(0) }}
                 </div>
                 <div>
@@ -207,15 +205,14 @@
           class="w-full mt-3 py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2"
           [class]="favorito() ? 'bg-red-50 text-red-500 border border-red-500' : 'bg-gray-50 text-gray-500 border border-gray-200 hover:bg-red-50 hover:!text-red-400'">
           <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-            <path
-              d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
           </svg>
           {{ favorito() ? 'Guardado' : 'Guardar piso' }}
         </button>
         }
 
         <a routerLink="/pisos"
-          class="block w-full mt-3 text-center border border-gray-200 text-gray-600 py-2.5 rounded-xl text-sm font-medium  transition-all">
+          class="block w-full mt-3 text-center border border-gray-200 text-gray-600 py-2.5 rounded-xl text-sm font-medium transition-all">
           Volver al listado
         </a>
       </div>
