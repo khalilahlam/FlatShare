@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Resena extends Model
 {
+    protected $table = 'resenas';
     protected $fillable = [
         'autor_id',
         'destinatario_id',

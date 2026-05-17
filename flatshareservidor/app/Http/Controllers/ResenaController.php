@@ -61,7 +61,7 @@ class ResenaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'destinatario_id' => 'required|exists:users,id',
+            'destinatario_id' => 'required|exists:usuarios,id',
             'piso_id'         => 'nullable|exists:pisos,id',
             'puntuacion'      => 'required|integer|min:1|max:5',
             'comentario'      => 'nullable|string|max:500',
