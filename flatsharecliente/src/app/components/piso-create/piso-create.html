@@ -1,6 +1,6 @@
-<div class="max-w-2xl mx-auto px-6 py-10">
-  <h1 class="text-3xl font-black text-gray-900 mb-2">Publicar piso</h1>
-  <p class="text-gray-500 mb-8">Rellena los datos de tu piso</p>
+<div class="max-w-2xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
+  <h1 class="text-2xl sm:text-3xl font-black text-gray-900 mb-2">Publicar piso</h1>
+  <p class="text-gray-500 mb-6 sm:mb-8">Rellena los datos de tu piso</p>
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-5">
     <div>
@@ -13,7 +13,8 @@
       <textarea formControlName="descripcion" rows="4" placeholder="Describe el piso..."
         class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"></textarea>
     </div>
-    <div class="grid grid-cols-2 gap-4">
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <div>
         <label class="block text-sm font-semibold text-gray-700 mb-2">Precio (€ / mes)</label>
         <input type="number" formControlName="precio" placeholder="450"
@@ -38,9 +39,9 @@
     </div>
 
     <div>
-      <label class="block text-sm font-semibold text-gray-700 mb-2">Ubicacion exacta en mapa</label>
+      <label class="block text-sm font-semibold text-gray-700 mb-2">Ubicación exacta en mapa</label>
       <p class="text-xs text-gray-500 mb-3">Haz click para colocar la chincheta y guardar latitud/longitud.</p>
-      <div id="piso-create-map" class="h-80 w-full rounded-xl border border-gray-200"></div>
+      <div id="piso-create-map" class="h-64 sm:h-80 w-full rounded-xl border border-gray-200"></div>
       <input type="hidden" formControlName="lat" />
       <input type="hidden" formControlName="lng" />
       <p class="text-xs text-gray-500 mt-3">
@@ -48,30 +49,31 @@
       </p>
     </div>
 
-    <div class="grid grid-cols-3 gap-4">
+    <div class="grid grid-cols-3 gap-3 sm:gap-4">
       <div>
         <label class="block text-sm font-semibold text-gray-700 mb-2">Habitaciones</label>
         <input type="number" formControlName="habitaciones"
-          class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white" />
+          class="w-full border border-gray-200 rounded-xl px-3 sm:px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white" />
       </div>
       <div>
         <label class="block text-sm font-semibold text-gray-700 mb-2">Baños</label>
         <input type="number" formControlName="banos"
-          class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white" />
+          class="w-full border border-gray-200 rounded-xl px-3 sm:px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white" />
       </div>
       <div>
         <label class="block text-sm font-semibold text-gray-700 mb-2">Metros m²</label>
         <input type="number" formControlName="metros"
-          class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white" />
+          class="w-full border border-gray-200 rounded-xl px-3 sm:px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white" />
       </div>
     </div>
-    <div class="grid grid-cols-2 gap-4">
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <div>
         <label class="block text-sm font-semibold text-gray-700 mb-2">Máx. compañeros</label>
         <input type="number" formControlName="num_companeros"
           class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white" />
       </div>
-      <div class="flex items-center gap-3 mt-7">
+      <div class="flex items-center gap-3 sm:mt-7">
         <input type="checkbox" formControlName="amueblado" id="amueblado" class="w-5 h-5 accent-blue-600" />
         <label for="amueblado" class="text-sm font-semibold text-gray-700">Amueblado</label>
       </div>
@@ -82,9 +84,9 @@
       <input type="file" accept="image/*" multiple (change)="onFotosSelected($event)"
         class="w-full border border-gray-200 rounded-xl px-4 py-3 bg-white" />
       @if(fotoPreviews.length > 0) {
-        <div class="grid grid-cols-3 gap-3 mt-3">
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-3">
           @for(foto of fotoPreviews; track $index) {
-            <img [src]="foto" class="rounded-xl w-full h-32 object-cover" />
+            <img [src]="foto" class="rounded-xl w-full h-28 sm:h-32 object-cover" />
           }
         </div>
       }
