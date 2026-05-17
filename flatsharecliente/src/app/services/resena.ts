@@ -1,6 +1,5 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../environments/environment';
 
 export interface IResena {
   id: number;
@@ -33,7 +32,7 @@ export interface IResenaResponse {
 @Injectable({ providedIn: 'root' })
 export class ResenasService {
   private http = inject(HttpClient);
-  private api = environment.apiUrl;
+  private api = 'https://flatshare-production.up.railway.app/api';
 
   getResenas(usuarioId: number) {
     return this.http.get<IResenaResponse>(`${this.api}/resenas/${usuarioId}`);
@@ -49,7 +48,7 @@ export class ResenasService {
     destinatario_id: number;
     piso_id?: number;
     puntuacion: number;
-       comentario?: string;
+    comentario?: string;
     etiquetas?: string[];
   }) {
     return this.http.post<IResena>(`${this.api}/resenas`, data);
