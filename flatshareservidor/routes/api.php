@@ -19,8 +19,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/pisos', [PisoController::class, 'index']);
 Route::get('/pisos/{id}', [PisoController::class, 'show']);
 
-
-// Chat IA (pública)
+// Chat IA
 Route::middleware('auth:sanctum')->post('/chat', [ChatController::class, 'chat']);
 
 // Rutas protegidas
@@ -53,22 +52,20 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/pisos/{pisoId}/interesados/{usuarioId}/rechazar', [InteresadoController::class, 'rechazar']);
 
     // Conversaciones
-    Route::get('/conversaciones',                        [ConversacionController::class, 'misChats']);
-    Route::get('/conversaciones/{chatId}/mensajes',      [ConversacionController::class, 'mensajes']);
-    Route::post('/conversaciones/{chatId}/mensajes',     [ConversacionController::class, 'enviar']);
-    Route::get('/conversaciones/no-leidos',              [ConversacionController::class, 'noLeidos']);
-    Route::post('/pisos/{pisoId}/chat',                  [ConversacionController::class, 'crearOActualizarChat']);
-   
-   
-    // Usuario fotos
-    Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/conversaciones', [ConversacionController::class, 'misChats']);
+    Route::get('/conversaciones/{chatId}/mensajes', [ConversacionController::class, 'mensajes']);
+    Route::post('/conversaciones/{chatId}/mensajes', [ConversacionController::class, 'enviar']);
+    Route::get('/conversaciones/no-leidos', [ConversacionController::class, 'noLeidos']);
+    Route::post('/pisos/{pisoId}/chat', [ConversacionController::class, 'crearOActualizarChat']);
+
+    // Perfil y foto
     Route::get('/perfil', [PerfilController::class, 'show']);
     Route::put('/perfil', [PerfilController::class, 'update']);
     Route::post('/perfil/foto', [PerfilController::class, 'updateFoto']);
-    // Reseñas
-Route::get('/resenas/{usuarioId}', [ResenaController::class, 'index']);
-Route::get('/resenas/puedo-resena/{usuarioId}', [ResenaController::class, 'puedoResena']);
-Route::post('/resenas', [ResenaController::class, 'store']);
-Route::delete('/resenas/{id}', [ResenaController::class, 'destroy']);
-});
+
+    // Reseñas —  ANTES que {usuarioId}
+    Route::get('/resenas/puedo-resena/{usuarioId}', [ResenaController::class, 'puedoResena']);
+    Route::get('/resenas/{usuarioId}', [ResenaController::class, 'index']);
+    Route::post('/resenas', [ResenaController::class, 'store']);
+    Route::delete('/resenas/{id}', [ResenaController::class, 'destroy']);
 });
