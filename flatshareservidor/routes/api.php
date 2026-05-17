@@ -8,6 +8,7 @@ use App\Http\Controllers\FavoritoController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ConversacionController;
 use App\Http\Controllers\PerfilController;
+use App\Http\Controllers\ResenaController;
 
 
 // AUTH públicas
@@ -64,5 +65,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/perfil', [PerfilController::class, 'show']);
     Route::put('/perfil', [PerfilController::class, 'update']);
     Route::post('/perfil/foto', [PerfilController::class, 'updateFoto']);
+    // Reseñas
+Route::get('/resenas/{usuarioId}', [ResenaController::class, 'index']);
+Route::get('/resenas/puedo-resena/{usuarioId}', [ResenaController::class, 'puedoResena']);
+Route::post('/resenas', [ResenaController::class, 'store']);
+Route::delete('/resenas/{id}', [ResenaController::class, 'destroy']);
 });
 });
