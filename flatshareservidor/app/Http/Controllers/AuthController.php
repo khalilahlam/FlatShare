@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Usuario;
-use App\Mail\Bienvenida;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -39,10 +37,6 @@ class AuthController extends Controller
         ]);
 
         $token = $usuario->createToken('auth_token')->plainTextToken;
-
-           try {
-             Mail::to($usuario->email)->send(new Bienvenida($usuario));
-         } catch (\Exception $e) {}
 
         return response()->json(['token' => $token, 'user' => $usuario], 201);
     }

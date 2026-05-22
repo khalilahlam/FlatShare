@@ -4,11 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Interesado;
 use App\Models\Piso;
-use App\Mail\InteresadoNuevo;
-use App\Mail\SolicitudAceptada;
-use App\Mail\SolicitudRechazada;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use App\Models\Chat;
 
 class InteresadoController extends Controller
@@ -32,10 +28,6 @@ class InteresadoController extends Controller
             'piso_id'    => $pisoId,
             'estado'     => 'pendiente',
         ]);
-
-        try {
-            Mail::to($piso->usuario->email)->send(new InteresadoNuevo($piso, $request->user()));
-        } catch (\Exception $e) {}
 
         return response()->json($interesado, 201);
     }
@@ -127,23 +119,7 @@ class InteresadoController extends Controller
 
         $participantes = array_unique(array_merge([$piso->usuario_id], $aceptados));
         $chat = \App\Models\Chat::firstOrCreate(['piso_id' => $pisoId]);
-
-        $todosUsuarios = $chat->usuarios()->get();
-        foreach ($todosUsuarios as $usuario) {
-            try {
-                Mail::to($usuario->email)->send(new SolicitudAceptada($piso, $usuario));
-            } catch (\Exception $e) {}
-        }
-
         $chat->usuarios()->syncWithoutDetaching($participantes);
-
-        try {
-            Mail::to($interesado->usuario->email)->send(new SolicitudAceptada($piso, $interesado->usuario));
-        } catch (\Exception $e) {}
-
-        try {
-            Mail::to($piso->usuario->email)->send(new SolicitudAceptada($piso, $interesado->usuario));
-        } catch (\Exception $e) {}
 
         return response()->json($interesado);
     }
@@ -162,10 +138,6 @@ class InteresadoController extends Controller
             ->firstOrFail();
 
         $interesado->update(['estado' => 'rechazado']);
-
-        try {
-            Mail::to($interesado->usuario->email)->send(new SolicitudRechazada($piso, $interesado->usuario));
-        } catch (\Exception $e) {}
 
         return response()->json($interesado);
     }
