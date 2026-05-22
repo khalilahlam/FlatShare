@@ -40,9 +40,9 @@ class AuthController extends Controller
 
         $token = $usuario->createToken('auth_token')->plainTextToken;
 
-          // try {
-        //     Mail::to($usuario->email)->send(new Bienvenida($usuario));
-        // } catch (\Exception $e) {}
+           try {
+             Mail::to($usuario->email)->send(new Bienvenida($usuario));
+         } catch (\Exception $e) {}
 
         return response()->json(['token' => $token, 'user' => $usuario], 201);
     }
