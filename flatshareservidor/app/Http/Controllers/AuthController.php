@@ -38,7 +38,11 @@ class AuthController extends Controller
             'intereses'        => $data['intereses'] ?? null,
         ]);
 
-Mail::to($usuario->email)->queue(new Bienvenida($usuario));
+try {
+    Mail::to($usuario->email)->send(new Bienvenida($usuario));
+} catch (\Exception $e) {
+    // Si falla el email, el registro sigue adelante
+}
         $token = $usuario->createToken('auth_token')->plainTextToken;
 
         return response()->json(['token' => $token, 'user' => $usuario], 201);
