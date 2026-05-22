@@ -29,7 +29,7 @@ class AuthController extends Controller
             'nombre'           => $data['nombre'],
             'apellidos'        => $data['apellidos'],
             'email'            => $data['email'],
-            'password' => Hash::make($data['password']),
+            'password'         => Hash::make($data['password']),
             'propietario'      => $data['propietario'],
             'fecha_nacimiento' => $data['fecha_nacimiento'] ?? null,
             'telefono'         => $data['telefono'] ?? null,
@@ -38,12 +38,11 @@ class AuthController extends Controller
             'intereses'        => $data['intereses'] ?? null,
         ]);
 
-try {
-    Mail::to($usuario->email)->send(new Bienvenida($usuario));
-} catch (\Exception $e) {
-    // Si falla el email, el registro sigue adelante
-}
         $token = $usuario->createToken('auth_token')->plainTextToken;
+
+        try {
+            Mail::to($usuario->email)->send(new Bienvenida($usuario));
+        } catch (\Exception $e) {}
 
         return response()->json(['token' => $token, 'user' => $usuario], 201);
     }
