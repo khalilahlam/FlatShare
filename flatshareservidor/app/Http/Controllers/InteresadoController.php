@@ -33,8 +33,9 @@ class InteresadoController extends Controller
             'estado'     => 'pendiente',
         ]);
 
-        // Email al propietario
-        Mail::to($piso->usuario->email)->queue(new InteresadoNuevo($piso, $request->user()));
+        try {
+            Mail::to($piso->usuario->email)->send(new InteresadoNuevo($piso, $request->user()));
+        } catch (\Exception $e) {}
 
         return response()->json($interesado, 201);
     }
@@ -105,8 +106,8 @@ class InteresadoController extends Controller
         }
 
         $aceptadosActuales = Interesado::where('piso_id', $pisoId)
-        ->where('estado', 'aceptado')
-        ->count();
+            ->where('estado', 'aceptado')
+            ->count();
 
         if ($aceptadosActuales >= $piso->num_companeros) {
             return response()->json(['message' => 'El piso ya tiene el máximo de compañeros aceptados'], 422);
@@ -119,32 +120,32 @@ class InteresadoController extends Controller
 
         $interesado->update(['estado' => 'aceptado']);
 
-        // Contar cuántos aceptados hay ahora
         $aceptados = Interesado::where('piso_id', $pisoId)
             ->where('estado', 'aceptado')
             ->pluck('usuario_id')
             ->toArray();
 
-        // Siempre actualizar el chat cuando se acepta alguien
         $participantes = array_unique(array_merge([$piso->usuario_id], $aceptados));
         $chat = \App\Models\Chat::firstOrCreate(['piso_id' => $pisoId]);
 
-        // Email a todos los participantes del chat
-$todosUsuarios = $chat->usuarios()->get();
-foreach ($todosUsuarios as $usuario) {
-    Mail::to($usuario->email)->queue(new SolicitudAceptada($piso, $usuario));
-}
+        $todosUsuarios = $chat->usuarios()->get();
+        foreach ($todosUsuarios as $usuario) {
+            try {
+                Mail::to($usuario->email)->send(new SolicitudAceptada($piso, $usuario));
+            } catch (\Exception $e) {}
+        }
 
-
-
-        // Usar syncWithoutDetaching para no borrar los que ya están
         $chat->usuarios()->syncWithoutDetaching($participantes);
 
-       // Email al inquilino
-Mail::to($interesado->usuario->email)->queue(new SolicitudAceptada($piso, $interesado->usuario));
+        try {
+            Mail::to($interesado->usuario->email)->send(new SolicitudAceptada($piso, $interesado->usuario));
+        } catch (\Exception $e) {}
 
-// Email al propietario
-Mail::to($piso->usuario->email)->queue(new SolicitudAceptada($piso, $interesado->usuario));
+        try {
+            Mail::to($piso->usuario->email)->send(new SolicitudAceptada($piso, $interesado->usuario));
+        } catch (\Exception $e) {}
+
+        return response()->json($interesado);
     }
 
     public function rechazar(Request $request, $pisoId, $usuarioId)
@@ -162,7 +163,9 @@ Mail::to($piso->usuario->email)->queue(new SolicitudAceptada($piso, $interesado-
 
         $interesado->update(['estado' => 'rechazado']);
 
-        Mail::to($interesado->usuario->email)->queue(new SolicitudRechazada($piso, $interesado->usuario));
+        try {
+            Mail::to($interesado->usuario->email)->send(new SolicitudRechazada($piso, $interesado->usuario));
+        } catch (\Exception $e) {}
 
         return response()->json($interesado);
     }
