@@ -29,7 +29,7 @@ class AuthController extends Controller
             'nombre'           => $data['nombre'],
             'apellidos'        => $data['apellidos'],
             'email'            => $data['email'],
-            'password'         => $data['password'],
+            'password' => Hash::make($data['password']),
             'propietario'      => $data['propietario'],
             'fecha_nacimiento' => $data['fecha_nacimiento'] ?? null,
             'telefono'         => $data['telefono'] ?? null,
