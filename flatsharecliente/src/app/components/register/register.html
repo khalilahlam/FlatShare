@@ -40,12 +40,18 @@
           <div>
             <label class="block text-sm font-semibold text-gray-700 mb-2">Nombre</label>
             <input formControlName="nombre" placeholder="Tu nombre"
-              class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white transition-all" />
+              [class]="isInvalid('nombre') ? 'w-full border border-red-400 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-400 bg-white transition-all' : 'w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white transition-all'" />
+            @if(isInvalid('nombre')) {
+              <p class="text-red-500 text-xs mt-1">El nombre es obligatorio (mínimo 2 caracteres)</p>
+            }
           </div>
           <div>
             <label class="block text-sm font-semibold text-gray-700 mb-2">Apellidos</label>
             <input formControlName="apellidos" placeholder="Tus apellidos"
-              class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white transition-all" />
+              [class]="isInvalid('apellidos') ? 'w-full border border-red-400 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-400 bg-white transition-all' : 'w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white transition-all'" />
+            @if(isInvalid('apellidos')) {
+              <p class="text-red-500 text-xs mt-1">Los apellidos son obligatorios (mínimo 2 caracteres)</p>
+            }
           </div>
         </div>
 
@@ -53,19 +59,72 @@
         <div class="mb-5">
           <label class="block text-sm font-semibold text-gray-700 mb-2">Email</label>
           <input type="email" formControlName="email" placeholder="tu@email.com"
-            class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white transition-all" />
+            [class]="isInvalid('email') ? 'w-full border border-red-400 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-400 bg-white transition-all' : 'w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white transition-all'" />
+          @if(isInvalid('email')) {
+            <p class="text-red-500 text-xs mt-1">Introduce un email válido</p>
+          }
         </div>
 
         <!-- Contraseñas -->
         <div class="mb-5">
           <label class="block text-sm font-semibold text-gray-700 mb-2">Contraseña</label>
           <input type="password" formControlName="password" placeholder="Mínimo 6 caracteres"
-            class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white transition-all" />
+            [class]="isInvalid('password') ? 'w-full border border-red-400 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-400 bg-white transition-all' : 'w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white transition-all'" />
+          @if(isInvalid('password')) {
+            <p class="text-red-500 text-xs mt-1">La contraseña debe tener al menos 6 caracteres</p>
+          }
+          @if(form.get('password')?.value) {
+            <div class="mt-2">
+              <div class="flex gap-1 mb-1">
+                @for(i of [1,2,3,4,5]; track i) {
+                  <div class="h-1.5 flex-1 rounded-full transition-all duration-300"
+                    [class]="i <= passwordStrength.score ? passwordStrength.color : 'bg-gray-200'"></div>
+                }
+              </div>
+              <p class="text-xs font-medium mb-2" [class]="
+                passwordStrength.score <= 1 ? 'text-red-500' :
+                passwordStrength.score === 2 ? 'text-orange-400' :
+                passwordStrength.score === 3 ? 'text-yellow-500' :
+                passwordStrength.score === 4 ? 'text-blue-500' : 'text-green-500'">
+                {{ passwordStrength.label }}
+              </p>
+              <div class="space-y-1">
+                <p class="text-xs flex items-center gap-1.5" [class]="passwordChecks.length ? 'text-green-600' : 'text-gray-400'">
+                  <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path [attr.d]="passwordChecks.length ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12'"/>
+                  </svg>
+                  Mínimo 6 caracteres
+                </p>
+                <p class="text-xs flex items-center gap-1.5" [class]="passwordChecks.uppercase ? 'text-green-600' : 'text-gray-400'">
+                  <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path [attr.d]="passwordChecks.uppercase ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12'"/>
+                  </svg>
+                  Al menos una mayúscula
+                </p>
+                <p class="text-xs flex items-center gap-1.5" [class]="passwordChecks.number ? 'text-green-600' : 'text-gray-400'">
+                  <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path [attr.d]="passwordChecks.number ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12'"/>
+                  </svg>
+                  Al menos un número
+                </p>
+                <p class="text-xs flex items-center gap-1.5" [class]="passwordChecks.special ? 'text-green-600' : 'text-gray-400'">
+                  <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path [attr.d]="passwordChecks.special ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12'"/>
+                  </svg>
+                  Al menos un carácter especial (!@#$...)
+                </p>
+              </div>
+            </div>
+          }
         </div>
+
         <div class="mb-5">
           <label class="block text-sm font-semibold text-gray-700 mb-2">Confirmar contraseña</label>
           <input type="password" formControlName="password_confirmation" placeholder="Repite tu contraseña"
-            class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white transition-all" />
+            [class]="(isInvalid('password_confirmation') || (submitted && form.hasError('passwordsMismatch'))) ? 'w-full border border-red-400 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-400 bg-white transition-all' : 'w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white transition-all'" />
+          @if(submitted && form.hasError('passwordsMismatch')) {
+            <p class="text-red-500 text-xs mt-1">Las contraseñas no coinciden</p>
+          }
         </div>
 
         <!-- Fecha de nacimiento y teléfono -->
@@ -78,7 +137,10 @@
           <div>
             <label class="block text-sm font-semibold text-gray-700 mb-2">Teléfono</label>
             <input type="tel" formControlName="telefono" placeholder="000 000 000"
-              class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white transition-all" />
+              [class]="isInvalid('telefono') ? 'w-full border border-red-400 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-400 bg-white transition-all' : 'w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white transition-all'" />
+            @if(isInvalid('telefono')) {
+              <p class="text-red-500 text-xs mt-1">El teléfono debe tener 9 dígitos</p>
+            }
           </div>
         </div>
 
@@ -141,7 +203,7 @@
           </div>
         }
 
-        <button type="submit" [disabled]="form.invalid"
+        <button type="submit"
           class="w-full cursor-pointer bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700 transition-all disabled:opacity-40 shadow-lg shadow-blue-200">
           Crear cuenta gratis
         </button>
