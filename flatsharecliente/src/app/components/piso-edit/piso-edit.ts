@@ -170,7 +170,7 @@ export class PisoEdit implements OnInit, AfterViewInit, OnDestroy {
     fd.append('lat', String(this.form.value.lat ?? ''));
     fd.append('lng', String(this.form.value.lng ?? ''));
 
-    fd.append('_method', 'PUT');
+    
 
     // 📸 nuevas fotos
     this.fotosSeleccionadas.forEach(foto => {
