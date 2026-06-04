@@ -33,7 +33,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Pisos
     Route::post('/pisos', [PisoController::class, 'store']);
-    Route::put('/pisos/{id}', [PisoController::class, 'update']);
+    Route::post('/pisos/{id}', [PisoController::class, 'update']);
     Route::delete('/pisos/{id}', [PisoController::class, 'destroy']);
 
     // Favoritos

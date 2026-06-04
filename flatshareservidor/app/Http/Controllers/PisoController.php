@@ -70,42 +70,56 @@ class PisoController extends Controller
     }
 
     public function update(Request $request, $id)
-    {
-        $piso = Piso::find($id);
-        if (!$piso) return response()->json(['message' => 'Piso no encontrado'], 404);
-        if ($piso->usuario_id !== $request->user()->id) {
-            return response()->json(['message' => 'No autorizado'], 403);
-        }
-
-        $data = $request->validate([
-            'titulo'         => 'sometimes|required|string',
-            'descripcion'    => 'sometimes|nullable|string',
-            'precio'         => 'sometimes|required|numeric',
-            'ubicacion'      => 'sometimes|required|string',
-            'ciudad'         => 'sometimes|required|string|max:100',
-            'lat'            => 'sometimes|nullable|numeric|between:-90,90',
-            'lng'            => 'sometimes|nullable|numeric|between:-180,180',
-            'num_companeros' => 'sometimes|nullable|integer',
-            'habitaciones'   => 'sometimes|nullable|integer',
-            'banos'          => 'sometimes|nullable|integer',
-            'metros'         => 'sometimes|nullable|integer',
-            'amueblado'      => 'sometimes|nullable|boolean',
-        ]);
-
-        $piso->update($data);
-
-        if ($request->hasFile('fotos')) {
-            $cloudinary = $this->getCloudinary();
-            foreach ($request->file('fotos') as $foto) {
-                $result = $cloudinary->uploadApi()->upload($foto->getRealPath(), [
-                    'folder' => 'fotos_pisos'
-                ]);
-                $piso->fotos()->create(['url' => $result['secure_url']]);
-            }
-        }
-
-        return response()->json($piso->load('fotos'));
+{
+    $piso = Piso::find($id);
+    if (!$piso) return response()->json(['message' => 'Piso no encontrado'], 404);
+    if ($piso->usuario_id !== $request->user()->id) {
+        return response()->json(['message' => 'No autorizado'], 403);
     }
+
+    $data = $request->validate([
+        'titulo'         => 'sometimes|required|string',
+        'descripcion'    => 'sometimes|nullable|string',
+        'precio'         => 'sometimes|required|numeric',
+        'ubicacion'      => 'sometimes|required|string',
+        'ciudad'         => 'sometimes|required|string|max:100',
+        'lat'            => 'sometimes|nullable|numeric|between:-90,90',
+        'lng'            => 'sometimes|nullable|numeric|between:-180,180',
+        'num_companeros' => 'sometimes|nullable|integer',
+        'habitaciones'   => 'sometimes|nullable|integer',
+        'banos'          => 'sometimes|nullable|integer',
+        'metros'         => 'sometimes|nullable|integer',
+        'amueblado'      => 'sometimes|nullable|boolean',
+    ]);
+
+    $piso->update($data);
+
+    // Eliminar fotos que el usuario quitó
+    if ($request->has('fotos_eliminar')) {
+        $cloudinary = $this->getCloudinary();
+        $idsEliminar = $request->input('fotos_eliminar'); // array de IDs
+        $fotosEliminar = $piso->fotos()->whereIn('id', $idsEliminar)->get();
+        foreach ($fotosEliminar as $foto) {
+            // Extraer public_id de Cloudinary y borrar
+            $publicId = pathinfo(parse_url($foto->url, PHP_URL_PATH), PATHINFO_FILENAME);
+            $cloudinary->uploadApi()->destroy('fotos_pisos/' . $publicId);
+            $foto->delete();
+        }
+    }
+
+    // Añadir fotos nuevas
+    if ($request->hasFile('fotos')) {
+        $cloudinary = $this->getCloudinary();
+        foreach ($request->file('fotos') as $foto) {
+            $result = $cloudinary->uploadApi()->upload($foto->getRealPath(), [
+                'folder' => 'fotos_pisos'
+            ]);
+            $piso->fotos()->create(['url' => $result['secure_url']]);
+        }
+    }
+
+    return response()->json($piso->load('fotos'));
+}
 
     public function destroy(Request $request, $id)
     {
