@@ -58,4 +58,10 @@ class PerfilController extends Controller
 
     return response()->json(['foto_perfil' => $url]);
 }
+public function deleteFoto(Request $request)
+{
+    $user = $request->user();
+    $user->update(['foto_perfil' => null]);
+    return response()->json(['message' => 'Foto eliminada']);
+}
 }

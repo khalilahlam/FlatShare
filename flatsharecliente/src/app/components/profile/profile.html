@@ -29,6 +29,14 @@
             }
             <input type="file" accept="image/*" class="hidden" (change)="subirFoto($event)" />
           </label>
+@if(auth.user()?.foto_perfil) {
+  <button type="button" (click)="eliminarFoto()"
+    class="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center cursor-pointer shadow-md hover:bg-red-600 transition-all">
+    <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"/>
+    </svg>
+  </button>
+}
         </div>
 
         <!-- Info básica -->

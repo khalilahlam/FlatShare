@@ -62,6 +62,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/perfil', [PerfilController::class, 'show']);
     Route::put('/perfil', [PerfilController::class, 'update']);
     Route::post('/perfil/foto', [PerfilController::class, 'updateFoto']);
+    Route::delete('/perfil/foto', [PerfilController::class, 'deleteFoto']);
 
     // Reseñas —  ANTES que {usuarioId}
     Route::get('/resenas/puedo-resena/{usuarioId}', [ResenaController::class, 'puedoResena']);

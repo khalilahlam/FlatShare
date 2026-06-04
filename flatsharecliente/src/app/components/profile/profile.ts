@@ -218,4 +218,11 @@ export class Profile implements OnInit {
     if (url.startsWith('http')) return url;
     return 'https://flatshare-production.up.railway.app/storage/' + url;
 }
+eliminarFoto() {
+  this.http.delete<any>('https://flatshare-production.up.railway.app/api/perfil/foto').subscribe({
+    next: () => {
+  this.auth.setUser({ ...this.auth.user()!, foto_perfil: undefined });
+}
+  });
+}
 }
